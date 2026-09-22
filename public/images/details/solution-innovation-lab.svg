@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+<defs>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071a33"/><stop offset="1" stop-color="#123b63"/></linearGradient>
+ <pattern id="grid" width="36" height="36" patternUnits="userSpaceOnUse"><path d="M36 0H0V36" fill="none" stroke="#fff" stroke-opacity=".075"/></pattern>
+ <radialGradient id="glow"><stop stop-color="#b5122b" stop-opacity=".30"/><stop offset="1" stop-color="#b5122b" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="800" height="500" rx="34" fill="url(#bg)"/>
+<rect width="800" height="500" rx="34" fill="url(#grid)"/>
+<circle cx="400" cy="250" r="240" fill="url(#glow)"/>
+<path d="M170 330h460" stroke="#fff" stroke-width="12"/><path d="M250 330V215h300v115" fill="none" stroke="#fff" stroke-width="8"/><path d="M310 215l55-80 55 80 55-80 55 80" fill="none" stroke="#b5122b" stroke-width="8"/><circle cx="365" cy="135" r="16" fill="#fff"/><circle cx="475" cy="135" r="16" fill="#fff"/>
+<text x="42" y="52" font-family="Arial, sans-serif" font-size="13" font-weight="700" letter-spacing="4" fill="#b5122b">INNOVATION LAB</text>
+<text x="42" y="78" font-family="Arial, sans-serif" font-size="11" letter-spacing="2.5" fill="#fff" opacity=".72">PROTOTYPING</text>
+<text x="758" y="452" text-anchor="end" font-family="monospace" font-size="9" letter-spacing="2" fill="#fff" opacity=".45">CARAWIN / EDUCATION TECHNOLOGY</text>
+</svg>

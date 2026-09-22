@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+<defs>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071a33"/><stop offset="1" stop-color="#123b63"/></linearGradient>
+ <pattern id="grid" width="36" height="36" patternUnits="userSpaceOnUse"><path d="M36 0H0V36" fill="none" stroke="#fff" stroke-opacity=".075"/></pattern>
+ <radialGradient id="glow"><stop stop-color="#b5122b" stop-opacity=".30"/><stop offset="1" stop-color="#b5122b" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="800" height="500" rx="34" fill="url(#bg)"/>
+<rect width="800" height="500" rx="34" fill="url(#grid)"/>
+<circle cx="400" cy="250" r="240" fill="url(#glow)"/>
+<rect x="135" y="105" width="530" height="300" rx="24" fill="#fff"/><path d="M180 335l80-70 70 35 100-120 90 45 80-90" fill="none" stroke="#b5122b" stroke-width="7"/><g fill="#b5122b"><circle cx="260" cy="265" r="9"/><circle cx="330" cy="300" r="9"/><circle cx="430" cy="180" r="9"/><circle cx="520" cy="225" r="9"/><circle cx="600" cy="135" r="9"/></g><rect x="180" y="140" width="120" height="18" rx="9" fill="#071a33"/>
+<text x="42" y="52" font-family="Arial, sans-serif" font-size="13" font-weight="700" letter-spacing="4" fill="#b5122b">CARAWIN INSIGHT</text>
+<text x="42" y="78" font-family="Arial, sans-serif" font-size="11" letter-spacing="2.5" fill="#fff" opacity=".72">INSTITUTIONAL INTELLIGENCE</text>
+<text x="758" y="452" text-anchor="end" font-family="monospace" font-size="9" letter-spacing="2" fill="#fff" opacity=".45">CARAWIN / EDUCATION TECHNOLOGY</text>
+</svg>

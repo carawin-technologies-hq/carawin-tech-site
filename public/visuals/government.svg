@@ -1,0 +1,20 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" fill="none">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1200" y2="700"><stop stop-color="#002147"/><stop offset="1" stop-color="#071A33"/></linearGradient><filter id="blur"><feGaussianBlur stdDeviation="18"/></filter></defs>
+<rect width="1200" height="700" rx="42" fill="url(#g)"/>
+<circle cx="970" cy="90" r="150" fill="#B5122B" opacity=".16" filter="url(#blur)"/>
+<path d="M0 530 C220 450 300 600 520 500S850 420 1200 520" stroke="#fff" stroke-opacity=".12" stroke-width="2"/>
+<path d="M0 580 C220 500 300 650 520 550S850 470 1200 570" stroke="#fff" stroke-opacity=".07" stroke-width="2"/>
+<g opacity=".13" stroke="#fff"><path d="M80 80H1120M80 160H1120M80 240H1120M80 320H1120M80 400H1120M80 480H1120M80 560H1120"/><path d="M160 40V610M280 40V610M400 40V610M520 40V610M640 40V610M760 40V610M880 40V610M1000 40V610"/></g>
+<rect x="120" y="125" width="960" height="390" rx="30" fill="#fff" fill-opacity=".055" stroke="#fff" stroke-opacity=".13"/>
+<rect x="165" y="175" width="265" height="285" rx="20" fill="#fff" fill-opacity=".06" stroke="#fff" stroke-opacity=".12"/>
+<rect x="465" y="175" width="310" height="125" rx="20" fill="#fff" fill-opacity=".06" stroke="#fff" stroke-opacity=".12"/>
+<rect x="465" y="335" width="310" height="125" rx="20" fill="#fff" fill-opacity=".06" stroke="#fff" stroke-opacity=".12"/>
+<rect x="810" y="175" width="225" height="285" rx="20" fill="#fff" fill-opacity=".06" stroke="#fff" stroke-opacity=".12"/>
+<circle cx="300" cy="285" r="62" fill="#002147"/><circle cx="300" cy="285" r="82" stroke="#B5122B" stroke-opacity=".5"/>
+<circle cx="550" cy="230" r="10" fill="#B5122B"/><circle cx="600" cy="230" r="10" fill="#fff" fill-opacity=".45"/><circle cx="650" cy="230" r="10" fill="#fff" fill-opacity=".2"/>
+<path d="M520 415C565 375 615 390 660 350S720 350 750 365" stroke="#B5122B" stroke-width="5" stroke-linecap="round"/>
+<path d="M845 410L895 355L940 390L1000 315" stroke="#fff" stroke-opacity=".6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="165" y="105" fill="#fff" fill-opacity=".7" font-family="Arial,sans-serif" font-size="15" letter-spacing="4">CARAWIN / GOVERNMENT INTELLIGENCE</text>
+<text x="165" y="555" fill="#fff" fill-opacity=".45" font-family="Arial,sans-serif" font-size="14" letter-spacing="2">Scale · Governance · Impact</text>
+</svg>

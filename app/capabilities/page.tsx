@@ -1,0 +1,3 @@
+
+import { ListPage } from "@/components/list-page"; const x=[['Education Technology','/solutions','Technology and platforms for modern education.'],['AI in Education','/ai','Education-specific intelligence across the learning journey.'],['Infrastructure','/solutions/smart-classroom','Future-ready physical and digital infrastructure.'],['Advisory & Implementation','/advisory','Strategy, programme management and adoption.']]; export default function Page(){return <ListPage eyebrow="Capabilities" title="The capabilities behind transformation." description="AI, software, infrastructure, education expertise and implementation in one team." items={x.map(([name,slug,desc])=>({name,slug,desc}))}/>}
+
