@@ -61,17 +61,15 @@ export function AIProducts() {
                 <div className="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
                     <div>
                         <p className="kicker text-[#e26a7a]">
-                            02 / Carawin AI
+                            09 / Carawin AI
                         </p>
 
                         <h2 className="h2 mt-5 max-w-3xl">
-                            The intelligence layer for education.
+                            Eight capabilities. One intelligence layer.
                         </h2>
 
                         <p className="mt-5 max-w-2xl text-white/60 leading-7">
-                            Eight connected AI capabilities designed around
-                            learners, teachers, institutions and education
-                            systems.
+                            Purpose-built AI tools designed around learners, teachers, institutions and education systems — working together in one connected platform.
                         </p>
                     </div>
 

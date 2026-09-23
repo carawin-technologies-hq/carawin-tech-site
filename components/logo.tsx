@@ -11,15 +11,15 @@ export function Logo() {
       <Image
         src="/images/carawin_logo.png"
         alt="Carawin Technologies"
-        width={521}
-        height={197}
+        width={596}
+        height={238}
         priority
         className="
           block
-          h-[34px]
+          h-[38px]
           w-auto
-          sm:h-[38px]
-          lg:h-[40px]
+          sm:h-[42px]
+          lg:h-[46px]
           object-contain
           transition-transform
           duration-300

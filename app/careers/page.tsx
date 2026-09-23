@@ -1,344 +1,439 @@
+"use client"
+
+import { useState, useEffect, useMemo } from "react"
 import Link from "next/link"
-import {
-    ArrowLeft,
-    ArrowUpRight,
-    CheckCircle2,
-    Cpu,
-    Mail,
-    MessageCircleQuestion,
-    Radio,
-    Search,
-} from "lucide-react"
+import { Search, MapPin, Briefcase, GraduationCap, ArrowRight, Filter, X, ChevronRight, Building2, Sparkles } from "lucide-react"
+import type { Job } from "@/lib/jobs-data"
 
-const teams = [
-    {
-        name: "AI & Product",
-        desc: "Design and ship the AI products — Adapt, Teach, Assess, Career, Content, Voice, STEM and Insight — that sit at the core of Carawin.",
-        tint: "color-mix(in srgb, var(--crimson) 10%, white)",
-    },
-    {
-        name: "Engineering",
-        desc: "Build the platforms, data pipelines and infrastructure that power classrooms, campuses and institutions at scale.",
-        tint: "color-mix(in srgb, var(--navy) 7%, var(--surface-2))",
-    },
-    {
-        name: "Education",
-        desc: "Shape pedagogy, curriculum and learning design so every product is grounded in how people actually learn and teach.",
-        tint: "color-mix(in srgb, var(--crimson) 6%, var(--surface))",
-    },
-    {
-        name: "Data & Research",
-        desc: "Turn learner and institutional signals into evidence — measuring what works and feeding it back into product decisions.",
-        tint: "color-mix(in srgb, var(--navy) 10%, white)",
-    },
-    {
-        name: "Design",
-        desc: "Craft experiences for students, teachers, administrators and government stakeholders that are simple, clear and usable at scale.",
-        tint: "color-mix(in srgb, var(--crimson) 10%, white)",
-    },
-    {
-        name: "Implementation & Advisory",
-        desc: "Work directly with schools, universities and governments to deploy, adopt and sustain Carawin's technology on the ground.",
-        tint: "color-mix(in srgb, var(--navy) 7%, var(--surface-2))",
-    },
-]
+export default function CareersPage() {
+  const [jobs, setJobs] = useState<Job[]>([])
+  const [loading, setLoading] = useState(true)
+  const [searchQuery, setSearchQuery] = useState("")
+  const [selectedDept, setSelectedDept] = useState("All")
+  const [selectedExp, setSelectedExp] = useState("All")
+  const [selectedLocation, setSelectedLocation] = useState("All")
+  const [selectedType, setSelectedType] = useState("All")
 
-const values = [
-    {
-        title: "Impact over activity",
-        desc: "We measure ourselves by outcomes for learners, teachers and institutions — not by how busy we look.",
-    },
-    {
-        title: "Build with people, not just for them",
-        desc: "Educators, administrators and students shape what we build. We stay close to the classroom, not just the codebase.",
-    },
-    {
-        title: "Own the problem end to end",
-        desc: "From first line of code to on-ground adoption — people here are trusted to see things through.",
-    },
-    {
-        title: "Rigour, without losing pace",
-        desc: "We move quickly, but evidence, data and careful design decide what we ship.",
-    },
-]
+  useEffect(() => {
+    async function loadJobs() {
+      try {
+        const res = await fetch("/api/jobs")
+        const data = await res.json()
+        if (data.jobs) {
+          setJobs(data.jobs)
+        }
+      } catch (err) {
+        console.error("Failed to load jobs:", err)
+      } finally {
+        setLoading(false)
+      }
+    }
+    loadJobs()
+  }, [])
 
-const steps = [
-    "Tell us where you fit — pick the team that matches your skills and interests.",
-    "Send your CV and a short note on what you'd want to work on.",
-    "A short conversation with the team to understand mutual fit.",
-    "Meet the people you'd actually work with before any final decision.",
-]
+  // Extract unique departments, locations, etc.
+  const departments = useMemo(() => {
+    const set = new Set(jobs.map((j) => j.department))
+    return ["All", ...Array.from(set)]
+  }, [jobs])
 
-const exploreCards = [
-    {
-        icon: MessageCircleQuestion,
-        title: "Talent Network",
-        desc: "Not ready to apply yet? Stay in touch and hear about roles as they open up.",
-        cta: "Join our talent network",
-        href: "mailto:careers@carawintech.com?subject=Join%20the%20Carawin%20talent%20network",
-    },
-    {
-        icon: Radio,
-        title: "Life at Carawin",
-        desc: "See how our teams work day to day, and what building for real classrooms looks like.",
-        cta: "Explore About Carawin",
-        href: "/about",
-    },
-    {
-        icon: Search,
-        title: "Open Teams",
-        desc: "Come build and implement education technology with Carawin.",
-        cta: "Browse open teams",
-        href: "#teams",
-    },
-]
+  const experienceLevels = useMemo(() => {
+    const set = new Set(jobs.map((j) => j.experience_level))
+    return ["All", ...Array.from(set)]
+  }, [jobs])
 
-export default function Page() {
-    return (
-        <div>
-            {/* ========================================================
-          HERO
-      ======================================================== */}
-            <section className="relative overflow-hidden border-b border-[var(--border)]">
-                <div className="absolute inset-0 detail-hero-glow" />
-                <div className="absolute inset-0 grid-fade opacity-40" />
+  const locations = useMemo(() => {
+    const set = new Set(jobs.map((j) => j.location))
+    return ["All", ...Array.from(set)]
+  }, [jobs])
 
-                <div className="container-x relative py-28 sm:py-36 lg:py-40">
-                    <div className="reveal-up max-w-4xl">
-                        <Link
-                            href="/"
-                            className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[.18em] text-[var(--muted)] transition hover:text-[var(--crimson)]"
-                        >
-                            <ArrowLeft size={14} />
-                            Carawin
-                        </Link>
+  const jobTypes = useMemo(() => {
+    const set = new Set(jobs.map((j) => j.job_type))
+    return ["All", ...Array.from(set)]
+  }, [jobs])
 
-                        <p className="kicker mt-14 text-[var(--crimson)]">Careers</p>
+  const filteredJobs = useMemo(() => {
+    return jobs.filter((job) => {
+      const matchesSearch =
+        searchQuery === "" ||
+        job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        job.department.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        job.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        job.location.toLowerCase().includes(searchQuery.toLowerCase())
 
-                        <h1 className="h1 mt-6 max-w-4xl">
-                            Build the future of education with Carawin.
-                        </h1>
+      const matchesDept = selectedDept === "All" || job.department === selectedDept
+      const matchesExp = selectedExp === "All" || job.experience_level === selectedExp
+      const matchesLoc = selectedLocation === "All" || job.location === selectedLocation
+      const matchesType = selectedType === "All" || job.job_type === selectedType
 
-                        <p className="mt-8 max-w-2xl text-lg leading-8 text-[var(--muted)]">
-                            We're building the AI and digital infrastructure for the
-                            future of education — and we're hiring across product,
-                            engineering, education, data, design and implementation.
-                        </p>
+      return matchesSearch && matchesDept && matchesExp && matchesLoc && matchesType
+    })
+  }, [jobs, searchQuery, selectedDept, selectedExp, selectedLocation, selectedType])
 
-                        <div className="mt-8 flex flex-wrap gap-3">
-                            <a href="mailto:careers@carawintech.com" className="btn-primary">
-                                Send your CV
-                                <ArrowUpRight size={15} />
-                            </a>
-                            <a href="#teams" className="btn-secondary">
-                                Explore open teams
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </section>
+  const resetFilters = () => {
+    setSearchQuery("")
+    setSelectedDept("All")
+    setSelectedExp("All")
+    setSelectedLocation("All")
+    setSelectedType("All")
+  }
 
-            {/* ========================================================
-          WHY CARAWIN
-      ======================================================== */}
-            <section className="container-x grid gap-10 py-20 sm:py-28 lg:grid-cols-[.82fr_1.18fr] lg:items-start">
-                <div className="reveal-up">
-                    <p className="kicker text-[var(--crimson)]">Why Carawin</p>
-                    <h2 className="h2 mt-5">Work that reaches real classrooms.</h2>
-                </div>
+  const hasActiveFilters =
+    searchQuery !== "" ||
+    selectedDept !== "All" ||
+    selectedExp !== "All" ||
+    selectedLocation !== "All" ||
+    selectedType !== "All"
 
-                <div className="reveal-up delay-1">
-                    <p className="max-w-3xl text-lg leading-8 text-[var(--muted)]">
-                        Carawin sits at the intersection of AI, education and public
-                        infrastructure. What you build here doesn't stay in a demo — it
-                        ends up in schools, colleges, universities and government
-                        programmes, used by teachers and students every day.
-                    </p>
+  return (
+    <div className="min-h-screen bg-[#fafbfc] text-[#172033]">
+      {/* Top Banner / Corporate Hero */}
+      <section className="border-b border-[#e2e8f0] bg-[#002147] text-white py-16 lg:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-white text-xs font-semibold uppercase tracking-wider mb-4">
+              <Sparkles className="w-3.5 h-3.5 text-[#ff4d6d]" />
+              Careers at Carawin Technologies
+            </div>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-4">
+              Build the intelligence powering the future of education.
+            </h1>
+            <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
+              We engineer adaptive learning AI, institutional operating systems, and scalable digital infrastructure. Explore opportunities to solve meaningful challenges with extraordinary peers.
+            </p>
+          </div>
 
-                    <div className="mt-8 rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8">
-                        <div className="flex items-center gap-3">
-                            <Cpu className="text-[var(--crimson)]" size={20} />
-                            <span className="font-mono text-[10px] font-bold uppercase tracking-[.18em] text-[var(--muted)]">
-                                How we work
-                            </span>
-                        </div>
-                        <p className="mt-4 text-sm leading-7 text-[var(--muted)]">
-                            Small, cross-functional teams that own a problem end to end —
-                            from AI and product to education expertise and on-ground
-                            implementation — instead of working in isolated silos.
-                        </p>
-                    </div>
-                </div>
-            </section>
-
-            {/* ========================================================
-          VALUES
-      ======================================================== */}
-            <section className="container-x pb-20 sm:pb-28">
-                <div className="mb-8 reveal-up">
-                    <p className="kicker text-[var(--crimson)]">What we value</p>
-                    <h2 className="h2 mt-4 max-w-4xl">
-                        The principles that shape how we build.
-                    </h2>
-                </div>
-
-                <div className="grid gap-3 sm:grid-cols-2">
-                    {values.map((v, i) => (
-                        <div
-                            key={v.title}
-                            className="node-card reveal-up rounded-2xl p-6 sm:p-7"
-                            style={{ animationDelay: `${Math.min(i, 7) * 55}ms` }}
-                        >
-                            <div className="flex items-start gap-4">
-                                <CheckCircle2
-                                    className="mt-0.5 shrink-0 text-[var(--crimson)]"
-                                    size={20}
-                                />
-                                <div>
-                                    <span className="font-mono text-[10px] text-[var(--muted)]">
-                                        {String(i + 1).padStart(2, "0")}
-                                    </span>
-                                    <p className="mt-1 font-semibold leading-6">{v.title}</p>
-                                    <p className="mt-2 text-sm leading-6 text-[var(--muted)]">
-                                        {v.desc}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </section>
-
-            {/* ========================================================
-          TEAMS  (colour-tinted cards, IBM "career areas" style)
-      ======================================================== */}
-            <section id="teams" className="container-x pb-20 sm:pb-28 scroll-mt-28">
-                <div className="mb-8 reveal-up">
-                    <p className="kicker text-[var(--crimson)]">Where you could work</p>
-                    <h2 className="h2 mt-4 max-w-4xl">Teams hiring across Carawin.</h2>
-                    <p className="mt-5 max-w-2xl text-lg leading-8 text-[var(--muted)]">
-                        We don't always have a fixed list of open roles — if your skills
-                        fit one of these teams, we want to hear from you.
-                    </p>
-                </div>
-
-                <div className="grid gap-5 sm:grid-cols-2">
-                    {teams.map((team, index) => (
-                        <a
-                            key={team.name}
-                            href={`mailto:careers@carawintech.com?subject=${encodeURIComponent(
-                                `Application — ${team.name}`
-                            )}`}
-                            className="group overflow-hidden rounded-2xl border border-[var(--border)] p-6 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg sm:p-7"
-                            style={{ background: team.tint }}
-                        >
-                            <div className="flex items-start justify-between gap-4">
-                                <div className="flex min-w-0 gap-4">
-                                    <span className="shrink-0 pt-1 font-mono text-xs text-[var(--muted)]">
-                                        {String(index + 1).padStart(2, "0")}
-                                    </span>
-                                    <div className="min-w-0">
-                                        <h3 className="text-xl font-bold tracking-tight text-[var(--foreground)]">
-                                            {team.name}
-                                        </h3>
-                                        <p className="mt-2 text-sm leading-6 text-[var(--muted)]">
-                                            {team.desc}
-                                        </p>
-                                    </div>
-                                </div>
-                                <ArrowUpRight
-                                    size={20}
-                                    className="shrink-0 text-[var(--muted)] transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[var(--crimson)]"
-                                />
-                            </div>
-                        </a>
-                    ))}
-                </div>
-            </section>
-
-            {/* ========================================================
-          KEEP EXPLORING  (IBM "Keep exploring" strip)
-      ======================================================== */}
-            <section className="pb-20 sm:pb-28">
-                <div className="border-y border-[var(--border)] bg-[var(--surface)] py-16 sm:py-20">
-                    <div className="container-x">
-                        <p className="kicker text-[var(--crimson)]">Keep exploring</p>
-                        <h2 className="h2 mt-4 max-w-3xl text-3xl sm:text-5xl">
-                            More ways to get started.
-                        </h2>
-
-                        <div className="mt-10 grid gap-8 sm:grid-cols-3">
-                            {exploreCards.map((card) => {
-                                const Icon = card.icon
-                                return (
-                                    <div key={card.title}>
-                                        <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-[var(--crimson)] text-[var(--crimson)]">
-                                            <Icon size={24} />
-                                        </div>
-                                        <h3 className="mt-5 text-lg font-bold">{card.title}</h3>
-                                        <p className="mt-2 max-w-xs text-sm leading-6 text-[var(--muted)]">
-                                            {card.desc}
-                                        </p>
-                                        <a
-                                            href={card.href}
-                                            className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-[var(--crimson)] transition hover:gap-2.5"
-                                        >
-                                            {card.cta}
-                                            <ArrowUpRight size={15} />
-                                        </a>
-                                    </div>
-                                )
-                            })}
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* ========================================================
-          HOW TO APPLY
-      ======================================================== */}
-            <section className="container-x grid gap-10 pb-20 sm:pb-28 lg:grid-cols-[.75fr_1.25fr]">
-                <div className="reveal-up">
-                    <p className="kicker text-[var(--crimson)]">How to apply</p>
-                    <h2 className="h2 mt-4">Simple, direct, no portals.</h2>
-                </div>
-
-                <div className="space-y-3">
-                    {steps.map((step, i) => (
-                        <div key={step} className="workflow-step reveal-up">
-                            <span>{String(i + 1).padStart(2, "0")}</span>
-                            <p>{step}</p>
-                        </div>
-                    ))}
-                </div>
-            </section>
-
-            {/* ========================================================
-          CTA
-      ======================================================== */}
-            <section className="container-x pb-24 sm:pb-32">
-                <div className="cta-panel">
-                    <p className="kicker text-[var(--crimson)]">Get in touch</p>
-                    <h2 className="mt-4 max-w-5xl text-3xl font-black tracking-tight sm:text-5xl">
-                        Don't see your team listed? Reach out anyway.
-                    </h2>
-                    <p className="mt-5 max-w-2xl text-[var(--muted)]">
-                        We're growing across every function. Send us your CV and a note
-                        on what you'd want to work on.
-                    </p>
-
-                    <div className="mt-7 flex flex-wrap gap-3">
-                        <a href="mailto:careers@carawintech.com" className="btn-primary">
-                            <Mail size={15} />
-                            careers@carawintech.com
-                        </a>
-                        <Link href="/contact" className="btn-secondary">
-                            Talk to Carawin
-                            <ArrowUpRight size={15} />
-                        </Link>
-                    </div>
-                </div>
-            </section>
+          {/* Quick Search Bar */}
+          <div className="mt-8 max-w-4xl bg-white rounded-xl shadow-lg p-2.5 sm:p-3 flex flex-col sm:flex-row gap-2 border border-slate-200">
+            <div className="flex-1 flex items-center px-3 gap-3">
+              <Search className="w-5 h-5 text-slate-400 shrink-0" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search job title, skills, or keywords (e.g. Full-Stack, AI, DevOps)..."
+                className="w-full text-sm text-slate-800 placeholder-slate-400 bg-transparent focus:outline-none"
+              />
+              {searchQuery && (
+                <button onClick={() => setSearchQuery("")} className="text-slate-400 hover:text-slate-600">
+                  <X className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+            <button
+              onClick={() => {}}
+              className="bg-[#b5122b] hover:bg-[#920e22] text-white px-6 py-3 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 transition"
+            >
+              Search Openings
+            </button>
+          </div>
         </div>
-    )
+      </section>
+
+      {/* Main Content Area */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/* Filter Sidebar */}
+          <aside className="lg:col-span-1">
+            <div className="bg-white border border-[#e2e8f0] rounded-xl p-5 shadow-sm sticky top-24">
+              <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
+                <div className="flex items-center gap-2 font-bold text-slate-900 text-sm uppercase tracking-wide">
+                  <Filter className="w-4 h-4 text-[#b5122b]" />
+                  Filters
+                </div>
+                {hasActiveFilters && (
+                  <button
+                    onClick={resetFilters}
+                    className="text-xs text-[#b5122b] hover:underline font-medium"
+                  >
+                    Reset all
+                  </button>
+                )}
+              </div>
+
+              {/* Department */}
+              <div className="mb-5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
+                  Department / Area
+                </label>
+                <select
+                  value={selectedDept}
+                  onChange={(e) => setSelectedDept(e.target.value)}
+                  className="w-full text-sm bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-slate-800 focus:outline-none focus:border-[#002147]"
+                >
+                  {departments.map((d) => (
+                    <option key={d} value={d}>
+                      {d}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Experience Level */}
+              <div className="mb-5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
+                  Experience Level
+                </label>
+                <div className="space-y-1.5">
+                  {experienceLevels.map((lvl) => (
+                    <label
+                      key={lvl}
+                      className={`flex items-center gap-2 px-2.5 py-1.5 rounded-md text-xs cursor-pointer transition ${
+                        selectedExp === lvl
+                          ? "bg-[#002147] text-white font-semibold"
+                          : "text-slate-700 hover:bg-slate-100"
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="exp"
+                        checked={selectedExp === lvl}
+                        onChange={() => setSelectedExp(lvl)}
+                        className="sr-only"
+                      />
+                      <span>{lvl}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Location */}
+              <div className="mb-5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
+                  Location
+                </label>
+                <select
+                  value={selectedLocation}
+                  onChange={(e) => setSelectedLocation(e.target.value)}
+                  className="w-full text-sm bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-slate-800 focus:outline-none focus:border-[#002147]"
+                >
+                  {locations.map((loc) => (
+                    <option key={loc} value={loc}>
+                      {loc}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Job Type */}
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
+                  Job Type
+                </label>
+                <div className="space-y-1.5">
+                  {jobTypes.map((type) => (
+                    <label
+                      key={type}
+                      className={`flex items-center gap-2 px-2.5 py-1.5 rounded-md text-xs cursor-pointer transition ${
+                        selectedType === type
+                          ? "bg-[#002147] text-white font-semibold"
+                          : "text-slate-700 hover:bg-slate-100"
+                      }`}
+                    >
+                      <input
+                        type="radio"
+                        name="jobtype"
+                        checked={selectedType === type}
+                        onChange={() => setSelectedType(type)}
+                        className="sr-only"
+                      />
+                      <span>{type}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          {/* Job Listings Column */}
+          <main className="lg:col-span-3">
+            {/* Header info */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-200 mb-6 gap-3">
+              <div>
+                <h2 className="text-xl font-bold text-slate-900">Job Opportunities</h2>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  Showing 1 – {filteredJobs.length} of {jobs.length} total active openings
+                </p>
+              </div>
+              <div className="flex items-center gap-2 text-xs text-slate-500">
+                <span>Sorted by:</span>
+                <span className="font-semibold text-slate-700">Most Recent</span>
+              </div>
+            </div>
+
+            {/* Active Filter Chips */}
+            {hasActiveFilters && (
+              <div className="flex flex-wrap items-center gap-2 mb-6">
+                <span className="text-xs text-slate-400">Active filters:</span>
+                {searchQuery && (
+                  <span className="inline-flex items-center gap-1.5 bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-full border border-slate-200">
+                    Keyword: "{searchQuery}"
+                    <button onClick={() => setSearchQuery("")}>
+                      <X className="w-3 h-3 text-slate-500 hover:text-slate-800" />
+                    </button>
+                  </span>
+                )}
+                {selectedDept !== "All" && (
+                  <span className="inline-flex items-center gap-1.5 bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-full border border-slate-200">
+                    Dept: {selectedDept}
+                    <button onClick={() => setSelectedDept("All")}>
+                      <X className="w-3 h-3 text-slate-500 hover:text-slate-800" />
+                    </button>
+                  </span>
+                )}
+                {selectedExp !== "All" && (
+                  <span className="inline-flex items-center gap-1.5 bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-full border border-slate-200">
+                    Level: {selectedExp}
+                    <button onClick={() => setSelectedExp("All")}>
+                      <X className="w-3 h-3 text-slate-500 hover:text-slate-800" />
+                    </button>
+                  </span>
+                )}
+                {selectedLocation !== "All" && (
+                  <span className="inline-flex items-center gap-1.5 bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-full border border-slate-200">
+                    Location: {selectedLocation}
+                    <button onClick={() => setSelectedLocation("All")}>
+                      <X className="w-3 h-3 text-slate-500 hover:text-slate-800" />
+                    </button>
+                  </span>
+                )}
+                {selectedType !== "All" && (
+                  <span className="inline-flex items-center gap-1.5 bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-full border border-slate-200">
+                    Type: {selectedType}
+                    <button onClick={() => setSelectedType("All")}>
+                      <X className="w-3 h-3 text-slate-500 hover:text-slate-800" />
+                    </button>
+                  </span>
+                )}
+              </div>
+            )}
+
+            {/* Loading State */}
+            {loading ? (
+              <div className="space-y-4">
+                {[1, 2, 3, 4].map((n) => (
+                  <div key={n} className="bg-white border border-slate-200 rounded-xl p-6 animate-pulse">
+                    <div className="h-4 bg-slate-200 rounded w-1/4 mb-3"></div>
+                    <div className="h-6 bg-slate-200 rounded w-3/4 mb-4"></div>
+                    <div className="h-3 bg-slate-200 rounded w-1/2"></div>
+                  </div>
+                ))}
+              </div>
+            ) : filteredJobs.length === 0 ? (
+              /* Empty State */
+              <div className="bg-white border border-slate-200 rounded-xl p-12 text-center">
+                <Building2 className="w-12 h-12 text-slate-300 mx-auto mb-3" />
+                <h3 className="text-base font-bold text-slate-800 mb-1">No matching positions found</h3>
+                <p className="text-sm text-slate-500 mb-4 max-w-sm mx-auto">
+                  Try adjusting your search criteria or resetting filters to view all openings.
+                </p>
+                <button
+                  onClick={resetFilters}
+                  className="bg-[#002147] hover:bg-[#071a33] text-white px-4 py-2 rounded-lg text-xs font-semibold transition"
+                >
+                  Clear all filters
+                </button>
+              </div>
+            ) : (
+              /* Job Listings Grid */
+              <div className="space-y-4">
+                {filteredJobs.map((job) => (
+                  <Link
+                    key={job.id}
+                    href={`/careers/${job.id}`}
+                    className="group block bg-white border border-[#e2e8f0] hover:border-[#002147] rounded-xl p-6 transition shadow-sm hover:shadow-md"
+                  >
+                    <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                      <div className="flex-1">
+                        {/* Department kicker */}
+                        <div className="inline-block text-xs font-bold text-[#b5122b] uppercase tracking-wider mb-1.5">
+                          {job.department}
+                        </div>
+                        {/* Job title */}
+                        <h3 className="text-lg font-bold text-slate-900 group-hover:text-[#002147] transition flex items-center gap-2">
+                          {job.title}
+                          <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-[#002147] group-hover:translate-x-1 transition" />
+                        </h3>
+                        {/* Short description */}
+                        <p className="text-sm text-slate-600 mt-2 line-clamp-2 leading-relaxed">
+                          {job.description}
+                        </p>
+
+                        {/* Metadata badges */}
+                        <div className="flex flex-wrap items-center gap-3 mt-4 text-xs text-slate-500">
+                          <span className="inline-flex items-center gap-1.5 bg-slate-100 text-slate-700 px-2.5 py-1 rounded-md">
+                            <MapPin className="w-3.5 h-3.5 text-slate-400" />
+                            {job.location}
+                          </span>
+                          <span className="inline-flex items-center gap-1.5 bg-slate-100 text-slate-700 px-2.5 py-1 rounded-md">
+                            <GraduationCap className="w-3.5 h-3.5 text-slate-400" />
+                            {job.experience_level}
+                          </span>
+                          <span className="inline-flex items-center gap-1.5 bg-slate-100 text-slate-700 px-2.5 py-1 rounded-md">
+                            <Briefcase className="w-3.5 h-3.5 text-slate-400" />
+                            {job.job_type}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* View details button */}
+                      <div className="sm:self-center shrink-0">
+                        <span className="inline-flex items-center justify-center px-4 py-2 rounded-lg text-xs font-semibold bg-slate-100 text-slate-800 group-hover:bg-[#002147] group-hover:text-white transition">
+                          View & Apply
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </main>
+        </div>
+      </section>
+
+      {/* Corporate Culture / Value Pillars */}
+      <section className="border-t border-[#e2e8f0] bg-white py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <h2 className="text-2xl font-bold text-slate-900">Why Work at Carawin?</h2>
+            <p className="text-sm text-slate-500 mt-2">
+              We operate with high agency, deep pedagogical conviction, and engineering excellence.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="p-6 rounded-xl border border-slate-200 bg-[#f8fafc]">
+              <div className="w-10 h-10 rounded-lg bg-[#002147] text-white flex items-center justify-center font-bold mb-4">
+                01
+              </div>
+              <h3 className="font-bold text-base text-slate-900 mb-2">Classroom-Grounded Technology</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                We work directly with educators, administrators, and students. Our AI solutions solve real structural bottlenecks in actual learning environments.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-xl border border-slate-200 bg-[#f8fafc]">
+              <div className="w-10 h-10 rounded-lg bg-[#b5122b] text-white flex items-center justify-center font-bold mb-4">
+                02
+              </div>
+              <h3 className="font-bold text-base text-slate-900 mb-2">High Agency & Scale</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                Small, focused cross-functional teams that own features from concept through deployment to millions of students and thousands of classrooms.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-xl border border-slate-200 bg-[#f8fafc]">
+              <div className="w-10 h-10 rounded-lg bg-[#002147] text-white flex items-center justify-center font-bold mb-4">
+                03
+              </div>
+              <h3 className="font-bold text-base text-slate-900 mb-2">Generous Growth & Well-being</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                Competitive compensation, comprehensive health benefits, flexible remote-friendly work culture, and personal learning stipends.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  )
 }

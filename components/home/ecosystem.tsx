@@ -6,43 +6,19 @@ import {
     Building2,
     Database,
     GraduationCap,
-    Laptop,
+    Briefcase,
     Users,
 } from "lucide-react"
 
 const items = [
     ["AI", "Intelligence layer", BrainCircuit, "/images/details/ai.png"],
-    [
-        "Education",
-        "Learning journeys",
-        GraduationCap,
-        "/images/details/education.png",
-    ],
-    [
-        "Infrastructure",
-        "Future-ready spaces",
-        Building2,
-        "/images/details/infrastructure.png",
-    ],
-    [
-        "Software",
-        "Institutional systems",
-        Laptop,
-        "/images/details/software.png",
-    ],
-    [
-        "Data",
-        "Decision intelligence",
-        Database,
-        "/images/details/data.png",
-    ],
-    [
-        "Human capability",
-        "Teachers & teams",
-        Users,
-        "/images/details/humancapa.png",
-    ],
+    ["Learning", "Adaptive journeys", GraduationCap, "/images/details/education.png"],
+    ["Career", "Discovery to growth", Briefcase, "/images/details/career.png"],
+    ["Infrastructure", "Future-ready spaces", Building2, "/images/details/infrastructure.png"],
+    ["Data", "Decision intelligence", Database, "/images/details/data.png"],
+    ["Human Capability", "Teachers & teams", Users, "/images/details/humancapa.png"],
 ] as const
+
 
 export function Ecosystem() {
     return (
@@ -51,21 +27,19 @@ export function Ecosystem() {
                 {/* Left content */}
                 <div>
                     <p className="kicker text-[var(--crimson)]">
-                        01 / Carawin ecosystem
+                        02 / The Carawin Ecosystem
                     </p>
 
                     <h2 className="h2 mt-5">
-                        One ecosystem.
+                        Six pillars.
                         <br />
-                        The entire
+                        One connected
                         <br />
-                        education journey.
+                        education system.
                     </h2>
 
                     <p className="mt-6 max-w-md text-[var(--muted)] leading-7">
-                        Carawin brings AI, education, infrastructure, software,
-                        data and human capability into one connected technology
-                        ecosystem.
+                        Carawin integrates AI, learning, career, infrastructure, data and human capability into one end-to-end ecosystem — enabling institutions, educators and governments to deliver education that is intelligent, personalised and future-ready.
                     </p>
 
                     <Link

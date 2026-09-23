@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import {
   ChevronDown,
   ArrowUpRight,
@@ -52,6 +53,7 @@ const menuLandingPages: Record<MenuKey, string> = {
 }
 
 export function SiteHeader() {
+  const pathname = usePathname()
   const [open, setOpen] = useState<MenuKey | null>(null)
   const [mobile, setMobile] = useState(false)
   const [visible, setVisible] = useState(true)
@@ -134,6 +136,10 @@ export function SiteHeader() {
       window.removeEventListener("scroll", closeMobile)
     }
   }, [mobile])
+
+  if (pathname?.startsWith("/admin")) {
+    return null
+  }
 
   return (
     <header
@@ -246,27 +252,6 @@ export function SiteHeader() {
                 )}
               </div>
             ))}
-
-            {/* INSIGHTS */}
-
-            <Link
-              href="/insights"
-              className="
-                whitespace-nowrap
-                rounded-full
-                px-2.5
-                py-2
-                text-[13px]
-                font-semibold
-                text-[var(--muted)]
-                transition
-                hover:bg-[var(--background)]
-                hover:text-[var(--foreground)]
-                xl:px-3
-              "
-            >
-              Insights
-            </Link>
 
             {/* ABOUT */}
 
@@ -407,7 +392,7 @@ export function SiteHeader() {
             "
           >
             {(Object.keys(menus) as MenuKey[])
-              .concat(["Insights", "About", "Careers", "Contact"] as any)
+              .concat(["About", "Careers", "Contact"] as any)
               .map((item) => {
                 const href =
                   item === "About"
@@ -416,9 +401,7 @@ export function SiteHeader() {
                       ? "/careers"
                       : item === "Contact"
                         ? "/contact"
-                        : item === "Insights"
-                          ? "/insights"
-                          : menuLandingPages[item as MenuKey]
+                        : menuLandingPages[item as MenuKey]
 
                 return (
                   <Link

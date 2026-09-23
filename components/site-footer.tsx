@@ -1,6 +1,9 @@
 
+"use client"
+
 import Image from "next/image"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { ArrowUpRight, Mail, MapPin } from "lucide-react"
 
 const cols = [
@@ -35,13 +38,17 @@ const cols = [
       ["Leadership", "/about"],
       ["Careers", "/careers"],
       ["Partners", "/partners"],
-      ["Insights", "/insights"],
       ["Contact", "/contact"],
     ],
   ],
 ]
 
 export function SiteFooter() {
+  const pathname = usePathname()
+  if (pathname?.startsWith("/admin")) {
+    return null
+  }
+
   return (
     <footer className="relative z-10 border-t border-[var(--border)] bg-[var(--navy)] text-white">
       <div className="container-x py-16 sm:py-20">
@@ -55,10 +62,10 @@ export function SiteFooter() {
               className="inline-flex items-center"
             >
               <Image
-                src="/images/carawin_logo.png"
+                src="/images/carawin_logo_white.png"
                 alt="Carawin Technologies"
-                width={250}
-                height={82}
+                width={596}
+                height={238}
                 className="
                   h-auto
                   w-[190px]

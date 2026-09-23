@@ -45,7 +45,7 @@ export function SolutionsPreview() {
             <div className="flex flex-col justify-between gap-8 border-b border-[var(--border)] pb-10 lg:flex-row lg:items-end">
                 <div>
                     <p className="kicker text-[var(--crimson)]">
-                        03 / Solutions
+                        10 / Solutions
                     </p>
 
                     <h2 className="h2 mt-5">
