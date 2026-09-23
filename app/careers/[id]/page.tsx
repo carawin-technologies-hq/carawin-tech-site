@@ -191,7 +191,7 @@ export default function JobDetailPage({ params }: { params: Promise<{ id: string
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#fafbfc] py-20">
+      <div className="min-h-screen bg-[#fafbfc] pt-32 pb-20">
         <div className="max-w-5xl mx-auto px-4">
           <div className="animate-pulse space-y-6">
             <div className="h-6 bg-slate-200 rounded w-1/4"></div>
@@ -206,7 +206,7 @@ export default function JobDetailPage({ params }: { params: Promise<{ id: string
 
   if (error || !job) {
     return (
-      <div className="min-h-screen bg-[#fafbfc] py-20">
+      <div className="min-h-screen bg-[#fafbfc] pt-32 pb-20">
         <div className="max-w-md mx-auto px-4 text-center">
           <AlertCircle className="w-12 h-12 text-[#b5122b] mx-auto mb-4" />
           <h2 className="text-xl font-bold text-slate-900 mb-2">Job Opening Not Available</h2>
@@ -224,18 +224,19 @@ export default function JobDetailPage({ params }: { params: Promise<{ id: string
   }
 
   return (
-    <div className="min-h-screen bg-[#fafbfc] text-[#172033]">
-      {/* Top Breadcrumb & Actions Bar */}
-      <div className="border-b border-[#e2e8f0] bg-white sticky top-0 z-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
+    <div className="min-h-screen bg-[#fafbfc] text-[#172033] pt-[108px] pb-24 lg:pb-0">
+      {/* Top Breadcrumb & Actions Bar — sits below the fixed site header */}
+      <div className="border-b border-[#e2e8f0] bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between gap-3">
           <Link
             href="/careers"
-            className="inline-flex items-center gap-2 text-xs font-semibold text-slate-600 hover:text-[#002147] transition"
+            className="inline-flex items-center gap-2 text-xs font-semibold text-slate-600 hover:text-[#002147] transition shrink-0"
           >
             <ArrowLeft className="w-4 h-4" />
-            Back to Careers
+            <span className="hidden sm:inline">Back to Careers</span>
+            <span className="sm:hidden">Back</span>
           </Link>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <button
               onClick={handleShare}
               className="inline-flex items-center gap-1.5 text-xs text-slate-600 hover:text-slate-900 px-3 py-1.5 rounded-md border border-slate-200 hover:bg-slate-50 transition"
@@ -243,18 +244,18 @@ export default function JobDetailPage({ params }: { params: Promise<{ id: string
               {copiedLink ? (
                 <>
                   <Check className="w-3.5 h-3.5 text-green-600" />
-                  <span className="text-green-600 font-semibold">Link Copied!</span>
+                  <span className="text-green-600 font-semibold hidden sm:inline">Link Copied!</span>
                 </>
               ) : (
                 <>
                   <Share2 className="w-3.5 h-3.5" />
-                  <span>Share Role</span>
+                  <span className="hidden sm:inline">Share Role</span>
                 </>
               )}
             </button>
             <a
               href="#apply-section"
-              className="inline-flex items-center gap-2 bg-[#b5122b] hover:bg-[#920e22] text-white text-xs font-semibold px-4 py-2 rounded-lg transition"
+              className="inline-flex items-center gap-2 bg-[#b5122b] hover:bg-[#920e22] text-white text-xs font-semibold px-4 py-2 rounded-lg transition shrink-0"
             >
               Apply Now
             </a>
@@ -347,8 +348,8 @@ export default function JobDetailPage({ params }: { params: Promise<{ id: string
           </div>
 
           {/* Right Column: Detailed Application Form (5 Cols) */}
-          <div className="lg:col-span-5" id="apply-section">
-            <div className="bg-white border border-[#e2e8f0] rounded-xl p-6 sm:p-8 shadow-sm sticky top-24">
+          <div className="lg:col-span-5 scroll-mt-32" id="apply-section">
+            <div className="bg-white border border-[#e2e8f0] rounded-xl p-6 sm:p-8 shadow-sm lg:sticky lg:top-28">
               <div className="mb-6">
                 <h2 className="text-xl font-bold text-slate-900">Apply for this Role</h2>
                 <p className="text-xs text-slate-500 mt-1">
@@ -585,6 +586,14 @@ export default function JobDetailPage({ params }: { params: Promise<{ id: string
           </div>
         </div>
       </div>
+
+      {/* Mobile sticky Apply Now — always visible above the hamburger overlap */}
+      <a
+        href="#apply-section"
+        className="lg:hidden fixed bottom-0 inset-x-0 z-[90] m-3 inline-flex items-center justify-center gap-2 rounded-xl bg-[#b5122b] px-4 py-3.5 text-sm font-bold text-white shadow-[0_8px_30px_rgba(181,18,43,0.35)]"
+      >
+        Apply Now
+      </a>
     </div>
   )
 }
