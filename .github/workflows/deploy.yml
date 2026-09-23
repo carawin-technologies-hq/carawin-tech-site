@@ -66,17 +66,12 @@ jobs:
           script: |
             set -e
 
-            cd /root/carawin-tech
+            cd /root/carawin-tech-site
 
-            echo "Pulling latest image..."
             docker compose pull
 
-            echo "Starting new container..."
             docker compose up -d
 
-            echo "Cleaning unused images..."
             docker image prune -f
-
-            echo "Deployment complete!"
 
             docker ps --filter "name=carawin-tech-site"
