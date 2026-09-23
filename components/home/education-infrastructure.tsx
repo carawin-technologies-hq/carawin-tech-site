@@ -1,29 +1,24 @@
 import Link from "next/link"
-import { ArrowUpRight, Monitor, Wifi, FlaskConical, Globe, Cpu } from "lucide-react"
+import { ArrowUpRight } from "lucide-react"
 
 const offerings = [
     {
-        icon: Monitor,
         title: "Smart Classrooms",
         desc: "Interactive flat panels, audio-visual integration, teacher control systems and connected learning environments.",
     },
     {
-        icon: Wifi,
         title: "Virtual Classrooms",
         desc: "Live streaming, hybrid learning, recorded content delivery and remote student engagement tools.",
     },
     {
-        icon: FlaskConical,
         title: "STEM Labs",
         desc: "Equipped science, technology, engineering and mathematics laboratories with hands-on learning resources.",
     },
     {
-        icon: Globe,
         title: "Language Labs",
         desc: "Advanced language learning technology, pronunciation coaching and multilingual digital content.",
     },
     {
-        icon: Cpu,
         title: "Innovation Centres",
         desc: "Maker spaces, robotics, coding labs and future-skills environments for the next generation of builders.",
     },
@@ -51,16 +46,26 @@ export function EducationInfrastructure() {
             </div>
 
             <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-                {offerings.map(({ icon: Icon, title, desc }) => (
+                {offerings.map(({ title, desc }, i) => (
                     <div
                         key={title}
-                        className="group rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 transition hover:-translate-y-1 hover:shadow-md hover:border-[var(--crimson)]/30"
+                        className="group flex flex-col justify-between rounded-2xl border border-[var(--border)] bg-[#f8f9fa] p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:border-[var(--crimson)]/30 hover:bg-white"
                     >
-                        <div className="w-10 h-10 rounded-xl bg-[var(--crimson)]/10 flex items-center justify-center text-[var(--crimson)] mb-4 group-hover:scale-110 transition-transform">
-                            <Icon size={19} />
+                        <div>
+                            <div className="flex items-center justify-between border-b border-[var(--border)]/70 pb-3 mb-4">
+                                <span className="font-mono text-[11px] font-bold text-[var(--crimson)] tracking-widest uppercase">
+                                    0{i + 1} / Space
+                                </span>
+                            </div>
+
+                            <h3 className="text-lg font-bold tracking-tight text-[var(--foreground)] group-hover:text-[var(--crimson)] transition-colors mb-2">
+                                {title}
+                            </h3>
+
+                            <p className="text-sm text-[var(--muted)] leading-relaxed">
+                                {desc}
+                            </p>
                         </div>
-                        <h3 className="text-base font-bold text-[var(--foreground)] mb-2">{title}</h3>
-                        <p className="text-sm text-[var(--muted)] leading-5">{desc}</p>
                     </div>
                 ))}
             </div>

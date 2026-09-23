@@ -1,24 +1,20 @@
 import Link from "next/link"
-import { ArrowUpRight, BookOpen, BarChart2, Layers, ClipboardCheck } from "lucide-react"
+import { ArrowUpRight } from "lucide-react"
 
 const outcomes = [
     {
-        icon: BookOpen,
         title: "Personalised Learning",
         desc: "Content and pace adapted to every student's level, learning style and progress.",
     },
     {
-        icon: BarChart2,
         title: "Learning Analytics",
         desc: "Real-time insight into student engagement, comprehension and knowledge gaps.",
     },
     {
-        icon: Layers,
         title: "Curriculum Alignment",
         desc: "Digital content mapped to national and international curricula frameworks.",
     },
     {
-        icon: ClipboardCheck,
         title: "Outcome Measurement",
         desc: "Tracked, evidenced and reported improvement in student learning outcomes over time.",
     },
@@ -47,16 +43,20 @@ export function DigitalLearning() {
 
                     {/* Right: Outcome cards */}
                     <div className="grid gap-4 sm:grid-cols-2">
-                        {outcomes.map(({ icon: Icon, title, desc }) => (
+                        {outcomes.map(({ title, desc }, i) => (
                             <div
                                 key={title}
-                                className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 hover:shadow-sm transition"
+                                className="group rounded-2xl border border-[var(--border)] bg-white p-6 shadow-sm hover:shadow-md hover:border-[var(--crimson)]/30 transition-all duration-300"
                             >
-                                <div className="w-10 h-10 rounded-xl bg-[var(--crimson)]/10 flex items-center justify-center text-[var(--crimson)] mb-4">
-                                    <Icon size={19} />
+                                <div className="flex items-center justify-between border-b border-[var(--border)]/70 pb-3 mb-4">
+                                    <span className="font-mono text-[11px] font-bold text-[var(--crimson)] tracking-widest uppercase">
+                                        Outcome 0{i + 1}
+                                    </span>
                                 </div>
-                                <h3 className="text-base font-bold text-[var(--foreground)] mb-1.5">{title}</h3>
-                                <p className="text-sm text-[var(--muted)] leading-5">{desc}</p>
+                                <h3 className="text-lg font-bold text-[var(--foreground)] group-hover:text-[var(--crimson)] transition-colors mb-2">
+                                    {title}
+                                </h3>
+                                <p className="text-sm text-[var(--muted)] leading-relaxed">{desc}</p>
                             </div>
                         ))}
                     </div>

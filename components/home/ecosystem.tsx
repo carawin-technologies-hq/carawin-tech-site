@@ -1,24 +1,32 @@
 import Link from "next/link"
-import Image from "next/image"
-import {
-    ArrowUpRight,
-    BrainCircuit,
-    Building2,
-    Database,
-    GraduationCap,
-    Briefcase,
-    Users,
-} from "lucide-react"
+import { ArrowUpRight } from "lucide-react"
 
 const items = [
-    ["AI", "Intelligence layer", BrainCircuit, "/images/details/ai.png"],
-    ["Learning", "Adaptive journeys", GraduationCap, "/images/details/education.png"],
-    ["Career", "Discovery to growth", Briefcase, "/images/details/career.png"],
-    ["Infrastructure", "Future-ready spaces", Building2, "/images/details/infrastructure.png"],
-    ["Data", "Decision intelligence", Database, "/images/details/data.png"],
-    ["Human Capability", "Teachers & teams", Users, "/images/details/humancapa.png"],
-] as const
-
+    {
+        title: "AI",
+        sub: "Intelligence layer that powers personalised learning, adaptive assessments and institutional decision-making.",
+    },
+    {
+        title: "Learning",
+        sub: "Adaptive LMS, digital content and outcome-driven pedagogy for every learner.",
+    },
+    {
+        title: "Career",
+        sub: "Discovery, planning, skill-building and placement pathways from school to workforce.",
+    },
+    {
+        title: "Infrastructure",
+        sub: "Smart classrooms, virtual labs, STEM centres and digitally-enabled campuses.",
+    },
+    {
+        title: "Data",
+        sub: "Dashboards, analytics and decision intelligence for educators and administrators.",
+    },
+    {
+        title: "Human Capability",
+        sub: "Teacher training, AI adoption, change management and institutional capacity building.",
+    },
+]
 
 export function Ecosystem() {
     return (
@@ -51,103 +59,31 @@ export function Ecosystem() {
                     </Link>
                 </div>
 
-                {/* Ecosystem cards */}
+                {/* Ecosystem cards — clean enterprise style */}
                 <div className="grid gap-3 sm:grid-cols-2">
-                    {items.map(([title, sub, Icon, img], i) => (
+                    {items.map(({ title, sub }, i) => (
                         <div
                             key={title}
-                            className="node-card group relative min-h-[230px] overflow-hidden rounded-2xl p-6"
-                            style={{
-                                animation: `floatNode 6s ease-in-out ${i * 0.15
-                                    }s infinite`,
-                            }}
+                            className="group rounded-2xl border border-[var(--border)] bg-[#f8f9fa] p-6 transition-all duration-300 hover:shadow-md hover:border-[var(--crimson)]/30 hover:bg-white hover:-translate-y-0.5"
                         >
-                            {/* Background image */}
-                            <div className="absolute inset-0 z-0">
-                                <Image
-                                    src={img}
-                                    alt={title}
-                                    fill
-                                    sizes="(max-width: 640px) 100vw, 50vw"
-                                    className="
-                                        object-cover
-                                        opacity-60
-                                        saturate-75
-                                        contrast-105
-                                        grayscale-[20%]
-                                        transition-all
-                                        duration-700
-                                        ease-out
-                                        group-hover:scale-110
-                                        group-hover:opacity-75
-                                        group-hover:saturate-100
-                                        group-hover:grayscale-0
-                                    "
-                                />
-
-                                {/* Main readability overlay */}
-                                <div
-                                    className="
-                                        absolute
-                                        inset-0
-                                        bg-gradient-to-br
-                                        from-[var(--surface)]/65
-                                        via-[var(--surface)]/20
-                                        to-transparent
-                                    "
-                                />
-
-                                {/* Bottom fade */}
-                                <div
-                                    className="
-                                        absolute
-                                        inset-0
-                                        bg-gradient-to-t
-                                        from-[var(--surface)]/40
-                                        via-transparent
-                                        to-transparent
-                                    "
-                                />
+                            {/* Top header with mono pillar index and subtle divider */}
+                            <div className="flex items-center justify-between border-b border-[var(--border)]/70 pb-3 mb-4">
+                                <span className="font-mono text-[11px] font-bold text-[var(--crimson)] uppercase tracking-widest">
+                                    Pillar 0{i + 1}
+                                </span>
+                                <span className="text-[10px] font-mono text-[var(--muted)] uppercase tracking-wider">
+                                    Core
+                                </span>
                             </div>
 
-                            {/* Card content */}
-                            <div className="relative z-10 flex h-full flex-col">
-                                {/* Icon + number */}
-                                <div className="flex items-center justify-between">
-                                    <span
-                                        className="
-                                            grid
-                                            h-11
-                                            w-11
-                                            place-items-center
-                                            rounded-xl
-                                            bg-[var(--surface)]/90
-                                            text-[var(--crimson)]
-                                            shadow-sm
-                                            ring-1
-                                            ring-black/5
-                                            backdrop-blur-sm
-                                        "
-                                    >
-                                        <Icon size={20} />
-                                    </span>
+                            {/* Text */}
+                            <h3 className="text-xl font-bold text-[var(--foreground)] tracking-tight group-hover:text-[var(--crimson)] transition-colors">
+                                {title}
+                            </h3>
 
-                                    <span className="text-xs font-medium text-[var(--muted)]">
-                                        0{i + 1}
-                                    </span>
-                                </div>
-
-                                {/* Text */}
-                                <div className="mt-auto pt-12">
-                                    <h3 className="text-xl font-bold text-[var(--foreground)]">
-                                        {title}
-                                    </h3>
-
-                                    <p className="mt-2 text-sm text-[var(--muted)]">
-                                        {sub}
-                                    </p>
-                                </div>
-                            </div>
+                            <p className="mt-2 text-sm text-[var(--muted)] leading-relaxed">
+                                {sub}
+                            </p>
                         </div>
                     ))}
                 </div>

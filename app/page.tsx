@@ -21,11 +21,11 @@ export default function Home() {
       <Ecosystem />
       <AICOS />
       <CareerIntelligence />
-      <AIProducts />
       <EducationInfrastructure />
       <DigitalLearning />
       <TeacherCapability />
       <GovernmentSection />
+      <AIProducts />
       <SolutionsPreview />
       <WhyCarawin />
       <HomeCTA />

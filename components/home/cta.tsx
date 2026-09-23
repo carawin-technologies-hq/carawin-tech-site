@@ -4,24 +4,18 @@ import { ArrowUpRight } from "lucide-react"
 export function HomeCTA() {
     return (
         <section className="container-x pb-24 sm:pb-32">
-            <div className="relative overflow-hidden rounded-[32px] bg-[var(--deep)] p-8 text-white sm:p-14 lg:p-20">
-                {/* Background artwork */}
+            <div className="relative overflow-hidden rounded-[32px] bg-[#071a33] p-8 text-white sm:p-14 lg:p-20">
+                {/* Subtle atmospheric effects — no AI artwork */}
                 <div
-                    className="absolute inset-0 bg-cover bg-right-center bg-no-repeat"
+                    className="absolute inset-0 opacity-[0.12] pointer-events-none"
                     style={{
                         backgroundImage:
-                            "url('/images/details/cta-education-ecosystem.png')",
+                            "radial-gradient(circle at 75% 30%, #b5122b 0, transparent 30%), radial-gradient(circle at 25% 80%, #1a4a8a 0, transparent 30%)",
                     }}
                 />
 
-                {/* Keeps the left/text side readable while letting the artwork show */}
-                <div className="absolute inset-0 bg-[linear-gradient(90deg,var(--deep)_0%,rgba(7,26,51,0.96)_35%,rgba(7,26,51,0.72)_58%,rgba(7,26,51,0.28)_100%)]" />
-
-                {/* Bottom atmospheric fade */}
-                <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[var(--deep)]/50 to-transparent" />
-
-                {/* Existing crimson glow */}
-                <div className="absolute right-[-10%] top-[-40%] h-[500px] w-[500px] rounded-full bg-[var(--crimson)]/25 blur-[100px]" />
+                {/* Crimson glow accent */}
+                <div className="absolute right-[-10%] top-[-40%] h-[500px] w-[500px] rounded-full bg-[var(--crimson)]/20 blur-[120px] pointer-events-none" />
 
                 {/* CTA content */}
                 <div className="relative z-10 max-w-4xl">
@@ -33,7 +27,7 @@ export function HomeCTA() {
                         Let&apos;s build what education needs next.
                     </h2>
 
-                    <p className="mt-6 max-w-2xl text-white/60 leading-7">
+                    <p className="mt-6 max-w-2xl text-white/55 leading-7">
                         Tell us where you are today. We&apos;ll help design the technology, capability and implementation pathway for what comes next.
                     </p>
 

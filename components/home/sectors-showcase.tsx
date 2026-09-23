@@ -10,10 +10,10 @@ import { Reveal } from "@/components/motion-primitives"
 import { sectors, practiceGroups, type PracticeGroupId } from "@/lib/content"
 
 const groupImages: Record<PracticeGroupId, string> = {
-  government: "/images/sector-government.png",
-  corporate: "/images/sector-industry.png",
-  digital: "/images/sector-digital.png",
-  infrastructure: "/images/sector-energy.png",
+  government: "/images/sector-government.svg",
+  corporate: "/images/sector-industry.svg",
+  digital: "/images/sector-digital.svg",
+  infrastructure: "/images/sector-energy.svg",
 }
 
 const order: PracticeGroupId[] = ["government", "corporate", "digital", "infrastructure"]

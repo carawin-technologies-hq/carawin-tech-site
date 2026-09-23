@@ -1,10 +1,9 @@
 import Link from "next/link"
-import { ArrowUpRight, GraduationCap, BookOpen, Users, BarChart3 } from "lucide-react"
+import { ArrowUpRight } from "lucide-react"
 
 const audiences = [
     {
         role: "Students",
-        icon: GraduationCap,
         items: [
             "Personalised timetables & learning paths",
             "Homework, assignments & feedback loop",
@@ -14,7 +13,6 @@ const audiences = [
     },
     {
         role: "Teachers",
-        icon: BookOpen,
         items: [
             "Lesson planning & content delivery tools",
             "Student progress dashboards",
@@ -24,7 +22,6 @@ const audiences = [
     },
     {
         role: "Parents",
-        icon: Users,
         items: [
             "Real-time attendance & performance alerts",
             "Communication with teachers & school",
@@ -34,7 +31,6 @@ const audiences = [
     },
     {
         role: "School Leadership",
-        icon: BarChart3,
         items: [
             "Whole-school analytics & reporting",
             "Staff management & performance data",
@@ -82,21 +78,21 @@ export function AICOS() {
 
                 {/* Audience Cards */}
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                    {audiences.map(({ role, icon: Icon, items }) => (
+                    {audiences.map(({ role, items }, i) => (
                         <div
                             key={role}
-                            className="group rounded-2xl border border-white/10 bg-white/[.04] p-6 transition hover:border-[#b5122b]/60 hover:bg-white/[.07]"
+                            className="group rounded-2xl border border-white/10 bg-white/[.04] p-6 transition-all duration-300 hover:border-[#b5122b]/60 hover:bg-white/[.07]"
                         >
-                            <div className="flex items-center gap-3 mb-5">
-                                <span className="w-9 h-9 rounded-lg bg-[#b5122b]/20 flex items-center justify-center text-[#e26a7a]">
-                                    <Icon size={18} />
+                            <div className="flex items-center justify-between border-b border-white/[.12] pb-3 mb-4">
+                                <span className="font-mono text-[11px] font-bold text-[#e26a7a] tracking-widest uppercase">
+                                    0{i + 1} / Role
                                 </span>
-                                <h3 className="text-base font-bold text-white">{role}</h3>
                             </div>
+                            <h3 className="text-xl font-bold text-white mb-4 group-hover:text-[#e26a7a] transition-colors">{role}</h3>
                             <ul className="space-y-2.5">
                                 {items.map((item) => (
-                                    <li key={item} className="flex items-start gap-2 text-sm text-white/60 leading-5">
-                                        <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#e26a7a] shrink-0" />
+                                    <li key={item} className="flex items-start gap-2 text-sm text-white/60 leading-relaxed">
+                                        <span className="mt-2 w-1.5 h-1.5 rounded-full bg-[#e26a7a] shrink-0" />
                                         {item}
                                     </li>
                                 ))}

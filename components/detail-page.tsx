@@ -334,6 +334,7 @@ export function DetailPage({
                 <CheckCircle2
                   className="mt-0.5 shrink-0 text-[var(--crimson)]"
                   size={20}
+                  strokeWidth={1.75}
                 />
 
                 <div>
@@ -408,6 +409,7 @@ export function DetailPage({
                 >
                   <CheckCircle2
                     size={18}
+                    strokeWidth={1.75}
                     className="text-[var(--crimson)]"
                   />
 

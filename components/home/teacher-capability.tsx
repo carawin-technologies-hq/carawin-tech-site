@@ -1,24 +1,20 @@
 import Link from "next/link"
-import { ArrowUpRight, Lightbulb, RefreshCw, Target, Shield } from "lucide-react"
+import { ArrowUpRight } from "lucide-react"
 
 const pillars = [
     {
-        icon: Lightbulb,
         title: "Teacher Training",
         desc: "Structured, accredited professional development programmes that build 21st-century teaching skills and pedagogy.",
     },
     {
-        icon: RefreshCw,
         title: "AI Adoption Programmes",
         desc: "Hands-on training to help teachers confidently use AI tools in lesson planning, content creation and classroom delivery.",
     },
     {
-        icon: Target,
         title: "Change Management",
         desc: "End-to-end implementation support to ensure new technology is adopted, embedded and sustained across institutions.",
     },
     {
-        icon: Shield,
         title: "Institutional Capacity Building",
         desc: "Leadership coaching, curriculum design support and long-term capability frameworks for schools and education systems.",
     },
@@ -45,16 +41,26 @@ export function TeacherCapability() {
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                {pillars.map(({ icon: Icon, title, desc }) => (
+                {pillars.map(({ title, desc }, i) => (
                     <div
                         key={title}
-                        className="group rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 transition hover:-translate-y-1 hover:shadow-md hover:border-[var(--crimson)]/30"
+                        className="group flex flex-col justify-between rounded-2xl border border-[var(--border)] bg-[#f8f9fa] p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:border-[var(--crimson)]/30 hover:bg-white"
                     >
-                        <div className="w-10 h-10 rounded-xl bg-[var(--crimson)]/10 flex items-center justify-center text-[var(--crimson)] mb-4 group-hover:scale-110 transition-transform">
-                            <Icon size={19} />
+                        <div>
+                            <div className="flex items-center justify-between border-b border-[var(--border)]/70 pb-3 mb-5">
+                                <span className="font-mono text-[11px] font-bold text-[var(--crimson)] tracking-widest uppercase">
+                                    0{i + 1} / Capability
+                                </span>
+                            </div>
+
+                            <h3 className="text-xl font-bold tracking-tight text-[var(--foreground)] group-hover:text-[var(--crimson)] transition-colors mb-3">
+                                {title}
+                            </h3>
+
+                            <p className="text-sm text-[var(--muted)] leading-relaxed">
+                                {desc}
+                            </p>
                         </div>
-                        <h3 className="text-base font-bold text-[var(--foreground)] mb-2">{title}</h3>
-                        <p className="text-sm text-[var(--muted)] leading-5">{desc}</p>
                     </div>
                 ))}
             </div>

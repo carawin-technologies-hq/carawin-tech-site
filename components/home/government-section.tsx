@@ -36,8 +36,8 @@ export function GovernmentSection() {
                             <div key={label} className="flex items-start gap-4">
                                 {/* Step connector */}
                                 <div className="flex flex-col items-center">
-                                    <div className="w-8 h-8 rounded-full bg-[var(--crimson)] flex items-center justify-center text-white text-xs font-bold shrink-0">
-                                        {i + 1}
+                                    <div className="w-8 h-8 rounded-full border border-[var(--crimson)]/30 text-[var(--crimson)] bg-white flex items-center justify-center text-[11px] font-mono font-bold shrink-0 shadow-sm">
+                                        0{i + 1}
                                     </div>
                                     {i < steps.length - 1 && (
                                         <div className="w-px flex-1 bg-[var(--border)] my-1" style={{ minHeight: "20px" }} />

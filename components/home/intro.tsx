@@ -37,7 +37,7 @@ export function Intro() {
           <Reveal>
             <div className="relative aspect-16/10 overflow-hidden rounded-xl">
               <Image
-                src="/images/advisory-session.png"
+                src="/images/advisory-session.svg"
                 alt="A senior strategy advisory session in progress"
                 fill
                 className="object-cover"

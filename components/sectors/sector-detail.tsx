@@ -9,10 +9,10 @@ import { FrameworkTimeline } from "@/components/framework-timeline"
 import { practiceGroups, sectors, type Sector } from "@/lib/content"
 
 const groupImage: Record<string, string> = {
-  government: "/images/sector-government.png",
-  corporate: "/images/sector-industry.png",
-  digital: "/images/sector-digital.png",
-  infrastructure: "/images/sector-energy.png",
+  government: "/images/sector-government.svg",
+  corporate: "/images/sector-industry.svg",
+  digital: "/images/sector-digital.svg",
+  infrastructure: "/images/sector-energy.svg",
 }
 
 export function SectorDetail({ sector }: { sector: Sector }) {
