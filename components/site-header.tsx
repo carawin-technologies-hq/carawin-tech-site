@@ -13,33 +13,25 @@ import { Logo } from "@/components/logo"
 
 const menus = {
   Solutions: [
+    ["AICOS", "https://aicos.carawintech.com/"],
+    ["Career Intelligence", "https://career.carawintech.com/"],
+    ["AI & STEM Innovation", "/ai/stem"],
     ["Education Infrastructure", "/solutions/smart-classroom"],
-    ["Digital Education", "/solutions/lms"],
-    ["Institutional Technology", "/solutions/erp"],
-    ["Assessment", "/solutions/assessment"],
-    ["Teacher Training", "/solutions/teacher-training"],
   ],
 
-  "AI in Education": [
-    ["Carawin Adapt", "/ai/adapt"],
-    ["Carawin Teach", "/ai/teach"],
-    ["Carawin Assess", "/ai/assess"],
-    ["Carawin Career", "/ai/career"],
-    ["Carawin Content", "/ai/content"],
-    ["Carawin Voice", "/ai/voice"],
-    ["Carawin STEM", "/ai/stem"],
-    ["Carawin Insight", "/ai/insight"],
+  AI: [
+    ["AI Learning", "/ai/adapt"],
+    ["AI Teacher", "/ai/teach"],
+    ["AI Assessment", "/ai/assess"],
+    ["Career AI", "/ai/career"],
+    ["Institutional Intelligence", "/ai/insight"],
   ],
 
-  Institutions: [
-    ["Future-Ready Schools", "/institutions/future-ready-schools"],
-    ["Colleges & Universities", "/institutions/colleges-universities"],
-    ["Digital University", "/institutions/digital-university"],
-  ],
-
-  Government: [
-    ["Digital Education", "/government"],
-    ["Advisory & Implementation", "/advisory"],
+  "Who We Serve": [
+    ["Schools", "/institutions/future-ready-schools"],
+    ["Institutions", "/institutions"],
+    ["Governments", "/government"],
+    ["Students", "https://career.carawintech.com/"],
   ],
 } as const
 
@@ -47,9 +39,8 @@ type MenuKey = keyof typeof menus
 
 const menuLandingPages: Record<MenuKey, string> = {
   Solutions: "/solutions",
-  "AI in Education": "/ai",
-  Institutions: "/institutions",
-  Government: "/government",
+  AI: "/ai",
+  "Who We Serve": "/institutions",
 }
 
 export function SiteHeader() {
@@ -329,10 +320,10 @@ export function SiteHeader() {
             "
           >
             <Link
-              href="/ai"
+              href="/contact"
               className="btn-primary whitespace-nowrap"
             >
-              Explore Carawin AI
+              Talk to Carawin
               <ArrowUpRight size={15} />
             </Link>
           </div>
@@ -391,8 +382,7 @@ export function SiteHeader() {
               lg:hidden
             "
           >
-            {(Object.keys(menus) as MenuKey[])
-              .concat(["About", "Careers", "Contact"] as any)
+            {[...(Object.keys(menus) as string[]), "About", "Careers", "Contact"]
               .map((item) => {
                 const href =
                   item === "About"
@@ -407,6 +397,9 @@ export function SiteHeader() {
                   <Link
                     key={item}
                     href={href}
+                    {...(href.startsWith("http")
+                      ? { target: "_blank", rel: "noreferrer" }
+                      : {})}
                     onClick={() => setMobile(false)}
                     className="
                       flex
@@ -429,7 +422,7 @@ export function SiteHeader() {
               })}
 
             <Link
-              href="/ai"
+              href="/contact"
               onClick={() => setMobile(false)}
               className="
                 btn-primary
@@ -438,7 +431,7 @@ export function SiteHeader() {
                 justify-center
               "
             >
-              Explore Carawin AI
+              Talk to Carawin
               <ArrowUpRight size={15} />
             </Link>
           </div>
@@ -497,6 +490,9 @@ function MegaMenu({
             <Link
               key={href + label}
               href={href}
+              {...(href.startsWith("http")
+                ? { target: "_blank", rel: "noreferrer" }
+                : {})}
               className="
                 group
                 rounded-xl
@@ -576,13 +572,11 @@ function MegaMenu({
               hover:gap-3
             "
           >
-            {menu === "AI in Education"
+            {menu === "AI"
               ? "View all AI solutions"
-              : menu === "Institutions"
-                ? "View all institutions"
-                : menu === "Government"
-                  ? "View government"
-                  : "View all solutions"}
+              : menu === "Who We Serve"
+                ? "View who we serve"
+                : "View all solutions"}
 
             <ArrowUpRight size={13} />
           </Link>

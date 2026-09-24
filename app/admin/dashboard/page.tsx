@@ -218,9 +218,9 @@ export default function AdminDashboardPage() {
     }
   }
 
-  // Archive / Delete Job
+  // Permanently delete job
   const handleDeleteJob = async (id: number) => {
-    if (!confirm("Are you sure you want to archive this job opening? It will no longer appear on the public careers portal.")) {
+    if (!confirm("Permanently delete this job opening? This will also delete all applications submitted for this position and cannot be undone.")) {
       return
     }
 
@@ -228,9 +228,13 @@ export default function AdminDashboardPage() {
       const res = await fetch(`/api/jobs/${id}`, { method: "DELETE" })
       if (res.ok) {
         fetchData()
+      } else {
+        const data = await res.json().catch(() => null)
+        alert(data?.error || "Failed to permanently delete the job opening.")
       }
     } catch (err) {
-      console.error("Archive failed:", err)
+      console.error("Permanent delete failed:", err)
+      alert("Failed to permanently delete the job opening.")
     }
   }
 
@@ -594,7 +598,8 @@ export default function AdminDashboardPage() {
                               <button
                                 onClick={() => handleDeleteJob(job.id)}
                                 className="p-1.5 rounded-lg text-red-500 hover:bg-red-50 transition"
-                                title="Archive Job"
+                                title="Delete Job Permanently"
+                                aria-label={`Delete ${job.title} permanently`}
                               >
                                 <Trash2 className="w-3.5 h-3.5" />
                               </button>
