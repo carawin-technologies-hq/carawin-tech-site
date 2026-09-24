@@ -3,7 +3,7 @@ import { hashSync } from 'bcryptjs'
 import { readFileSync } from 'fs'
 import { join } from 'path'
 
-const DATABASE_URL = process.env.DATABASE_URL || 'postgresql://grid:strongpassword@187.127.139.208:5433/cwt-jobs'
+const DATABASE_URL = process.env.DATABASE_URL || 'postgresql://grid:strongpassword@187.127.139.208:5432/cwt-jobs'
 
 async function seed() {
   const pool = new Pool({ connectionString: DATABASE_URL, ssl: false })
