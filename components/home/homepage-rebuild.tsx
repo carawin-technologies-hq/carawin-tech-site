@@ -35,6 +35,7 @@ const solutionAreas = [
     capabilities: ["AI Tutor", "Adaptive Learning", "AI Teacher", "AI Assessment", "RAG", "Student Intelligence"],
     href: "https://aicos.carawintech.com/",
     icon: BrainCircuit,
+    image: "/images/details/ai-education.png",
     tone: "dark",
   },
   {
@@ -47,6 +48,7 @@ const solutionAreas = [
     capabilities: ["Assess", "Discover", "Explore", "Map", "Prepare", "Review"],
     href: "https://career.carawintech.com/",
     icon: Orbit,
+    image: "/images/details/career-intelligence.png",
     tone: "light",
   },
   {
@@ -59,6 +61,7 @@ const solutionAreas = [
     capabilities: ["Learn", "Experiment", "Build", "Test", "Improve", "Solve"],
     href: "/ai/stem",
     icon: Rocket,
+    image: "/images/details/stem-innovation.png",
     tone: "light",
   },
   {
@@ -71,6 +74,7 @@ const solutionAreas = [
     capabilities: ["Smart Classrooms", "STEM Labs", "Innovation Centres", "Digital Infrastructure"],
     href: "/solutions/smart-classroom",
     icon: Building2,
+    image: "/images/details/infrastructure.png",
     tone: "light",
   },
 ]
@@ -102,59 +106,39 @@ function ExternalArrow() {
 export function HomepageRebuild() {
   return (
     <div className="overflow-hidden bg-[var(--background)] text-[var(--foreground)]">
-      <section className="relative min-h-[760px] overflow-hidden border-b border-[var(--border)] bg-[#061a32] text-white">
-        <Image
-          src="/images/hero-infrastructure.svg"
-          alt=""
-          fill
-          priority
-          className="object-cover opacity-25"
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(100deg,#061a32_18%,rgba(6,26,50,.9)_50%,rgba(6,26,50,.48))]" />
-        <div className="absolute inset-0 grid-fade opacity-10" />
-        <div className="container-x relative z-10 flex min-h-[760px] flex-col justify-between py-32 sm:py-40">
+      <section className="relative min-h-[720px] overflow-hidden border-b border-[var(--border)] bg-[#f5f7fa]">
+        <div className="absolute inset-0 grid-fade opacity-20" />
+        <div className="container-x relative z-10 flex min-h-[720px] flex-col justify-between py-28 sm:py-36">
           <div className="grid items-center gap-16 lg:grid-cols-[.86fr_1.14fr]">
             <div className="max-w-2xl">
-              <div className="mb-7 flex items-center gap-3 text-xs font-bold uppercase tracking-[.22em] text-[#ff7185]">
+              <div className="mb-7 flex items-center gap-3 text-xs font-bold uppercase tracking-[.22em] text-[var(--crimson)]">
                 <Sparkles size={15} />
                 AI-powered education technology
               </div>
-              <h1 className="max-w-3xl text-5xl font-black leading-[.96] tracking-[-.055em] sm:text-7xl lg:text-[6.3rem]">
+              <h1 className="max-w-3xl text-5xl font-black leading-[.96] tracking-[-.055em] text-[var(--navy)] sm:text-7xl lg:text-[6.3rem]">
                 Building the intelligent infrastructure for the future of education.
               </h1>
-              <p className="mt-8 max-w-xl text-base leading-8 text-white/68 sm:text-lg">
+              <p className="mt-8 max-w-xl text-base leading-8 text-[var(--muted)] sm:text-lg">
                 We combine AI, education technology, career intelligence and innovation infrastructure to help schools, institutions and governments build better learning systems and future-ready students.
               </p>
               <div className="mt-9 flex flex-wrap gap-3">
                 <Link href="/solutions" className="btn-primary">
                   Explore Solutions <ExternalArrow />
                 </Link>
-                <Link href="/contact" className="btn-secondary border-white/25 bg-white/5 text-white hover:border-white hover:text-white">
+                <Link href="/contact" className="btn-secondary">
                   Talk to Carawin <ExternalArrow />
                 </Link>
               </div>
             </div>
 
             <div className="relative mx-auto w-full max-w-[640px]">
-              <div className="relative aspect-[1.05] overflow-hidden rounded-[28px] border border-white/15 bg-[#0b294b]/75 p-5 shadow-2xl backdrop-blur-sm sm:p-8">
-                <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,.13) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.13) 1px, transparent 1px)", backgroundSize: "42px 42px" }} />
-                <div className="relative flex h-full flex-col justify-between">
-                  <div className="flex items-center justify-between border-b border-white/15 pb-5 text-[10px] font-bold uppercase tracking-[.2em] text-white/50">
-                    <span>Carawin architecture</span>
-                    <span className="flex items-center gap-2 text-[#ff7185]"><span className="h-2 w-2 rounded-full bg-[#ff7185]" /> Live intelligence layer</span>
-                  </div>
-                  <div className="relative flex flex-1 items-center justify-center py-8">
-                    <div className="absolute h-56 w-56 rounded-full border border-[#ff7185]/35 sm:h-72 sm:w-72" />
-                    <div className="absolute h-40 w-40 rounded-full border border-white/20 sm:h-52 sm:w-52" />
-                    <div className="relative z-10 grid h-28 w-28 place-items-center rounded-3xl border border-[#ff7185]/50 bg-[#b5122b] text-center shadow-[0_0_70px_rgba(181,18,43,.4)] sm:h-36 sm:w-36">
-                      <div><BrainCircuit className="mx-auto mb-2" size={27} /><span className="text-lg font-black tracking-tight">AICOS</span><span className="mt-1 block text-[9px] uppercase tracking-[.18em] text-white/70">Intelligence</span></div>
-                    </div>
-                    <div className="absolute left-0 top-1/2 -translate-y-1/2 text-center text-[10px] font-bold uppercase tracking-[.16em] text-white/60 sm:left-4"><School className="mx-auto mb-2 text-[#ff7185]" size={18} />Institution</div>
-                    <div className="absolute right-0 top-1/2 -translate-y-1/2 text-center text-[10px] font-bold uppercase tracking-[.16em] text-white/60 sm:right-4"><Users className="mx-auto mb-2 text-[#ff7185]" size={18} />Learning</div>
-                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 text-center text-[10px] font-bold uppercase tracking-[.16em] text-white/60"><Rocket className="mx-auto mb-2 text-[#ff7185]" size={18} />Innovation</div>
-                  </div>
-                  <div className="grid grid-cols-4 gap-2 border-t border-white/15 pt-5 text-center text-[9px] font-bold uppercase tracking-[.12em] text-white/45">
-                    <span>AI</span><span>Career</span><span>STEM</span><span>Outcomes</span>
+              <div className="relative aspect-[1.05] overflow-hidden rounded-[28px] border border-[var(--border)] bg-white p-2 shadow-[0_25px_75px_rgba(0,33,71,.14)] sm:p-3">
+                <div className="relative h-full overflow-hidden rounded-[22px]">
+                  <Image src="/images/home-hero-stock.jpg" alt="Technology-enabled learning environment" fill priority sizes="(max-width: 1024px) 100vw, 640px" className="object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#061a32]/85 via-transparent to-transparent" />
+                  <div className="absolute bottom-5 left-5 right-5 text-white sm:bottom-7 sm:left-7 sm:right-7">
+                    <div className="mb-3 flex items-center gap-2 text-[10px] font-bold uppercase tracking-[.2em] text-[#ff9aaa]"><span className="h-2 w-2 rounded-full bg-[#ff7185]" /> Connected education systems</div>
+                    <p className="max-w-md text-xl font-black leading-tight tracking-[-.03em] sm:text-3xl">Institution - AICOS - AI - Learning - Career - STEM</p>
                   </div>
                 </div>
               </div>
@@ -208,8 +192,12 @@ export function HomepageRebuild() {
           <p className="max-w-md text-sm leading-7 text-[var(--muted)]">Each capability can stand alone. Together, they form the operating model for intelligent education.</p>
         </div>
         <div className="mt-12 grid gap-5 lg:grid-cols-2">
-          {solutionAreas.map(({ index, label, title, subtitle, description, capabilities, href, icon: Icon, tone }) => (
+          {solutionAreas.map(({ index, label, title, subtitle, description, capabilities, href, icon: Icon, image, tone }) => (
             <article key={title} className={`group relative overflow-hidden rounded-[22px] border p-7 transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_55px_rgba(0,33,71,.1)] sm:p-9 ${tone === "dark" ? "border-[#071a33] bg-[#071a33] text-white" : "border-[var(--border)] bg-white"}`}>
+              <div className="relative mb-7 aspect-[2.2] overflow-hidden rounded-xl">
+                <Image src={image} alt={title} fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover transition duration-500 group-hover:scale-105" />
+                <div className={`absolute inset-0 ${tone === "dark" ? "bg-[#071a32]/35" : "bg-[#071a32]/10"}`} />
+              </div>
               <div className="flex items-start justify-between"><div><p className={`font-mono text-xs font-bold uppercase tracking-[.16em] ${tone === "dark" ? "text-[#ff7185]" : "text-[var(--crimson)]"}`}>{index} / {label}</p><h3 className="mt-8 text-3xl font-black tracking-[-.04em]">{title}</h3></div><Icon size={30} className={tone === "dark" ? "text-[#ff7185]" : "text-[var(--crimson)]"} /></div>
               <p className={`mt-3 text-lg font-semibold ${tone === "dark" ? "text-white" : "text-[var(--navy)]"}`}>{subtitle}</p><p className={`mt-4 max-w-lg text-sm leading-7 ${tone === "dark" ? "text-white/60" : "text-[var(--muted)]"}`}>{description}</p>
               <div className={`mt-7 flex flex-wrap gap-2 border-t pt-6 ${tone === "dark" ? "border-white/15" : "border-[var(--border)]"}`}>{capabilities.map((capability) => <span key={capability} className={`text-[10px] font-bold uppercase tracking-[.13em] ${tone === "dark" ? "text-white/65" : "text-[var(--muted)]"}`}>{capability}</span>)}</div>
@@ -219,11 +207,11 @@ export function HomepageRebuild() {
         </div>
       </section>
 
-      <section className="border-y border-[var(--border)] bg-[#071a33] py-24 text-white sm:py-32">
+      <section className="border-y border-[var(--border)] bg-[#f2f5f7] py-24 sm:py-32">
         <div className="container-x">
           <div className="grid gap-14 lg:grid-cols-[.72fr_1.28fr] lg:items-center">
-            <div><SectionLabel>Our core platform</SectionLabel><h2 className="mt-5 text-5xl font-black tracking-[-.055em] sm:text-7xl">AICOS</h2><p className="mt-3 text-xl font-semibold text-white/85">The AI-Powered School Operating System</p><p className="mt-6 max-w-md text-sm leading-7 text-white/60">AICOS is the digital intelligence and learning layer behind the Carawin education model. It connects leadership, teachers, students and parents with intelligence that helps every part of the school adapt.</p><Link href="https://aicos.carawintech.com/" {...externalLinkProps} className="btn-primary mt-8">Explore AICOS <ExternalArrow /></Link></div>
-            <div className="rounded-[25px] border border-white/15 bg-white/[.04] p-6 sm:p-9">
+            <div><SectionLabel>Our core platform</SectionLabel><h2 className="mt-5 text-5xl font-black tracking-[-.055em] text-[var(--navy)] sm:text-7xl">AICOS</h2><p className="mt-3 text-xl font-semibold text-[var(--navy)]">The AI-Powered School Operating System</p><p className="mt-6 max-w-md text-sm leading-7 text-[var(--muted)]">AICOS is the digital intelligence and learning layer behind the Carawin education model. It connects leadership, teachers, students and parents with intelligence that helps every part of the school adapt.</p><Link href="https://aicos.carawintech.com/" {...externalLinkProps} className="btn-primary mt-8">Explore AICOS <ExternalArrow /></Link></div>
+            <div className="rounded-[25px] border border-[#071a33] bg-[#071a33] p-6 text-white shadow-[0_24px_70px_rgba(0,33,71,.14)] sm:p-9">
               <div className="grid gap-3 sm:grid-cols-4">{["School Leadership", "Teachers", "Students", "Parents"].map((role) => <div key={role} className="border border-white/15 bg-white/[.04] px-4 py-5 text-center text-xs font-bold text-white/75">{role}</div>)}</div>
               <div className="my-7 flex items-center gap-3 text-[10px] font-bold uppercase tracking-[.2em] text-[#ff7185]"><div className="h-px flex-1 bg-[#ff7185]/35" /> Intelligence layer <div className="h-px flex-1 bg-[#ff7185]/35" /></div>
               <div className="grid gap-2 sm:grid-cols-3">{["AI Tutor", "Adaptive Learning", "RAG", "AI Assessment", "Recommendations", "Student Insights", "Career Intelligence"].map((item) => <div key={item} className="flex items-center gap-2 border border-white/10 px-3 py-3 text-xs text-white/65"><Check size={13} className="shrink-0 text-[#ff7185]" />{item}</div>)}</div>

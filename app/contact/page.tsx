@@ -66,47 +66,46 @@ export default function ContactPage() {
   }
 
   return (
-    <section className="container-x py-20 sm:py-28">
-      <p className="kicker text-[var(--crimson)]">Contact</p>
-      <h1 className="h1 mt-4 max-w-5xl">Let’s build the future of education.</h1>
-
-      <div className="mt-12 grid gap-12 lg:grid-cols-[.85fr_1.15fr]">
-        {/* Left Column: Context & Contact Details */}
-        <div>
-          <p className="text-[var(--muted)] text-base sm:text-lg leading-relaxed">
-            Tell us where you are today and what you want to transform. We’ll connect you with the right Carawin specialist team.
+    <section className="relative overflow-hidden bg-[#f7f9fb] py-24 sm:py-32">
+      <div className="pointer-events-none absolute right-[-12rem] top-[-10rem] h-[28rem] w-[28rem] rounded-full border border-[var(--crimson)]/10" />
+      <div className="container-x relative">
+        <div className="max-w-4xl">
+          <p className="kicker text-[var(--crimson)]">Start a conversation</p>
+          <h1 className="mt-4 max-w-5xl text-5xl font-black leading-[.94] tracking-[-.055em] text-[var(--navy)] sm:text-7xl">
+            Let&apos;s build the future of education.
+          </h1>
+          <p className="mt-6 max-w-2xl text-base leading-8 text-[var(--muted)] sm:text-lg">
+            Tell us where you are today and what you want to transform. We&apos;ll connect you with the right Carawin specialist team.
           </p>
-
-          <div className="mt-8 space-y-4 text-sm text-[var(--muted)]">
-            <div className="flex items-center gap-3">
-              <span className="w-1.5 h-1.5 rounded-full bg-[var(--crimson)]"></span>
-              <span>Schools · Colleges · Universities</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <span className="w-1.5 h-1.5 rounded-full bg-[var(--navy)]"></span>
-              <span>Government Departments · CSR · Systemic Partners</span>
-            </div>
-          </div>
-
-          <div className="mt-12 p-6 rounded-2xl bg-[var(--surface)] border border-[var(--border)] space-y-4">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--navy)]">
-              Direct Contact
-            </h3>
-            <div className="flex items-center gap-3 text-sm text-[var(--foreground)]">
-              <Mail className="w-4 h-4 text-[var(--crimson)] shrink-0" />
-              <a href="mailto:contact@carawin.tech" className="hover:underline">
-                contact@carawin.tech
-              </a>
-            </div>
-            <div className="flex items-center gap-3 text-sm text-[var(--foreground)]">
-              <MapPin className="w-4 h-4 text-[var(--crimson)] shrink-0" />
-              <span>New Delhi, India</span>
-            </div>
-          </div>
         </div>
 
+        <div className="mt-12 grid gap-8 lg:grid-cols-[.78fr_1.22fr] lg:items-start lg:gap-12">
+        {/* Left Column: Context & Contact Details */}
+          <div className="lg:sticky lg:top-32">
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+              <div className="rounded-2xl border border-[var(--border)] bg-white p-5 shadow-sm sm:p-6">
+                <Building className="h-5 w-5 text-[var(--crimson)]" />
+                <h2 className="mt-8 text-xl font-black tracking-tight text-[var(--navy)]">Who we work with</h2>
+                <p className="mt-3 text-sm leading-7 text-[var(--muted)]">Schools, colleges, universities, government departments, CSR teams and systemic education partners.</p>
+              </div>
+              <div className="rounded-2xl border border-[var(--border)] bg-white p-5 shadow-sm sm:p-6">
+                <MapPin className="h-5 w-5 text-[var(--crimson)]" />
+                <h2 className="mt-8 text-xl font-black tracking-tight text-[var(--navy)]">New Delhi, India</h2>
+                <p className="mt-3 text-sm leading-7 text-[var(--muted)]">Connect with our team for partnerships, transformation programmes and education technology.</p>
+              </div>
+            </div>
+
+            <div className="mt-3 rounded-2xl border border-[var(--navy)] bg-[var(--navy)] p-5 text-white shadow-sm sm:p-6">
+              <h2 className="text-xs font-bold uppercase tracking-[.18em] text-white/55">Direct contact</h2>
+              <div className="mt-5 space-y-4 text-sm">
+                <div className="flex items-center gap-3"><Mail className="h-4 w-4 shrink-0 text-[#ff7185]" /><a href="mailto:office@carawintech.com" className="break-all transition hover:text-[#ff9aaa]">office@carawintech.com</a></div>
+                <div className="flex items-center gap-3"><Mail className="h-4 w-4 shrink-0 text-[#ff7185]" /><a href="mailto:career@carawintech.com" className="break-all transition hover:text-[#ff9aaa]">career@carawintech.com</a></div>
+              </div>
+            </div>
+          </div>
+
         {/* Right Column: Interactive Form */}
-        <div>
+        <div className="rounded-3xl border border-[var(--border)] bg-white p-5 shadow-[0_20px_60px_rgba(0,33,71,.08)] sm:p-8 lg:p-10">
           {isSuccess ? (
             <div className="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-8 sm:p-10 text-center shadow-sm">
               <div className="w-14 h-14 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -238,7 +237,7 @@ export default function ContactPage() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="btn-primary w-fit flex items-center gap-2 disabled:opacity-50 mt-2"
+                className="btn-primary mt-2 flex w-full items-center justify-center gap-2 disabled:opacity-50 sm:w-fit"
               >
                 {isSubmitting ? (
                   <span>Submitting...</span>
@@ -252,6 +251,7 @@ export default function ContactPage() {
             </form>
           )}
         </div>
+      </div>
       </div>
     </section>
   )

@@ -7,6 +7,7 @@ export interface Job {
   job_type: string
   description: string
   requirements: string
+  skills?: string
   created_at: string
   is_active: boolean
 }

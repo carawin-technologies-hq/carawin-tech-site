@@ -8,10 +8,10 @@ export const company = {
   mission:
     "To architect and execute solutions that drive national progress, accelerate industrial competitiveness, and foster inclusive, sustainable growth — moving beyond theoretical advisory to end-to-end operational execution.",
   emails: {
-    government: "gov.advisory@carawin.com",
-    digital: "digital@carawin.com",
-    infra: "infra@carawin.com",
-    capital: "capital@carawin.com",
+    government: "office@carawintech.com",
+    digital: "office@carawintech.com",
+    infra: "office@carawintech.com",
+    capital: "office@carawintech.com",
   },
 }
 
@@ -61,25 +61,25 @@ export const practiceGroups: Record<
     id: "government",
     label: "Government & Sovereign Advisory",
     blurb: "Ministries, governments, smart cities, municipalities and multilateral development banks.",
-    email: "gov.advisory@carawin.com",
+    email: "office@carawintech.com",
   },
   corporate: {
     id: "corporate",
     label: "Corporate Finance & Restructuring",
     blurb: "Fortune 500, manufacturing, FMCG, healthcare and high-growth enterprises.",
-    email: "capital@carawin.com",
+    email: "office@carawintech.com",
   },
   digital: {
     id: "digital",
     label: "Enterprise Technology & AI",
     blurb: "AI, cloud, ERP, cybersecurity and digital public infrastructure.",
-    email: "digital@carawin.com",
+    email: "office@carawintech.com",
   },
   infrastructure: {
     id: "infrastructure",
     label: "Infrastructure, Energy & Sustainability",
     blurb: "Energy, transport, PPP, capital markets and ESG.",
-    email: "infra@carawin.com",
+    email: "office@carawintech.com",
   },
 }
 

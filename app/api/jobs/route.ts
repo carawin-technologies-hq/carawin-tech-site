@@ -25,16 +25,16 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json()
-    const { title, department, location, experience_level, job_type, description, requirements } = body
+    const { title, department, location, experience_level, job_type, description, requirements, skills } = body
 
     if (!title || !department || !location || !experience_level || !job_type) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
 
     const result = await query(
-      `INSERT INTO jobs (title, department, location, experience_level, job_type, description, requirements)
-       VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
-      [title, department, location, experience_level, job_type, description || '', requirements || '']
+      `INSERT INTO jobs (title, department, location, experience_level, job_type, description, requirements, skills)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
+      [title, department, location, experience_level, job_type, description || '', requirements || '', skills || '']
     )
     return NextResponse.json({ job: result.rows[0] }, { status: 201 })
   } catch (error: any) {

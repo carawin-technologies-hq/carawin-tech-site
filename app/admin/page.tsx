@@ -41,31 +41,31 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#071a33] flex flex-col justify-center py-12 sm:px-6 lg:px-8 text-white">
+    <div className="min-h-screen bg-[#f3f3f1] flex flex-col justify-center py-12 sm:px-6 lg:px-8 text-[#37352f]">
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
         <Link href="/" className="inline-block mb-6">
           <Image
-            src="/images/carawin_logo_white.png"
+            src="/images/carawin_logo.png"
             alt="Carawin Technologies"
             width={596}
             height={238}
             className="h-10 w-auto mx-auto object-contain"
           />
         </Link>
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
-          <ShieldCheck className="w-3.5 h-3.5 text-[#ff4d6d]" />
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#e9e9e7] text-xs font-semibold text-[#787774] uppercase tracking-wider mb-2">
+          <ShieldCheck className="w-3.5 h-3.5 text-[#b5122b]" />
           Recruitment Management Portal
         </div>
-        <h1 className="text-2xl font-bold tracking-tight text-white">
+        <h1 className="text-2xl font-bold tracking-tight text-[#37352f]">
           Admin Sign In
         </h1>
-        <p className="mt-1 text-xs text-slate-400">
+        <p className="mt-1 text-xs text-[#787774]">
           Enter authorized administrator credentials to manage jobs and applicant pipeline.
         </p>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md px-4">
-        <div className="bg-white text-slate-900 py-8 px-6 sm:px-10 rounded-2xl shadow-2xl border border-slate-200">
+        <div className="bg-white text-[#37352f] py-8 px-6 sm:px-10 rounded-2xl shadow-[0_12px_40px_rgba(55,53,47,.08)] border border-[#e3e3e0]">
           <form className="space-y-5" onSubmit={handleSubmit}>
             {error && (
               <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-xs text-red-700 flex items-start gap-2">
@@ -124,7 +124,7 @@ export default function AdminLoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#002147] hover:bg-[#071a33] text-white py-3 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition disabled:opacity-50 shadow-md"
+              className="w-full bg-[#37352f] hover:bg-[#1f1e1b] text-white py-3 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition disabled:opacity-50 shadow-sm"
             >
               {loading ? (
                 <span>Authenticating...</span>

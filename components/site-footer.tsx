@@ -158,19 +158,19 @@ export function SiteFooter() {
 
                 <span>
                   <a
-                    href="mailto:digital@carawin.com"
+                    href="mailto:office@carawintech.com"
                     className="transition hover:text-white"
                   >
-                    digital@carawin.com
+                    office@carawintech.com
                   </a>
 
                   <br />
 
                   <a
-                    href="mailto:gov.advisory@carawin.com"
+                    href="mailto:career@carawintech.com"
                     className="transition hover:text-white"
                   >
-                    gov.advisory@carawin.com
+                    career@carawintech.com
                   </a>
                 </span>
               </p>

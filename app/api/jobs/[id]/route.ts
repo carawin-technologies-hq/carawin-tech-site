@@ -38,7 +38,7 @@ export async function PATCH(
   const { id } = await params
   try {
     const body = await request.json()
-    const { title, department, location, experience_level, job_type, description, requirements, is_active } = body
+    const { title, department, location, experience_level, job_type, description, requirements, skills, is_active } = body
 
     try {
       const result = await query(
@@ -50,9 +50,10 @@ export async function PATCH(
           job_type = COALESCE($5, job_type),
           description = COALESCE($6, description),
           requirements = COALESCE($7, requirements),
-          is_active = COALESCE($8, is_active)
-        WHERE id = $9 RETURNING *`,
-        [title, department, location, experience_level, job_type, description, requirements, is_active, id]
+          skills = COALESCE($8, skills),
+          is_active = COALESCE($9, is_active)
+        WHERE id = $10 RETURNING *`,
+        [title, department, location, experience_level, job_type, description, requirements, skills, is_active, id]
       )
 
       if (result.rows.length === 0) {
@@ -75,6 +76,7 @@ export async function PATCH(
         ...(job_type !== undefined && { job_type }),
         ...(description !== undefined && { description }),
         ...(requirements !== undefined && { requirements }),
+        ...(skills !== undefined && { skills }),
         ...(is_active !== undefined && { is_active }),
       }
       return NextResponse.json({ job: fallbackJobs[jobIdx], fallback: true })

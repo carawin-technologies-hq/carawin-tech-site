@@ -36,6 +36,15 @@ const predefinedSkills = [
   "Data Analysis / SQL",
 ]
 
+function getJobSkills(skills?: string) {
+  const configuredSkills = (skills || "")
+    .split(/[\n,]+/)
+    .map((skill) => skill.trim())
+    .filter(Boolean)
+
+  return configuredSkills.length > 0 ? Array.from(new Set(configuredSkills)) : predefinedSkills
+}
+
 const countries = [
   "India",
   "United States",
@@ -518,7 +527,7 @@ export default function JobDetailPage({ params }: { params: Promise<{ id: string
                       Key Skills & Core Strengths
                     </label>
                     <div className="flex flex-wrap gap-1.5 mb-2 max-h-36 overflow-y-auto p-1 border border-slate-200 rounded-lg bg-slate-50">
-                      {predefinedSkills.map((skill) => {
+                      {getJobSkills(job.skills).map((skill) => {
                         const isSelected = selectedSkills.includes(skill)
                         return (
                           <button

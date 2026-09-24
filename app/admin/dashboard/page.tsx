@@ -63,6 +63,7 @@ export default function AdminDashboardPage() {
   const [jobType, setJobType] = useState("Full-Time")
   const [jobDescription, setJobDescription] = useState("")
   const [jobRequirements, setJobRequirements] = useState("")
+  const [jobSkills, setJobSkills] = useState("")
   const [modalSubmitting, setModalSubmitting] = useState(false)
   const [modalError, setModalError] = useState<string | null>(null)
 
@@ -128,6 +129,7 @@ export default function AdminDashboardPage() {
     setJobType("Full-Time")
     setJobDescription("")
     setJobRequirements("")
+    setJobSkills("")
     setModalError(null)
     setIsJobModalOpen(true)
   }
@@ -142,6 +144,7 @@ export default function AdminDashboardPage() {
     setJobType(job.job_type)
     setJobDescription(job.description)
     setJobRequirements(job.requirements)
+    setJobSkills(job.skills || "")
     setModalError(null)
     setIsJobModalOpen(true)
   }
@@ -166,6 +169,7 @@ export default function AdminDashboardPage() {
             job_type: jobType,
             description: jobDescription,
             requirements: jobRequirements,
+            skills: jobSkills,
           }),
         })
         if (!res.ok) {
@@ -185,6 +189,7 @@ export default function AdminDashboardPage() {
             job_type: jobType,
             description: jobDescription,
             requirements: jobRequirements,
+            skills: jobSkills,
           }),
         })
         if (!res.ok) {
@@ -372,22 +377,22 @@ export default function AdminDashboardPage() {
   const activeJobCount = jobs.filter((j) => j.is_active).length
 
   return (
-    <div className="min-h-screen bg-[#f4f6f9] text-[#172033]">
+    <div className="min-h-screen bg-[#f3f3f1] text-[#37352f]">
       {/* Top Header */}
-      <header className="bg-[#002147] text-white border-b border-[#071a33] sticky top-0 z-30 shadow-md">
+      <header className="bg-[#f8f8f7]/95 text-[#37352f] border-b border-[#e3e3e0] sticky top-0 z-30 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link href="/" className="flex items-center">
               <Image
-                src="/images/carawin_logo_white.png"
+                src="/images/carawin_logo.png"
                 alt="Carawin Technologies"
                 width={596}
                 height={238}
                 className="h-8 w-auto object-contain"
               />
             </Link>
-            <div className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/10 text-xs font-semibold text-slate-200">
-              <ShieldCheck className="w-3.5 h-3.5 text-[#ff4d6d]" />
+            <div className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#e9e9e7] text-xs font-semibold text-[#787774]">
+              <ShieldCheck className="w-3.5 h-3.5 text-[#b5122b]" />
               Management Admin
             </div>
           </div>
@@ -396,7 +401,7 @@ export default function AdminDashboardPage() {
             <Link
               href="/careers"
               target="_blank"
-              className="text-xs text-slate-300 hover:text-white flex items-center gap-1 transition"
+              className="text-xs text-[#787774] hover:text-[#37352f] flex items-center gap-1 transition"
             >
               <span>View Careers</span>
               <ExternalLink className="w-3 h-3" />
@@ -404,14 +409,14 @@ export default function AdminDashboardPage() {
             <Link
               href="/contact"
               target="_blank"
-              className="text-xs text-slate-300 hover:text-white flex items-center gap-1 transition"
+              className="text-xs text-[#787774] hover:text-[#37352f] flex items-center gap-1 transition"
             >
               <span>View Contact Page</span>
               <ExternalLink className="w-3 h-3" />
             </Link>
             <button
               onClick={handleLogout}
-              className="inline-flex items-center gap-1.5 bg-white/10 hover:bg-white/20 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition"
+              className="inline-flex items-center gap-1.5 bg-[#e9e9e7] hover:bg-[#dededb] text-[#37352f] text-xs font-semibold px-3 py-1.5 rounded-lg transition"
             >
               <LogOut className="w-3.5 h-3.5" />
               <span>Log Out</span>
@@ -424,22 +429,22 @@ export default function AdminDashboardPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* KPI Stats Bar */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+          <div className="bg-[#fbfbfa] p-5 rounded-xl border border-[#e3e3e0] shadow-[0_2px_8px_rgba(55,53,47,.04)]">
             <div className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Total Positions</div>
             <div className="text-2xl font-black text-slate-900">{jobs.length}</div>
             <div className="text-[11px] text-slate-400 mt-1">All posted roles</div>
           </div>
-          <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+          <div className="bg-[#fbfbfa] p-5 rounded-xl border border-[#e3e3e0] shadow-[0_2px_8px_rgba(55,53,47,.04)]">
             <div className="text-xs font-bold uppercase tracking-wider text-emerald-600 mb-1">Active Openings</div>
             <div className="text-2xl font-black text-emerald-700">{activeJobCount}</div>
             <div className="text-[11px] text-slate-400 mt-1">Accepting applications</div>
           </div>
-          <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+          <div className="bg-[#fbfbfa] p-5 rounded-xl border border-[#e3e3e0] shadow-[0_2px_8px_rgba(55,53,47,.04)]">
             <div className="text-xs font-bold uppercase tracking-wider text-[#b5122b] mb-1">Job Applicants</div>
             <div className="text-2xl font-black text-slate-900">{applications.length}</div>
             <div className="text-[11px] text-slate-400 mt-1">Candidates in pipeline</div>
           </div>
-          <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+          <div className="bg-[#fbfbfa] p-5 rounded-xl border border-[#e3e3e0] shadow-[0_2px_8px_rgba(55,53,47,.04)]">
             <div className="text-xs font-bold uppercase tracking-wider text-blue-600 mb-1">Client Enquiries</div>
             <div className="text-2xl font-black text-slate-900">{enquiries.length}</div>
             <div className="text-[11px] text-slate-400 mt-1">Contact form messages</div>
@@ -453,8 +458,8 @@ export default function AdminDashboardPage() {
               onClick={() => setActiveTab("jobs")}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold transition ${
                 activeTab === "jobs"
-                  ? "bg-[#002147] text-white shadow-sm"
-                  : "text-slate-600 hover:bg-slate-100"
+                  ? "bg-[#37352f] text-white shadow-sm"
+                  : "text-[#787774] hover:bg-[#e9e9e7]"
               }`}
             >
               <Briefcase className="w-4 h-4" />
@@ -464,8 +469,8 @@ export default function AdminDashboardPage() {
               onClick={() => setActiveTab("applications")}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold transition ${
                 activeTab === "applications"
-                  ? "bg-[#002147] text-white shadow-sm"
-                  : "text-slate-600 hover:bg-slate-100"
+                  ? "bg-[#37352f] text-white shadow-sm"
+                  : "text-[#787774] hover:bg-[#e9e9e7]"
               }`}
             >
               <Users className="w-4 h-4" />
@@ -475,8 +480,8 @@ export default function AdminDashboardPage() {
               onClick={() => setActiveTab("enquiries")}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold transition ${
                 activeTab === "enquiries"
-                  ? "bg-[#002147] text-white shadow-sm"
-                  : "text-slate-600 hover:bg-slate-100"
+                  ? "bg-[#37352f] text-white shadow-sm"
+                  : "text-[#787774] hover:bg-[#e9e9e7]"
               }`}
             >
               <MessageSquare className="w-4 h-4" />
@@ -995,6 +1000,22 @@ export default function AdminDashboardPage() {
                   placeholder="List essential skills, qualifications, degrees, or tools..."
                   className="w-full text-sm bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-slate-800 focus:outline-none focus:border-[#002147]"
                 />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                  Skills for this opening
+                </label>
+                <textarea
+                  rows={3}
+                  value={jobSkills}
+                  onChange={(e) => setJobSkills(e.target.value)}
+                  placeholder="React, TypeScript, PostgreSQL, Docker... (separate with commas or new lines)"
+                  className="w-full text-sm bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-slate-800 focus:outline-none focus:border-[#002147]"
+                />
+                <p className="mt-1 text-[11px] text-slate-400">
+                  Applicants will see and select these skills for this position.
+                </p>
               </div>
 
               <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
