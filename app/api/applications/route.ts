@@ -19,37 +19,16 @@ export async function POST(request: Request) {
 
     const skillsStr = Array.isArray(skills) ? skills.join(', ') : (skills || '')
 
-    try {
-      const result = await query(
-        `INSERT INTO applications (job_id, first_name, last_name, email, phone, linkedin_url, cv_drive_link, country, area_of_interest, skills, cover_letter)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *`,
-        [job_id, first_name, last_name, email, phone, linkedin_url, cv_drive_link, country || '', area_of_interest || '', skillsStr, cover_letter || '']
-      )
+    const result = await query(
+      `INSERT INTO applications (job_id, first_name, last_name, email, phone, linkedin_url, cv_drive_link, country, area_of_interest, skills, cover_letter)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *`,
+      [job_id, first_name, last_name, email, phone, linkedin_url, cv_drive_link, country || '', area_of_interest || '', skillsStr, cover_letter || '']
+    )
 
-      return NextResponse.json({ application: result.rows[0], message: 'Application submitted successfully' }, { status: 201 })
-    } catch (dbErr: any) {
-      console.warn('DB application insert failed, falling back to memory store:', dbErr.message)
-      const newApp: Application = {
-        id: Date.now(),
-        job_id: Number(job_id),
-        first_name,
-        last_name,
-        email,
-        phone,
-        linkedin_url,
-        cv_drive_link,
-        country: country || '',
-        area_of_interest: area_of_interest || '',
-        skills: skillsStr,
-        cover_letter: cover_letter || '',
-        created_at: new Date().toISOString(),
-      }
-      fallbackApplications.unshift(newApp)
-      return NextResponse.json({ application: newApp, message: 'Application submitted successfully (offline mode)', fallback: true }, { status: 201 })
-    }
+    return NextResponse.json({ application: result.rows[0], message: 'Application submitted successfully' }, { status: 201 })
   } catch (error: any) {
     console.error('Submit application error:', error.message)
-    return NextResponse.json({ error: 'Failed to submit application' }, { status: 500 })
+    return NextResponse.json({ error: 'Application could not be saved. Database is unavailable.' }, { status: 503 })
   }
 }
 

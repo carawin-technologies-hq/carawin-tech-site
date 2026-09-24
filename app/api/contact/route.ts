@@ -13,33 +13,15 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Name, email, and message are required.' }, { status: 400 })
     }
 
-    try {
-      const result = await query(
-        `INSERT INTO enquiries (name, organisation, designation, email, phone, location, area_of_interest, message)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
-        [name, organisation || '', designation || '', email, phone || '', location || '', area_of_interest || '', message]
-      )
-      return NextResponse.json({ enquiry: result.rows[0], message: 'Enquiry submitted successfully' }, { status: 201 })
-    } catch (dbErr: any) {
-      console.warn('DB enquiry insert failed, storing in memory fallback:', dbErr.message)
-      const newEnquiry: Enquiry = {
-        id: Date.now(),
-        name,
-        organisation: organisation || '',
-        designation: designation || '',
-        email,
-        phone: phone || '',
-        location: location || '',
-        area_of_interest: area_of_interest || '',
-        message,
-        created_at: new Date().toISOString(),
-      }
-      fallbackEnquiries.unshift(newEnquiry)
-      return NextResponse.json({ enquiry: newEnquiry, message: 'Enquiry submitted successfully', fallback: true }, { status: 201 })
-    }
+    const result = await query(
+      `INSERT INTO enquiries (name, organisation, designation, email, phone, location, area_of_interest, message)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
+      [name, organisation || '', designation || '', email, phone || '', location || '', area_of_interest || '', message]
+    )
+    return NextResponse.json({ enquiry: result.rows[0], message: 'Enquiry submitted successfully' }, { status: 201 })
   } catch (error: any) {
     console.error('Submit enquiry error:', error.message)
-    return NextResponse.json({ error: 'Failed to submit enquiry' }, { status: 500 })
+    return NextResponse.json({ error: 'Enquiry could not be saved. Database is unavailable.' }, { status: 503 })
   }
 }
 

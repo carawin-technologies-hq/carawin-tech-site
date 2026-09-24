@@ -168,7 +168,10 @@ export default function AdminDashboardPage() {
             requirements: jobRequirements,
           }),
         })
-        if (!res.ok) throw new Error("Failed to update job.")
+        if (!res.ok) {
+          const data = await res.json().catch(() => null)
+          throw new Error(data?.error || "Failed to update job.")
+        }
       } else {
         // Create new
         const res = await fetch("/api/jobs", {
@@ -184,7 +187,10 @@ export default function AdminDashboardPage() {
             requirements: jobRequirements,
           }),
         })
-        if (!res.ok) throw new Error("Failed to create job opening.")
+        if (!res.ok) {
+          const data = await res.json().catch(() => null)
+          throw new Error(data?.error || "Failed to create job opening.")
+        }
       }
 
       setIsJobModalOpen(false)
