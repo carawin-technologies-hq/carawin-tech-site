@@ -40,6 +40,8 @@ export async function PATCH(
     const body = await request.json()
     const { title, department, location, experience_level, job_type, description, requirements, skills, is_active } = body
 
+    const trimmedDepartment = department ? department.trim() : department
+
     try {
       const result = await query(
         `UPDATE jobs SET
@@ -53,11 +55,15 @@ export async function PATCH(
           skills = COALESCE($8, skills),
           is_active = COALESCE($9, is_active)
         WHERE id = $10 RETURNING *`,
-        [title, department, location, experience_level, job_type, description, requirements, skills, is_active, id]
+        [title, trimmedDepartment, location, experience_level, job_type, description, requirements, skills, is_active, id]
       )
 
       if (result.rows.length === 0) {
         return NextResponse.json({ error: 'Job not found' }, { status: 404 })
+      }
+
+      if (trimmedDepartment) {
+        query('INSERT INTO departments (name) VALUES ($1) ON CONFLICT (name) DO NOTHING', [trimmedDepartment]).catch(() => {})
       }
 
       return NextResponse.json({ job: result.rows[0] })

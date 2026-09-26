@@ -1,7 +1,18 @@
 "use client"
 
 import { useState } from "react"
-import { ArrowUpRight, CheckCircle2, AlertCircle, Send, Building, Mail, Phone, MapPin } from "lucide-react"
+import { CheckCircle2, AlertCircle, Send, Mail, MapPin } from "lucide-react"
+import { contactAreasOfInterest } from "@/lib/carawin-content"
+
+const sectorConversations = [
+  { role: "GOVERNMENT", desc: "Discuss technology-enabled programmes." },
+  { role: "SCHOOLS", desc: "Explore AI, STEM and future skills." },
+  { role: "INDUSTRY", desc: "Explore AI, software and IoT solutions." },
+  { role: "CSR", desc: "Build measurable technology-impact programmes." },
+  { role: "TECHNOLOGY PARTNERS", desc: "Explore collaboration." },
+  { role: "CONSULTANCY", desc: "Discuss your technology challenge." },
+  { role: "PRODUCT DEVELOPMENT", desc: "Explore your idea or technology requirement." },
+]
 
 export default function ContactPage() {
   const [name, setName] = useState("")
@@ -9,7 +20,6 @@ export default function ContactPage() {
   const [designation, setDesignation] = useState("")
   const [email, setEmail] = useState("")
   const [phone, setPhone] = useState("")
-  const [location, setLocation] = useState("")
   const [areaOfInterest, setAreaOfInterest] = useState("")
   const [message, setMessage] = useState("")
 
@@ -22,7 +32,7 @@ export default function ContactPage() {
     setErrorMessage(null)
 
     if (!name.trim() || !email.trim() || !message.trim()) {
-      setErrorMessage("Please fill in all required fields (Name, Email, and Message).")
+      setErrorMessage("Please fill in all required fields (Name, Email, and Requirement).")
       return
     }
 
@@ -37,8 +47,8 @@ export default function ContactPage() {
           designation,
           email,
           phone,
-          location,
-          area_of_interest: areaOfInterest,
+          location: "Direct Web Enquiry",
+          area_of_interest: areaOfInterest || "General Enquiry",
           message,
         }),
       })
@@ -49,13 +59,11 @@ export default function ContactPage() {
       }
 
       setIsSuccess(true)
-      // Reset form fields
       setName("")
       setOrganisation("")
       setDesignation("")
       setEmail("")
       setPhone("")
-      setLocation("")
       setAreaOfInterest("")
       setMessage("")
     } catch (err: any) {
@@ -66,193 +74,209 @@ export default function ContactPage() {
   }
 
   return (
-    <section className="relative overflow-hidden bg-[#f7f9fb] py-24 sm:py-32">
-      <div className="pointer-events-none absolute right-[-12rem] top-[-10rem] h-[28rem] w-[28rem] rounded-full border border-[var(--crimson)]/10" />
-      <div className="container-x relative">
-        <div className="max-w-4xl">
-          <p className="kicker text-[var(--crimson)]">Start a conversation</p>
-          <h1 className="mt-4 max-w-5xl text-5xl font-black leading-[.94] tracking-[-.055em] text-[var(--navy)] sm:text-7xl">
-            Let&apos;s build the future of education.
+    <div className="bg-[var(--background)] text-[var(--foreground)]">
+      {/* Header */}
+      <section className="relative overflow-hidden border-b border-[var(--border)] bg-[#f5f8fb] py-24 sm:py-32">
+        <div className="container-x max-w-4xl">
+          <p className="kicker text-[var(--crimson)]">START A CONVERSATION</p>
+          <h1 className="mt-4 text-4xl font-black leading-[.95] tracking-[-.055em] text-[var(--navy)] sm:text-6xl lg:text-7xl">
+            LET&apos;S BUILD THE FUTURE.
           </h1>
-          <p className="mt-6 max-w-2xl text-base leading-8 text-[var(--muted)] sm:text-lg">
-            Tell us where you are today and what you want to transform. We&apos;ll connect you with the right Carawin specialist team.
+          <p className="mt-6 text-lg leading-relaxed text-[var(--muted)] sm:text-xl">
+            Whether you represent a government, school, university, institution, CSR organisation, industry or technology company, tell us what you are trying to build.
           </p>
         </div>
+      </section>
 
-        <div className="mt-12 grid gap-8 lg:grid-cols-[.78fr_1.22fr] lg:items-start lg:gap-12">
-        {/* Left Column: Context & Contact Details */}
-          <div className="lg:sticky lg:top-32">
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
-              <div className="rounded-2xl border border-[var(--border)] bg-white p-5 shadow-sm sm:p-6">
-                <Building className="h-5 w-5 text-[var(--crimson)]" />
-                <h2 className="mt-8 text-xl font-black tracking-tight text-[var(--navy)]">Who we work with</h2>
-                <p className="mt-3 text-sm leading-7 text-[var(--muted)]">Schools, colleges, universities, government departments, CSR teams and systemic education partners.</p>
+      {/* Main Content & Form */}
+      <section className="border-b border-[var(--border)] bg-white py-20 sm:py-28">
+        <div className="container-x">
+          <div className="grid gap-12 lg:grid-cols-[1.05fr_1.35fr] lg:items-start">
+            {/* Left: How We Can Engage */}
+            <div>
+              <p className="font-mono text-xs font-bold uppercase tracking-[.2em] text-[var(--crimson)]">
+                ENGAGEMENT PATHWAYS
+              </p>
+              <h2 className="mt-2 text-2xl font-black tracking-tight text-[var(--navy)] sm:text-3xl">
+                Tell Us What You Are Trying to Build
+              </h2>
+
+              <div className="mt-6 space-y-3">
+                {sectorConversations.map((item) => (
+                  <div
+                    key={item.role}
+                    className="flex flex-col rounded-xl border border-[var(--border)] bg-[#fafbfc] p-4 text-left transition hover:border-[var(--navy)]/30 hover:bg-white"
+                  >
+                    <span className="font-mono text-xs font-black tracking-wider text-[var(--navy)]">
+                      {item.role}
+                    </span>
+                    <span className="mt-1 text-xs text-[var(--muted)]">
+                      {item.desc}
+                    </span>
+                  </div>
+                ))}
               </div>
-              <div className="rounded-2xl border border-[var(--border)] bg-white p-5 shadow-sm sm:p-6">
-                <MapPin className="h-5 w-5 text-[var(--crimson)]" />
-                <h2 className="mt-8 text-xl font-black tracking-tight text-[var(--navy)]">New Delhi, India</h2>
-                <p className="mt-3 text-sm leading-7 text-[var(--muted)]">Connect with our team for partnerships, transformation programmes and education technology.</p>
+
+              {/* Direct Office Info */}
+              <div className="mt-8 rounded-2xl border border-[var(--navy)] bg-[var(--navy)] p-6 text-white shadow-sm">
+                <p className="font-mono text-[10px] font-bold uppercase tracking-[.2em] text-[#ff7185]">
+                  REGISTERED HEADQUARTERS
+                </p>
+                <div className="mt-4 space-y-3 text-xs leading-relaxed text-white/80">
+                  <p className="flex items-start gap-2.5">
+                    <MapPin size={16} className="mt-0.5 shrink-0 text-[#ff7185]" />
+                    <span>22-A, 2nd Floor, Asaf Ali Road, Ajmeri Gate Extension, New Delhi – 110002, India</span>
+                  </p>
+                  <p className="flex items-center gap-2.5">
+                    <Mail size={16} className="shrink-0 text-[#ff7185]" />
+                    <a href="mailto:contact@carawintech.com" className="transition hover:text-white">
+                      contact@carawintech.com
+                    </a>
+                  </p>
+                </div>
               </div>
             </div>
 
-            <div className="mt-3 rounded-2xl border border-[var(--navy)] bg-[var(--navy)] p-5 text-white shadow-sm sm:p-6">
-              <h2 className="text-xs font-bold uppercase tracking-[.18em] text-white/55">Direct contact</h2>
-              <div className="mt-5 space-y-4 text-sm">
-                <div className="flex items-center gap-3"><Mail className="h-4 w-4 shrink-0 text-[#ff7185]" /><a href="mailto:office@carawintech.com" className="break-all transition hover:text-[#ff9aaa]">office@carawintech.com</a></div>
-                <div className="flex items-center gap-3"><Mail className="h-4 w-4 shrink-0 text-[#ff7185]" /><a href="mailto:career@carawintech.com" className="break-all transition hover:text-[#ff9aaa]">career@carawintech.com</a></div>
+            {/* Right: Contact Form */}
+            <div className="rounded-[28px] border border-[var(--border)] bg-[#fafbfc] p-6 shadow-sm sm:p-10">
+              <div className="border-b border-[var(--border)] pb-5">
+                <p className="font-mono text-xs font-bold uppercase tracking-[.18em] text-[var(--crimson)]">
+                  ENQUIRY FORM
+                </p>
+                <h3 className="mt-1 text-2xl font-black text-[var(--navy)]">
+                  Start a Conversation
+                </h3>
               </div>
+
+              {isSuccess ? (
+                <div className="mt-8 rounded-2xl border border-emerald-500/20 bg-emerald-500/10 p-8 text-center text-emerald-900">
+                  <CheckCircle2 className="mx-auto h-12 w-12 text-emerald-600" />
+                  <h4 className="mt-4 text-xl font-bold">Enquiry Received</h4>
+                  <p className="mt-2 text-sm leading-relaxed text-emerald-800">
+                    Thank you for reaching out to Carawin Technologies. Our team has received your message and will connect with you within 1 business day.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => setIsSuccess(false)}
+                    className="btn-primary mt-6 text-xs"
+                  >
+                    Send Another Enquiry
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+                  {errorMessage && (
+                    <div className="flex items-center gap-2 rounded-xl border border-rose-500/20 bg-rose-500/10 p-3.5 text-xs font-bold text-rose-700">
+                      <AlertCircle size={15} className="shrink-0" />
+                      <span>{errorMessage}</span>
+                    </div>
+                  )}
+
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <label className="grid gap-1.5 text-xs font-bold uppercase tracking-wider text-[var(--muted)]">
+                      <span>Name *</span>
+                      <input
+                        type="text"
+                        required
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Your Full Name"
+                        className="h-12 rounded-xl border border-[var(--border)] bg-white px-4 text-sm text-[var(--foreground)] outline-none focus:border-[var(--crimson)]"
+                      />
+                    </label>
+
+                    <label className="grid gap-1.5 text-xs font-bold uppercase tracking-wider text-[var(--muted)]">
+                      <span>Organisation</span>
+                      <input
+                        type="text"
+                        value={organisation}
+                        onChange={(e) => setOrganisation(e.target.value)}
+                        placeholder="Company, Department or Institution"
+                        className="h-12 rounded-xl border border-[var(--border)] bg-white px-4 text-sm text-[var(--foreground)] outline-none focus:border-[var(--crimson)]"
+                      />
+                    </label>
+                  </div>
+
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <label className="grid gap-1.5 text-xs font-bold uppercase tracking-wider text-[var(--muted)]">
+                      <span>Designation</span>
+                      <input
+                        type="text"
+                        value={designation}
+                        onChange={(e) => setDesignation(e.target.value)}
+                        placeholder="e.g. Director, Principal, CTO"
+                        className="h-12 rounded-xl border border-[var(--border)] bg-white px-4 text-sm text-[var(--foreground)] outline-none focus:border-[var(--crimson)]"
+                      />
+                    </label>
+
+                    <label className="grid gap-1.5 text-xs font-bold uppercase tracking-wider text-[var(--muted)]">
+                      <span>Email *</span>
+                      <input
+                        type="email"
+                        required
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="name@organisation.com"
+                        className="h-12 rounded-xl border border-[var(--border)] bg-white px-4 text-sm text-[var(--foreground)] outline-none focus:border-[var(--crimson)]"
+                      />
+                    </label>
+                  </div>
+
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <label className="grid gap-1.5 text-xs font-bold uppercase tracking-wider text-[var(--muted)]">
+                      <span>Phone</span>
+                      <input
+                        type="tel"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        placeholder="+91 98765 43210"
+                        className="h-12 rounded-xl border border-[var(--border)] bg-white px-4 text-sm text-[var(--foreground)] outline-none focus:border-[var(--crimson)]"
+                      />
+                    </label>
+
+                    <label className="grid gap-1.5 text-xs font-bold uppercase tracking-wider text-[var(--muted)]">
+                      <span>Area of Interest</span>
+                      <select
+                        value={areaOfInterest}
+                        onChange={(e) => setAreaOfInterest(e.target.value)}
+                        className="h-12 rounded-xl border border-[var(--border)] bg-white px-4 text-sm text-[var(--foreground)] outline-none focus:border-[var(--crimson)]"
+                      >
+                        <option value="">Select an Area of Interest</option>
+                        {contactAreasOfInterest.map((opt) => (
+                          <option key={opt} value={opt}>
+                            {opt}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                  </div>
+
+                  <label className="grid gap-1.5 text-xs font-bold uppercase tracking-wider text-[var(--muted)]">
+                    <span>Tell us about your requirement *</span>
+                    <textarea
+                      required
+                      rows={5}
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      placeholder="Describe your current requirement, institution type, project scale or mandate..."
+                      className="resize-none rounded-xl border border-[var(--border)] bg-white p-4 text-sm text-[var(--foreground)] outline-none focus:border-[var(--crimson)]"
+                    />
+                  </label>
+
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="btn-primary w-full justify-center text-xs font-bold uppercase tracking-wider"
+                  >
+                    {isSubmitting ? "Sending Enquiry..." : "Send Enquiry"}
+                    <Send size={14} />
+                  </button>
+                </form>
+              )}
             </div>
           </div>
-
-        {/* Right Column: Interactive Form */}
-        <div className="rounded-3xl border border-[var(--border)] bg-white p-5 shadow-[0_20px_60px_rgba(0,33,71,.08)] sm:p-8 lg:p-10">
-          {isSuccess ? (
-            <div className="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-8 sm:p-10 text-center shadow-sm">
-              <div className="w-14 h-14 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mx-auto mb-4">
-                <CheckCircle2 className="w-8 h-8" />
-              </div>
-              <h2 className="text-2xl font-bold text-emerald-950 mb-2">
-                Enquiry Received
-              </h2>
-              <p className="text-sm text-emerald-800 max-w-md mx-auto leading-relaxed mb-6">
-                Thank you for reaching out to Carawin Technologies. Your message has been received and our team will get in touch with you within 1-2 business days.
-              </p>
-              <button
-                onClick={() => setIsSuccess(false)}
-                className="btn-primary"
-              >
-                Send Another Enquiry
-              </button>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="grid gap-4">
-              {errorMessage && (
-                <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-xs text-red-700 flex items-start gap-2">
-                  <AlertCircle className="w-4 h-4 text-red-600 shrink-0 mt-0.5" />
-                  <span>{errorMessage}</span>
-                </div>
-              )}
-
-              <div className="grid gap-4 sm:grid-cols-2">
-                <label className="grid gap-1.5 text-xs font-bold uppercase tracking-[.15em] text-[var(--muted)]">
-                  <span>Name <span className="text-red-500">*</span></span>
-                  <input
-                    type="text"
-                    required
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Your Full Name"
-                    className="h-12 rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 text-sm text-[var(--foreground)] outline-none focus:border-[var(--crimson)]"
-                  />
-                </label>
-                <label className="grid gap-1.5 text-xs font-bold uppercase tracking-[.15em] text-[var(--muted)]">
-                  <span>Organisation</span>
-                  <input
-                    type="text"
-                    value={organisation}
-                    onChange={(e) => setOrganisation(e.target.value)}
-                    placeholder="Institution or Department"
-                    className="h-12 rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 text-sm text-[var(--foreground)] outline-none focus:border-[var(--crimson)]"
-                  />
-                </label>
-              </div>
-
-              <div className="grid gap-4 sm:grid-cols-2">
-                <label className="grid gap-1.5 text-xs font-bold uppercase tracking-[.15em] text-[var(--muted)]">
-                  <span>Designation</span>
-                  <input
-                    type="text"
-                    value={designation}
-                    onChange={(e) => setDesignation(e.target.value)}
-                    placeholder="e.g. Principal, Director, CIO"
-                    className="h-12 rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 text-sm text-[var(--foreground)] outline-none focus:border-[var(--crimson)]"
-                  />
-                </label>
-                <label className="grid gap-1.5 text-xs font-bold uppercase tracking-[.15em] text-[var(--muted)]">
-                  <span>Email <span className="text-red-500">*</span></span>
-                  <input
-                    type="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="name@organisation.com"
-                    className="h-12 rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 text-sm text-[var(--foreground)] outline-none focus:border-[var(--crimson)]"
-                  />
-                </label>
-              </div>
-
-              <div className="grid gap-4 sm:grid-cols-2">
-                <label className="grid gap-1.5 text-xs font-bold uppercase tracking-[.15em] text-[var(--muted)]">
-                  <span>Phone</span>
-                  <input
-                    type="tel"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    placeholder="+91 98765 43210"
-                    className="h-12 rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 text-sm text-[var(--foreground)] outline-none focus:border-[var(--crimson)]"
-                  />
-                </label>
-                <label className="grid gap-1.5 text-xs font-bold uppercase tracking-[.15em] text-[var(--muted)]">
-                  <span>Location</span>
-                  <input
-                    type="text"
-                    value={location}
-                    onChange={(e) => setLocation(e.target.value)}
-                    placeholder="City, State / Country"
-                    className="h-12 rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 text-sm text-[var(--foreground)] outline-none focus:border-[var(--crimson)]"
-                  />
-                </label>
-              </div>
-
-              <label className="grid gap-1.5 text-xs font-bold uppercase tracking-[.15em] text-[var(--muted)]">
-                <span>Area of Interest</span>
-                <select
-                  value={areaOfInterest}
-                  onChange={(e) => setAreaOfInterest(e.target.value)}
-                  className="h-12 rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 text-sm text-[var(--foreground)] outline-none focus:border-[var(--crimson)]"
-                >
-                  <option value="">Select an Area of Interest</option>
-                  <option value="Smart Classrooms & Infrastructure">Smart Classrooms & Infrastructure</option>
-                  <option value="Adaptive AI & Pedagogical Tools">Adaptive AI & Pedagogical Tools</option>
-                  <option value="Institutional ERP & Cloud Platforms">Institutional ERP & Cloud Platforms</option>
-                  <option value="Automated Assessment & Exams">Automated Assessment & Exams</option>
-                  <option value="Government & Large-Scale Advisory">Government & Large-Scale Advisory</option>
-                  <option value="Partnership / Investment">Partnership / Investment</option>
-                  <option value="Other">Other Enquiry</option>
-                </select>
-              </label>
-
-              <label className="grid gap-1.5 text-xs font-bold uppercase tracking-[.15em] text-[var(--muted)]">
-                <span>Message <span className="text-red-500">*</span></span>
-                <textarea
-                  required
-                  rows={5}
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Describe your current requirements, timeline, or mandate..."
-                  className="resize-none rounded-xl border border-[var(--border)] bg-[var(--surface)] p-4 text-sm text-[var(--foreground)] outline-none focus:border-[var(--crimson)]"
-                />
-              </label>
-
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="btn-primary mt-2 flex w-full items-center justify-center gap-2 disabled:opacity-50 sm:w-fit"
-              >
-                {isSubmitting ? (
-                  <span>Submitting...</span>
-                ) : (
-                  <>
-                    <span>Start a conversation</span>
-                    <ArrowUpRight size={15} />
-                  </>
-                )}
-              </button>
-            </form>
-          )}
         </div>
-      </div>
-      </div>
-    </section>
+      </section>
+    </div>
   )
 }

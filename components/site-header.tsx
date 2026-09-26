@@ -13,25 +13,27 @@ import { Logo } from "@/components/logo"
 
 const menus = {
   Solutions: [
-    ["AICOS", "https://aicos.carawintech.com/"],
-    ["Career Intelligence", "https://career.carawintech.com/"],
-    ["AI & STEM Innovation", "/ai/stem"],
-    ["Education Infrastructure", "/solutions/smart-classroom"],
+    ["AI in Education", "/solutions/ai-in-education"],
+    ["Digital Public Infrastructure", "/solutions/digital-public-infrastructure"],
+    ["Skills & Training", "/solutions/skills-and-training"],
+    ["AI, Software & IoT Products", "/solutions/ai-software-iot"],
+    ["Consultancy & Advisory", "/solutions/consultancy-and-advisory"],
   ],
 
-  AI: [
-    ["AI Learning", "/ai/adapt"],
-    ["AI Teacher", "/ai/teach"],
-    ["AI Assessment", "/ai/assess"],
-    ["Career AI", "/ai/career"],
-    ["Institutional Intelligence", "/ai/insight"],
+  Sectors: [
+    ["K–12 Schools", "/sectors/k12-schools"],
+    ["Colleges & Universities", "/sectors/colleges-universities"],
+    ["Government & Public Education", "/government"],
+    ["CSR & Foundations", "/sectors/csr-foundations"],
+    ["Industry & Enterprise", "/sectors/industry-enterprise"],
   ],
 
-  "Who We Serve": [
-    ["Schools", "/institutions/future-ready-schools"],
-    ["Institutions", "/institutions"],
-    ["Governments", "/government"],
-    ["Students", "https://career.carawintech.com/"],
+  Impact: [
+    ["Our Impact", "/impact"],
+    ["Innovation", "/innovation"],
+    ["For Schools", "/schools"],
+    ["For Teachers", "/teachers"],
+    ["For CSR & Industry", "/csr"],
   ],
 } as const
 
@@ -39,8 +41,8 @@ type MenuKey = keyof typeof menus
 
 const menuLandingPages: Record<MenuKey, string> = {
   Solutions: "/solutions",
-  AI: "/ai",
-  "Who We Serve": "/institutions",
+  Sectors: "/sectors",
+  Impact: "/impact",
 }
 
 export function SiteHeader() {
@@ -190,62 +192,7 @@ export function SiteHeader() {
               lg:flex
             "
           >
-            {(Object.keys(menus) as MenuKey[]).map((menu) => (
-              <div
-                key={menu}
-                className="relative"
-                onMouseEnter={() => openMenu(menu)}
-                onMouseLeave={scheduleClose}
-              >
-                <button
-                  type="button"
-                  aria-expanded={open === menu}
-                  onFocus={() => openMenu(menu)}
-                  className="
-                    flex
-                    items-center
-                    gap-1
-                    whitespace-nowrap
-                    rounded-full
-                    px-2.5
-                    py-2
-                    text-[13px]
-                    font-semibold
-                    text-[var(--muted)]
-                    transition-all
-                    duration-200
-                    hover:bg-[var(--background)]
-                    hover:text-[var(--foreground)]
-                    xl:px-3
-                  "
-                >
-                  {menu}
-
-                  <ChevronDown
-                    size={13}
-                    className={`
-                      shrink-0
-                      text-[var(--muted)]
-                      transition-transform
-                      duration-200
-                      ${open === menu ? "rotate-180" : ""}
-                    `}
-                  />
-                </button>
-
-                {open === menu && (
-                  <MegaMenu
-                    menu={menu}
-                    items={menus[menu]}
-                    onEnter={cancelClose}
-                    onLeave={scheduleClose}
-                  />
-                )}
-              </div>
-            ))}
-
             {/* ABOUT */}
-
             <Link
               href="/about"
               className="
@@ -265,8 +212,200 @@ export function SiteHeader() {
               About
             </Link>
 
-            {/* CAREERS */}
+            {/* SOLUTIONS */}
+            <div
+              className="relative"
+              onMouseEnter={() => openMenu("Solutions")}
+              onMouseLeave={scheduleClose}
+            >
+              <button
+                type="button"
+                aria-expanded={open === "Solutions"}
+                onFocus={() => openMenu("Solutions")}
+                className="
+                  flex
+                  items-center
+                  gap-1
+                  whitespace-nowrap
+                  rounded-full
+                  px-2.5
+                  py-2
+                  text-[13px]
+                  font-semibold
+                  text-[var(--muted)]
+                  transition-all
+                  duration-200
+                  hover:bg-[var(--background)]
+                  hover:text-[var(--foreground)]
+                  xl:px-3
+                "
+              >
+                Solutions
+                <ChevronDown
+                  size={13}
+                  className={`
+                    shrink-0
+                    text-[var(--muted)]
+                    transition-transform
+                    duration-200
+                    ${open === "Solutions" ? "rotate-180" : ""}
+                  `}
+                />
+              </button>
 
+              {open === "Solutions" && (
+                <MegaMenu
+                  menu="Solutions"
+                  items={menus.Solutions}
+                  onEnter={cancelClose}
+                  onLeave={scheduleClose}
+                />
+              )}
+            </div>
+
+            {/* SECTORS */}
+            <div
+              className="relative"
+              onMouseEnter={() => openMenu("Sectors")}
+              onMouseLeave={scheduleClose}
+            >
+              <button
+                type="button"
+                aria-expanded={open === "Sectors"}
+                onFocus={() => openMenu("Sectors")}
+                className="
+                  flex
+                  items-center
+                  gap-1
+                  whitespace-nowrap
+                  rounded-full
+                  px-2.5
+                  py-2
+                  text-[13px]
+                  font-semibold
+                  text-[var(--muted)]
+                  transition-all
+                  duration-200
+                  hover:bg-[var(--background)]
+                  hover:text-[var(--foreground)]
+                  xl:px-3
+                "
+              >
+                Sectors
+                <ChevronDown
+                  size={13}
+                  className={`
+                    shrink-0
+                    text-[var(--muted)]
+                    transition-transform
+                    duration-200
+                    ${open === "Sectors" ? "rotate-180" : ""}
+                  `}
+                />
+              </button>
+
+              {open === "Sectors" && (
+                <MegaMenu
+                  menu="Sectors"
+                  items={menus.Sectors}
+                  onEnter={cancelClose}
+                  onLeave={scheduleClose}
+                />
+              )}
+            </div>
+
+            {/* CONSULTANCY */}
+            <Link
+              href="/consultancy"
+              className="
+                whitespace-nowrap
+                rounded-full
+                px-2.5
+                py-2
+                text-[13px]
+                font-semibold
+                text-[var(--muted)]
+                transition
+                hover:bg-[var(--background)]
+                hover:text-[var(--foreground)]
+                xl:px-3
+              "
+            >
+              Consultancy
+            </Link>
+
+            {/* IMPACT */}
+            <div
+              className="relative"
+              onMouseEnter={() => openMenu("Impact")}
+              onMouseLeave={scheduleClose}
+            >
+              <button
+                type="button"
+                aria-expanded={open === "Impact"}
+                onFocus={() => openMenu("Impact")}
+                className="
+                  flex
+                  items-center
+                  gap-1
+                  whitespace-nowrap
+                  rounded-full
+                  px-2.5
+                  py-2
+                  text-[13px]
+                  font-semibold
+                  text-[var(--muted)]
+                  transition-all
+                  duration-200
+                  hover:bg-[var(--background)]
+                  hover:text-[var(--foreground)]
+                  xl:px-3
+                "
+              >
+                Impact
+                <ChevronDown
+                  size={13}
+                  className={`
+                    shrink-0
+                    text-[var(--muted)]
+                    transition-transform
+                    duration-200
+                    ${open === "Impact" ? "rotate-180" : ""}
+                  `}
+                />
+              </button>
+
+              {open === "Impact" && (
+                <MegaMenu
+                  menu="Impact"
+                  items={menus.Impact}
+                  onEnter={cancelClose}
+                  onLeave={scheduleClose}
+                />
+              )}
+            </div>
+
+            {/* PARTNERS */}
+            <Link
+              href="/partners"
+              className="
+                whitespace-nowrap
+                rounded-full
+                px-2.5
+                py-2
+                text-[13px]
+                font-semibold
+                text-[var(--muted)]
+                transition
+                hover:bg-[var(--background)]
+                hover:text-[var(--foreground)]
+                xl:px-3
+              "
+            >
+              Partners
+            </Link>
+
+            {/* CAREERS */}
             <Link
               href="/careers"
               className="
@@ -287,7 +426,6 @@ export function SiteHeader() {
             </Link>
 
             {/* CONTACT */}
-
             <Link
               href="/contact"
               className="
@@ -320,10 +458,16 @@ export function SiteHeader() {
             "
           >
             <Link
+              href="/demo"
+              className="btn-secondary whitespace-nowrap"
+            >
+              Request a Demo
+            </Link>
+            <Link
               href="/contact"
               className="btn-primary whitespace-nowrap"
             >
-              Talk to Carawin
+              Talk to Us
               <ArrowUpRight size={15} />
             </Link>
           </div>
@@ -382,58 +526,86 @@ export function SiteHeader() {
               lg:hidden
             "
           >
-            {[...(Object.keys(menus) as string[]), "About", "Careers", "Contact"]
-              .map((item) => {
-                const href =
-                  item === "About"
-                    ? "/about"
-                    : item === "Careers"
-                      ? "/careers"
-                      : item === "Contact"
-                        ? "/contact"
-                        : menuLandingPages[item as MenuKey]
+            {[
+              "About",
+              "Solutions",
+              "Sectors",
+              "Consultancy",
+              "Impact",
+              "Partners",
+              "Careers",
+              "Contact",
+            ].map((item) => {
+              const href =
+                item === "About"
+                  ? "/about"
+                  : item === "Solutions"
+                    ? "/solutions"
+                    : item === "Sectors"
+                      ? "/sectors"
+                      : item === "Consultancy"
+                        ? "/consultancy"
+                        : item === "Impact"
+                          ? "/impact"
+                          : item === "Partners"
+                            ? "/partners"
+                            : item === "Careers"
+                              ? "/careers"
+                              : "/contact"
 
-                return (
-                  <Link
-                    key={item}
-                    href={href}
-                    {...(href.startsWith("http")
-                      ? { target: "_blank", rel: "noreferrer" }
-                      : {})}
-                    onClick={() => setMobile(false)}
-                    className="
-                      flex
-                      items-center
-                      justify-between
-                      border-b
-                      border-[var(--border)]
-                      py-4
-                      text-sm
-                      font-semibold
-                      text-[var(--foreground)]
-                      transition
-                      hover:text-[var(--crimson)]
-                    "
-                  >
-                    {item}
-                    <ArrowUpRight size={15} />
-                  </Link>
-                )
-              })}
+              return (
+                <Link
+                  key={item}
+                  href={href}
+                  {...(href.startsWith("http")
+                    ? { target: "_blank", rel: "noreferrer" }
+                    : {})}
+                  onClick={() => setMobile(false)}
+                  className="
+                    flex
+                    items-center
+                    justify-between
+                    border-b
+                    border-[var(--border)]
+                    py-4
+                    text-sm
+                    font-semibold
+                    text-[var(--foreground)]
+                    transition
+                    hover:text-[var(--crimson)]
+                  "
+                >
+                  {item}
+                  <ArrowUpRight size={15} />
+                </Link>
+              )
+            })}
 
-            <Link
-              href="/contact"
-              onClick={() => setMobile(false)}
-              className="
-                btn-primary
-                mt-4
-                w-full
-                justify-center
-              "
-            >
-              Talk to Carawin
-              <ArrowUpRight size={15} />
-            </Link>
+            <div className="mt-4 grid gap-2 sm:grid-cols-2">
+              <Link
+                href="/demo"
+                onClick={() => setMobile(false)}
+                className="
+                  btn-secondary
+                  w-full
+                  justify-center
+                "
+              >
+                Request a Demo
+              </Link>
+              <Link
+                href="/contact"
+                onClick={() => setMobile(false)}
+                className="
+                  btn-primary
+                  w-full
+                  justify-center
+                "
+              >
+                Talk to Us
+                <ArrowUpRight size={15} />
+              </Link>
+            </div>
           </div>
         )}
       </div>
@@ -572,11 +744,11 @@ function MegaMenu({
               hover:gap-3
             "
           >
-            {menu === "AI"
-              ? "View all AI solutions"
-              : menu === "Who We Serve"
-                ? "View who we serve"
-                : "View all solutions"}
+            {menu === "Solutions"
+              ? "View all solutions"
+              : menu === "Sectors"
+                ? "View all sectors"
+                : "View our impact"}
 
             <ArrowUpRight size={13} />
           </Link>

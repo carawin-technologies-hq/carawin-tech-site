@@ -31,11 +31,17 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
 
+    const trimmedDepartment = department.trim()
+
     const result = await query(
       `INSERT INTO jobs (title, department, location, experience_level, job_type, description, requirements, skills)
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
-      [title, department, location, experience_level, job_type, description || '', requirements || '', skills || '']
+      [title, trimmedDepartment, location, experience_level, job_type, description || '', requirements || '', skills || '']
     )
+
+    // Best-effort auto-register in departments table
+    query('INSERT INTO departments (name) VALUES ($1) ON CONFLICT (name) DO NOTHING', [trimmedDepartment]).catch(() => {})
+
     return NextResponse.json({ job: result.rows[0] }, { status: 201 })
   } catch (error: any) {
     console.error('Create job error:', error.message)

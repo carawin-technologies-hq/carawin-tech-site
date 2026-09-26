@@ -51,8 +51,15 @@ CREATE TABLE IF NOT EXISTS enquiries (
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+CREATE TABLE IF NOT EXISTS departments (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255) UNIQUE NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
 -- Indexes
 CREATE INDEX IF NOT EXISTS idx_jobs_active ON jobs(is_active);
 CREATE INDEX IF NOT EXISTS idx_applications_job ON applications(job_id);
 CREATE INDEX IF NOT EXISTS idx_applications_created ON applications(created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_enquiries_created ON enquiries(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_departments_name ON departments(name);

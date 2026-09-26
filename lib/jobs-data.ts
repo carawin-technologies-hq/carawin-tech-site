@@ -48,3 +48,14 @@ export interface Enquiry {
 
 export const fallbackEnquiries: Enquiry[] = []
 
+export const defaultDepartments: string[] = [
+  "Engineering",
+  "AI & Product",
+  "Education",
+  "Data & Research",
+  "Design",
+  "Implementation & Advisory",
+]
+
+export const fallbackDepartments: string[] = [...defaultDepartments]
+

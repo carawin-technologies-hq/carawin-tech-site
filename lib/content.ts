@@ -519,3 +519,91 @@ export function getSector(slug: string) {
   return sectors.find((s) => s.slug === slug)
 }
 
+export type CapabilityPillar = {
+  id: string
+  title: string
+  headline: string
+  description: string
+  items: string[]
+  relatedSectorSlugs: string[]
+}
+
+export const capabilityPillars: CapabilityPillar[] = [
+  {
+    id: "ai-education",
+    title: "AI in Education",
+    headline: "Intelligent Learning, Teaching & Institutional Analytics",
+    description: "Adaptive learning systems, teacher copilots, automated assessment, and language labs built for institutional scale.",
+    items: [
+      "Curriculum-aligned adaptive pathways",
+      "Teacher assistance for planning & differentiation",
+      "Multilingual Indian language speech interfaces",
+      "Continuous student engagement tracking",
+    ],
+    relatedSectorSlugs: ["education", "government"],
+  },
+  {
+    id: "dpi",
+    title: "Digital Public Infrastructure",
+    headline: "Connected Campuses, STEM & Innovation Labs",
+    description: "Hardware and digital infrastructure combining smart classrooms, virtual STEM, IoT and robotics labs.",
+    items: [
+      "Center of Excellence lab design",
+      "Embedded IoT sensor kits",
+      "Virtual physics, chemistry and engineering simulations",
+      "Digital campus network architecture",
+    ],
+    relatedSectorSlugs: ["education", "infrastructure"],
+  },
+  {
+    id: "skills-training",
+    title: "Skills & Training",
+    headline: "Human Capability Building for the Tech Economy",
+    description: "Equipping teachers, students, civil servants and industry workforces with future-ready digital competencies.",
+    items: [
+      "Teacher digital pedagogy and AI literacy",
+      "Hands-on IoT, robotics & coding workshops",
+      "Vocational skill missions & certifications",
+      "Executive digital transformation seminars",
+    ],
+    relatedSectorSlugs: ["education", "corporate"],
+  },
+  {
+    id: "industrial-iot",
+    title: "AI, Software & IoT Products",
+    headline: "Custom Enterprise Products Across Key Sectors",
+    description: "Custom software, IoT telemetry, process analytics and intelligent automation across real-world industries.",
+    items: [
+      "Power & energy telemetry systems",
+      "Steel & manufacturing process monitoring",
+      "Smart agriculture environmental sensing",
+      "Air & water quality monitoring dashboards",
+    ],
+    relatedSectorSlugs: ["corporate", "infrastructure"],
+  },
+]
+
+export type CapabilityMatrixRow = {
+  pillarId: string
+  groups: Record<PracticeGroupId, 0 | 1 | 2 | 3>
+}
+
+export const capabilityMatrix: CapabilityMatrixRow[] = [
+  {
+    pillarId: "ai-education",
+    groups: { government: 3, corporate: 1, digital: 3, infrastructure: 2 },
+  },
+  {
+    pillarId: "dpi",
+    groups: { government: 3, corporate: 2, digital: 2, infrastructure: 3 },
+  },
+  {
+    pillarId: "skills-training",
+    groups: { government: 3, corporate: 3, digital: 2, infrastructure: 1 },
+  },
+  {
+    pillarId: "industrial-iot",
+    groups: { government: 2, corporate: 3, digital: 3, infrastructure: 3 },
+  },
+]
+

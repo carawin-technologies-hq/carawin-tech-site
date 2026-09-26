@@ -31,7 +31,7 @@ import {
   Mail,
   Phone,
 } from "lucide-react"
-import type { Job, Application, Enquiry } from "@/lib/jobs-data"
+import { defaultDepartments, type Job, type Application, type Enquiry } from "@/lib/jobs-data"
 
 export default function AdminDashboardPage() {
   const router = useRouter()
@@ -56,6 +56,12 @@ export default function AdminDashboardPage() {
   const [viewingEnquiry, setViewingEnquiry] = useState<Enquiry | null>(null)
 
   // Form State for Create/Edit Job
+  const [departments, setDepartments] = useState<string[]>(defaultDepartments)
+  const [isAddingDept, setIsAddingDept] = useState(false)
+  const [newDeptName, setNewDeptName] = useState("")
+  const [newDeptLoading, setNewDeptLoading] = useState(false)
+  const [newDeptError, setNewDeptError] = useState<string | null>(null)
+
   const [jobTitle, setJobTitle] = useState("")
   const [jobDepartment, setJobDepartment] = useState("Engineering")
   const [jobLocation, setJobLocation] = useState("Remote")
@@ -79,10 +85,26 @@ export default function AdminDashboardPage() {
       }
 
       // Fetch admin jobs (includes inactive)
+      let loadedJobs: Job[] = []
       const jobsRes = await fetch("/api/admin/jobs")
       if (jobsRes.ok) {
         const jobsData = await jobsRes.json()
-        setJobs(jobsData.jobs || [])
+        loadedJobs = jobsData.jobs || []
+        setJobs(loadedJobs)
+      }
+
+      // Fetch dynamic departments
+      try {
+        const deptRes = await fetch("/api/departments")
+        if (deptRes.ok) {
+          const deptData = await deptRes.json()
+          const apiDepts: string[] = Array.isArray(deptData.departments) ? deptData.departments : []
+          const jobDepts: string[] = loadedJobs.map((j) => j.department).filter(Boolean)
+          const merged = Array.from(new Set([...defaultDepartments, ...apiDepts, ...jobDepts]))
+          setDepartments(merged)
+        }
+      } catch (deptErr) {
+        console.warn("Failed to fetch departments:", deptErr)
       }
 
       // Fetch applications
@@ -123,7 +145,7 @@ export default function AdminDashboardPage() {
   const openCreateJobModal = () => {
     setEditingJob(null)
     setJobTitle("")
-    setJobDepartment("Engineering")
+    setJobDepartment(departments[0] || "Engineering")
     setJobLocation("Remote")
     setJobExpLevel("Professional")
     setJobType("Full-Time")
@@ -131,6 +153,9 @@ export default function AdminDashboardPage() {
     setJobRequirements("")
     setJobSkills("")
     setModalError(null)
+    setIsAddingDept(false)
+    setNewDeptName("")
+    setNewDeptError(null)
     setIsJobModalOpen(true)
   }
 
@@ -138,6 +163,9 @@ export default function AdminDashboardPage() {
   const openEditJobModal = (job: Job) => {
     setEditingJob(job)
     setJobTitle(job.title)
+    if (job.department && !departments.some((d) => d.toLowerCase() === job.department.toLowerCase())) {
+      setDepartments((prev) => [...prev, job.department])
+    }
     setJobDepartment(job.department)
     setJobLocation(job.location)
     setJobExpLevel(job.experience_level)
@@ -146,7 +174,70 @@ export default function AdminDashboardPage() {
     setJobRequirements(job.requirements)
     setJobSkills(job.skills || "")
     setModalError(null)
+    setIsAddingDept(false)
+    setNewDeptName("")
+    setNewDeptError(null)
     setIsJobModalOpen(true)
+  }
+
+  // Handle Create Custom Department
+  const handleCreateDepartment = async () => {
+    const trimmed = newDeptName.trim()
+    if (!trimmed) {
+      setNewDeptError("Please enter a department name.")
+      return
+    }
+    if (trimmed.length < 2) {
+      setNewDeptError("Department name must be at least 2 characters.")
+      return
+    }
+    if (trimmed.length > 100) {
+      setNewDeptError("Department name must be 100 characters or fewer.")
+      return
+    }
+
+    // Check duplicate in local list (case-insensitive)
+    const existing = departments.find(
+      (d) => d.toLowerCase() === trimmed.toLowerCase()
+    )
+    if (existing) {
+      setJobDepartment(existing)
+      setIsAddingDept(false)
+      setNewDeptName("")
+      setNewDeptError(null)
+      return
+    }
+
+    setNewDeptLoading(true)
+    setNewDeptError(null)
+
+    try {
+      const res = await fetch("/api/departments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: trimmed }),
+      })
+
+      const data = await res.json()
+      if (!res.ok && res.status !== 409) {
+        throw new Error(data.error || "Failed to create department.")
+      }
+
+      const finalName = data.department || trimmed
+
+      setDepartments((prev) => {
+        if (prev.some((d) => d.toLowerCase() === finalName.toLowerCase())) return prev
+        return [...prev, finalName]
+      })
+      setJobDepartment(finalName)
+      setIsAddingDept(false)
+      setNewDeptName("")
+      setNewDeptError(null)
+    } catch (err: any) {
+      setNewDeptError(err.message || "Failed to add department.")
+    } finally {
+      setNewDeptLoading(false)
+    }
   }
 
   // Submit Create or Edit Job
@@ -909,21 +1000,98 @@ export default function AdminDashboardPage() {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
-                    Department
-                  </label>
-                  <select
-                    value={jobDepartment}
-                    onChange={(e) => setJobDepartment(e.target.value)}
-                    className="w-full text-sm bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-slate-800 focus:outline-none focus:border-[#002147]"
-                  >
-                    <option value="Engineering">Engineering</option>
-                    <option value="AI & Product">AI & Product</option>
-                    <option value="Education">Education</option>
-                    <option value="Data & Research">Data & Research</option>
-                    <option value="Design">Design</option>
-                    <option value="Implementation & Advisory">Implementation & Advisory</option>
-                  </select>
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                      Department <span className="text-red-500">*</span>
+                    </label>
+                    {!isAddingDept && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIsAddingDept(true)
+                          setNewDeptName("")
+                          setNewDeptError(null)
+                        }}
+                        className="text-[11px] font-semibold text-[#002147] hover:text-[#B5122B] flex items-center gap-1 transition-colors"
+                        title="Add custom department"
+                      >
+                        <Plus className="w-3.5 h-3.5" />
+                        <span>Add Custom</span>
+                      </button>
+                    )}
+                  </div>
+
+                  {isAddingDept ? (
+                    <div className="bg-slate-100 p-2.5 rounded-lg border border-slate-200 space-y-1.5">
+                      <div className="flex items-center gap-1.5">
+                        <input
+                          type="text"
+                          value={newDeptName}
+                          onChange={(e) => {
+                            setNewDeptName(e.target.value)
+                            if (newDeptError) setNewDeptError(null)
+                          }}
+                          placeholder="e.g. AI Research, DevOps..."
+                          className="flex-1 min-w-0 text-sm bg-white border border-slate-300 rounded px-2.5 py-1.5 text-slate-800 focus:outline-none focus:border-[#002147]"
+                          autoFocus
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                              e.preventDefault()
+                              handleCreateDepartment()
+                            } else if (e.key === "Escape") {
+                              setIsAddingDept(false)
+                              setNewDeptError(null)
+                            }
+                          }}
+                        />
+                        <button
+                          type="button"
+                          disabled={newDeptLoading}
+                          onClick={handleCreateDepartment}
+                          className="bg-[#002147] text-white hover:bg-[#001733] text-xs font-semibold px-2.5 py-1.5 rounded transition-colors shrink-0 disabled:opacity-50"
+                        >
+                          {newDeptLoading ? "Adding..." : "Add"}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setIsAddingDept(false)
+                            setNewDeptError(null)
+                          }}
+                          className="text-slate-500 hover:text-slate-700 p-1 rounded hover:bg-slate-200 transition-colors shrink-0"
+                          title="Cancel"
+                        >
+                          <X className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                      {newDeptError && (
+                        <p className="text-[11px] text-red-600 font-medium">{newDeptError}</p>
+                      )}
+                    </div>
+                  ) : (
+                    <select
+                      value={jobDepartment}
+                      onChange={(e) => {
+                        if (e.target.value === "__add_new__") {
+                          setIsAddingDept(true)
+                          setNewDeptName("")
+                          setNewDeptError(null)
+                        } else {
+                          setJobDepartment(e.target.value)
+                        }
+                      }}
+                      className="w-full text-sm bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-slate-800 focus:outline-none focus:border-[#002147]"
+                    >
+                      {departments.map((dept) => (
+                        <option key={dept} value={dept}>
+                          {dept}
+                        </option>
+                      ))}
+                      <option value="__add_new__" className="font-semibold text-[#002147]">
+                        + Add New Department...
+                      </option>
+                    </select>
+                  )}
                 </div>
 
                 <div>

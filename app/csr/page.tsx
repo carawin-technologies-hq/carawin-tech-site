@@ -1,87 +1,84 @@
 import Link from "next/link"
 import { ArrowUpRight } from "lucide-react"
-import { governmentData } from "@/lib/carawin-content"
+import { csrData } from "@/lib/carawin-content"
 
 export const metadata = {
-  title: "Government Programmes | Carawin Technologies",
+  title: "CSR & Industry | Carawin Technologies",
   description:
-    "Technology-Enabled Public Impact: Scalable AI education, Digital Public Infrastructure, STEM & Robotics Labs and statewide capacity building.",
+    "Turn Technology Investment Into Human Capital. Measurable, high-impact education programmes across AI, STEM, Robotics, and Digital Literacy.",
 }
 
-export default function GovernmentPage() {
+export default function CSRPage() {
   return (
     <div className="bg-[var(--background)] text-[var(--foreground)]">
       {/* Header */}
       <section className="relative overflow-hidden border-b border-[var(--border)] bg-[#f5f8fb] py-24 sm:py-32">
         <div className="container-x max-w-4xl">
-          <p className="kicker text-[var(--crimson)]">FOR STATE & NATIONAL BODIES</p>
+          <p className="kicker text-[var(--crimson)]">MEASURABLE SOCIAL IMPACT</p>
           <h1 className="mt-4 text-4xl font-black leading-[.95] tracking-[-.055em] text-[var(--navy)] sm:text-6xl lg:text-7xl">
-            {governmentData.headline}
+            {csrData.headline}
           </h1>
           <p className="mt-7 text-lg leading-relaxed text-[var(--muted)] sm:text-xl">
-            {governmentData.sub}
+            {csrData.sub}
           </p>
 
           <div className="mt-9 flex flex-wrap gap-4">
-            <Link href="/contact?sector=Government" className="btn-primary">
-              Discuss Government Programme
+            <Link href="/contact?interest=CSR%20Programme" className="btn-primary">
+              Partner on CSR Programme
               <ArrowUpRight size={16} />
             </Link>
-            <Link href="/demo" className="btn-secondary">
-              Request Public Sector Demo
+            <Link href="/impact" className="btn-secondary">
+              View Impact Framework
               <ArrowUpRight size={16} />
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Focus Areas */}
+      {/* 9 Support Areas */}
       <section className="border-b border-[var(--border)] bg-white py-24 sm:py-32">
         <div className="container-x">
           <div className="max-w-2xl">
-            <p className="kicker text-[var(--crimson)]">MANDATES & CAPABILITIES</p>
+            <p className="kicker text-[var(--crimson)]">PROGRAMME MANDATES</p>
             <h2 className="mt-3 text-3xl font-black tracking-tight text-[var(--navy)] sm:text-4xl">
-              Key Government Focus Areas
+              CSR & Industry Partners Can Support:
             </h2>
           </div>
 
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {governmentData.focusAreas.map((area, idx) => (
+            {csrData.focusAreas.map((area, idx) => (
               <div
                 key={area}
-                className="flex items-center gap-4 rounded-xl border border-[var(--border)] bg-[#fafbfc] p-5 shadow-2xs transition hover:border-[var(--crimson)]/40 hover:bg-white"
+                className="flex items-center gap-4 rounded-xl border border-[var(--border)] bg-[#fafbfc] p-6 shadow-2xs transition hover:border-[var(--crimson)]/40 hover:bg-white"
               >
                 <span className="font-mono text-xs font-bold text-[var(--crimson)]">
                   {String(idx + 1).padStart(2, "0")}
                 </span>
-                <span className="text-sm font-black text-[var(--navy)]">
+                <span className="text-base font-black text-[var(--navy)]">
                   {area}
                 </span>
               </div>
             ))}
           </div>
 
-          {/* Implementation Model */}
+          {/* CSR Impact Cycle */}
           <div className="mt-16 rounded-[28px] border border-[var(--navy)] bg-[var(--navy)] p-8 text-white shadow-xl sm:p-14">
             <p className="font-mono text-xs font-bold uppercase tracking-[.22em] text-[#ff7185]">
-              {governmentData.implementationModel.title}
+              {csrData.journey.title}
             </p>
             <h3 className="mt-3 text-2xl font-black text-white sm:text-4xl">
-              From Diagnostic Assessment to Sustainable Statewide Scale
+              End-to-End Governance, Deployment and Outcome Verification
             </h3>
 
-            <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-              {governmentData.implementationModel.steps.map((st, i) => (
-                <div
-                  key={st}
-                  className="rounded-xl border border-white/10 bg-white/5 p-5 text-center"
-                >
-                  <span className="font-mono text-xs font-bold text-[#ff7185]">
-                    0{i + 1}
-                  </span>
-                  <p className="mt-2 font-mono text-sm font-bold tracking-wider text-white">
+            <div className="mt-10 flex flex-wrap items-center gap-3">
+              {csrData.journey.steps.map((st, i) => (
+                <div key={st} className="flex items-center gap-3">
+                  <span className="rounded-xl border border-white/20 bg-white/10 px-4 py-2.5 font-mono text-xs font-bold text-white sm:text-sm">
                     {st}
-                  </p>
+                  </span>
+                  {i < csrData.journey.steps.length - 1 && (
+                    <span className="text-[#ff7185] font-bold text-base">→</span>
+                  )}
                 </div>
               ))}
             </div>
@@ -90,14 +87,14 @@ export default function GovernmentPage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-[#f8fafc] py-20">
-        <div className="container-x text-center">
+      <section className="bg-[#f8fafc] py-20 text-center">
+        <div className="container-x">
           <h2 className="text-3xl font-black tracking-tight text-[var(--navy)] sm:text-4xl">
-            Transforming education at institutional and public scale.
+            Design an audited, high-impact CSR technology initiative.
           </h2>
           <div className="mt-8 flex justify-center gap-4">
             <Link href="/contact" className="btn-primary">
-              Connect With Our Advisory Board
+              Connect With Our CSR Advisory Team
               <ArrowUpRight size={16} />
             </Link>
           </div>
