@@ -3,37 +3,27 @@
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { ArrowUpRight, Mail, MapPin } from "lucide-react"
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Mail,
+  MapPin,
+  Globe,
+} from "lucide-react"
 
-const solutionsList = [
-  ["AI in Education", "/solutions/ai-in-education"],
-  ["Digital Public Infrastructure", "/solutions/digital-public-infrastructure"],
-  ["Skills & Training", "/solutions/skills-and-training"],
-  ["AI, Software & IoT Products", "/solutions/ai-software-iot"],
-  ["Consultancy & Advisory", "/consultancy"],
+const companyLinks = [
+  { label: "About Us", href: "/about" },
+  { label: "Solutions", href: "/solutions" },
+  { label: "Products & Labs", href: "/solutions/ai-software-iot" },
+  { label: "Skills & Training", href: "/solutions/skills-and-training" },
+  { label: "Advisory & Consulting", href: "/consultancy" },
+  { label: "Product Development", href: "/capabilities" },
 ]
 
-const sectorsList = [
-  ["Education", "/schools"],
-  ["Government", "/government"],
-  ["Power & Energy", "/sectors"],
-  ["Steel & Manufacturing", "/sectors"],
-  ["Agriculture", "/sectors"],
-  ["Water", "/sectors"],
-  ["Air & Environment", "/sectors"],
-  ["Infrastructure", "/sectors"],
-  ["CSR", "/csr"],
-  ["Workforce & Skills", "/solutions/skills-and-training"],
-]
-
-const companyList = [
-  ["About", "/about"],
-  ["Our Approach", "/approach"],
-  ["Impact", "/impact"],
-  ["Innovation", "/innovation"],
-  ["Partners", "/partners"],
-  ["Careers", "/careers"],
-  ["Contact", "/contact"],
+const connectLinks = [
+  { label: "Partnerships", href: "/partners" },
+  { label: "Careers", href: "/careers" },
+  { label: "Contact", href: "/contact" },
 ]
 
 export function SiteFooter() {
@@ -43,182 +33,198 @@ export function SiteFooter() {
   }
 
   return (
-    <footer className="relative z-10 border-t border-[var(--border)] bg-[var(--navy)] text-white">
-      {/* Top CTA Bar */}
-      <div className="border-b border-white/10 bg-black/20">
-        <div className="container-x flex flex-wrap items-center justify-between gap-4 py-6">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-[.2em] text-[#ff7185]">
-              BUILDING THE TECHNOLOGY ECOSYSTEM FOR THE FUTURE
-            </p>
-            <p className="mt-1 text-sm text-white/70">
-              Ready to explore what technology can do for your organisation?
-            </p>
-          </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <Link
-              href="/demo"
-              className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-bold text-white transition hover:bg-white hover:text-[var(--navy)]"
-            >
-              Request a Demo
-              <ArrowUpRight size={13} />
-            </Link>
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-1.5 rounded-full bg-[var(--crimson)] px-4 py-2 text-xs font-bold text-white transition hover:bg-[#d41836]"
-            >
-              Talk to Us
-              <ArrowUpRight size={13} />
-            </Link>
-            <Link
-              href="/partners"
-              className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-transparent px-4 py-2 text-xs font-bold text-white/80 transition hover:border-white hover:text-white"
-            >
-              Partner With Us
-              <ArrowUpRight size={13} />
-            </Link>
+    <footer className="relative z-10 bg-[#030d1d] text-white">
+      {/* ========================================================
+          TOP CTA SECTION (Matching User's Screenshot)
+          ======================================================== */}
+      <div className="border-t border-b border-white/10 bg-[#030d1d] py-14 sm:py-16 lg:py-20">
+        <div className="container-x">
+          <div className="flex flex-col justify-between gap-8 lg:flex-row lg:items-center">
+            {/* Left Content */}
+            <div className="max-w-2xl">
+              <span className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[#e11d48]">
+                HAVE AN IDEA?
+              </span>
+
+              <h2 className="mt-3 text-3xl font-black tracking-tight text-white sm:text-4xl lg:text-5xl">
+                LET&apos;S BUILD WHAT&apos;S NEXT.
+              </h2>
+
+              <p className="mt-4 text-xs sm:text-sm font-medium leading-relaxed text-slate-300">
+                Build a product • Deploy AI • Transform an organization • Establish a technology lab • Implement a large-scale programme
+              </p>
+            </div>
+
+            {/* Right Action Button & Ethos */}
+            <div className="flex flex-col items-start gap-4 lg:items-end">
+              <div className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-slate-300">
+                <span>IDEA</span>
+                <span className="mx-2 text-[#e11d48]">→</span>
+                <span>INNOVATION</span>
+                <span className="mx-2 text-[#e11d48]">→</span>
+                <span>IMPACT</span>
+              </div>
+
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-2 rounded-full bg-[#e11d48] px-8 py-4 text-xs font-black uppercase tracking-wider text-white shadow-[0_0_30px_rgba(225,29,72,0.5)] transition-all duration-300 hover:bg-[#be123c] hover:shadow-[0_0_40px_rgba(225,29,72,0.8)] sm:text-sm whitespace-nowrap"
+              >
+                START A CONVERSATION
+                <ArrowRight size={16} />
+              </Link>
+            </div>
           </div>
         </div>
       </div>
 
+      {/* ========================================================
+          MAIN FOOTER COLUMNS (Matching User's Screenshot)
+          ======================================================== */}
       <div className="container-x py-16 sm:py-20">
-        <div className="grid gap-12 lg:grid-cols-[1.1fr_2.1fr_0.8fr]">
-          {/* Brand */}
-          <div>
+        <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
+          {/* Column 1: Brand (4 cols) */}
+          <div className="lg:col-span-4">
             <Link
               href="/"
               aria-label="Carawin Technologies home"
-              className="inline-flex items-center"
+              className="inline-flex items-center gap-3"
             >
               <Image
                 src="/images/carawin_logo_white.png"
                 alt="Carawin Technologies"
                 width={596}
                 height={238}
-                className="h-auto w-[190px] object-contain object-left sm:w-[210px]"
+                className="h-auto w-[180px] sm:w-[200px] object-contain object-left"
                 priority={false}
               />
             </Link>
 
-            <div className="mt-6 space-y-2">
-              <p className="font-mono text-xs font-bold uppercase tracking-[.18em] text-[#ff7185]">
-                INTELLIGENCE. EXPERIENCE. INNOVATION.
-              </p>
-              <p className="text-sm font-medium text-white/90">
-                AI for Learning.
-                <br />
-                Technology for Innovation.
-                <br />
-                Skills for the Future.
-              </p>
-              <p className="pt-2 text-xs leading-6 text-white/60">
-                Carawin Technologies builds AI-powered, technology-enabled ecosystems for education, institutions, governments and industries.
-              </p>
-            </div>
+            <p className="mt-6 font-mono text-xs font-bold uppercase tracking-wider text-white">
+              BUILDING INTELLIGENT TECHNOLOGY FOR THE REAL WORLD.
+            </p>
 
-            <Link
-              href="/contact"
-              className="mt-7 inline-flex min-h-[46px] items-center gap-2 rounded-full bg-[var(--crimson)] px-5 text-xs font-bold uppercase tracking-wider text-white transition hover:bg-[#d41836]"
-            >
-              Start a Conversation
-              <ArrowUpRight size={14} />
-            </Link>
+            <p className="mt-3 text-xs leading-relaxed text-slate-400">
+              AI • EdTech • Robotics • IoT • Product Development • Digital Transformation
+            </p>
           </div>
 
-          {/* Navigation Links */}
-          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
-            {/* Solutions */}
-            <div>
-              <h3 className="kicker text-white/45">Solutions</h3>
-              <div className="mt-5 space-y-2.5">
-                {solutionsList.map(([label, href]) => (
+          {/* Column 2: Company (3 cols) */}
+          <div className="lg:col-span-3 lg:pl-6">
+            <h3 className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-white">
+              COMPANY
+            </h3>
+            <ul className="mt-5 space-y-3">
+              {companyLinks.map((link) => (
+                <li key={link.label}>
                   <Link
-                    key={href}
-                    href={href}
-                    className="block text-xs font-medium text-white/70 transition hover:text-white"
+                    href={link.href}
+                    className="text-xs sm:text-sm text-slate-300 transition-colors hover:text-[#e11d48]"
                   >
-                    {label}
+                    {link.label}
                   </Link>
-                ))}
-              </div>
-            </div>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-            {/* Sectors */}
-            <div>
-              <h3 className="kicker text-white/45">Sectors</h3>
-              <div className="mt-5 space-y-2.5">
-                {sectorsList.map(([label, href]) => (
+          {/* Column 3: Connect (2 cols) */}
+          <div className="lg:col-span-2">
+            <h3 className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-white">
+              CONNECT
+            </h3>
+            <ul className="mt-5 space-y-3">
+              {connectLinks.map((link) => (
+                <li key={link.label}>
                   <Link
-                    key={label}
-                    href={href}
-                    className="block text-xs font-medium text-white/70 transition hover:text-white"
+                    href={link.href}
+                    className="text-xs sm:text-sm text-slate-300 transition-colors hover:text-[#e11d48]"
                   >
-                    {label}
+                    {link.label}
                   </Link>
-                ))}
-              </div>
-            </div>
+                </li>
+              ))}
+            </ul>
 
-            {/* Company */}
-            <div>
-              <h3 className="kicker text-white/45">Company</h3>
-              <div className="mt-5 space-y-2.5">
-                {companyList.map(([label, href]) => (
-                  <Link
-                    key={href}
-                    href={href}
-                    className="block text-xs font-medium text-white/70 transition hover:text-white"
-                  >
-                    {label}
-                  </Link>
-                ))}
-              </div>
+            {/* Social Icons */}
+            <div className="mt-6 flex items-center gap-3">
+              <a
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="LinkedIn"
+                className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/10 text-slate-300 transition-colors hover:bg-[#e11d48] hover:text-white"
+              >
+                <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
+                  <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.62 1.62 0 0 0-1.63 1.63c0 .9.73 1.63 1.63 1.63s1.63-.73 1.63-1.63c0-.9-.73-1.63-1.63-1.63Z" />
+                </svg>
+              </a>
+              <a
+                href="https://youtube.com"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="YouTube"
+                className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/10 text-slate-300 transition-colors hover:bg-[#e11d48] hover:text-white"
+              >
+                <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
+                  <path d="M21.58 7.19a2.76 2.76 0 0 0-1.94-1.95C17.93 4.75 12 4.75 12 4.75s-5.93 0-7.64.49A2.76 2.76 0 0 0 2.42 7.19 28.78 28.78 0 0 0 2 12a28.78 28.78 0 0 0 .42 4.81 2.76 2.76 0 0 0 1.94 1.95c1.71.49 7.64.49 7.64.49s5.93 0 7.64-.49a2.76 2.76 0 0 0 1.94-1.95c.34-1.57.42-3.19.42-4.81s-.08-3.24-.42-4.81ZM10 15.5V8.5l6 3.5-6 3.5Z" />
+                </svg>
+              </a>
             </div>
           </div>
 
-          {/* Registered Office */}
-          <div>
-            <h3 className="kicker text-white/45">Registered Office</h3>
-            <div className="mt-5 space-y-4 text-xs leading-6 text-white/65">
-              <p className="flex gap-2.5">
-                <MapPin size={16} className="mt-0.5 shrink-0 text-[var(--crimson)]" />
-                <span>
-                  22-A, 2nd Floor, Asaf Ali Road,
-                  <br />
-                  Ajmeri Gate Extension,
-                  <br />
-                  New Delhi – 110002, India
-                </span>
-              </p>
+          {/* Column 4: Contact (3 cols) */}
+          <div className="lg:col-span-3">
+            <h3 className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-white">
+              CONTACT
+            </h3>
+            <div className="mt-5 space-y-3 text-xs sm:text-sm text-slate-300">
+              <div className="flex items-start gap-2.5">
+                <MapPin size={16} className="mt-0.5 shrink-0 text-[#e11d48]" />
+                <span>Jasola, New Delhi, India</span>
+              </div>
 
-              <p className="flex gap-2.5">
-                <Mail size={16} className="mt-0.5 shrink-0 text-[var(--crimson)]" />
-                <span>
-                  <a
-                    href="mailto:contact@carawintech.com"
-                    className="transition hover:text-white"
-                  >
-                    contact@carawintech.com
-                  </a>
-                </span>
-              </p>
+              <div className="flex items-center gap-2.5">
+                <Mail size={16} className="shrink-0 text-[#e11d48]" />
+                <a
+                  href="mailto:info@carawintech.com"
+                  className="transition-colors hover:text-[#e11d48]"
+                >
+                  info@carawintech.com
+                </a>
+              </div>
+
+              <div className="flex items-center gap-2.5">
+                <Globe size={16} className="shrink-0 text-[#e11d48]" />
+                <a
+                  href="https://carawintech.com"
+                  className="transition-colors hover:text-[#e11d48]"
+                >
+                  carawintech.com
+                </a>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 text-xs text-white/50 sm:flex-row">
-          <p>© {new Date().getFullYear()} Carawin Technologies Pvt. Ltd. All rights reserved.</p>
-          <div className="flex flex-wrap items-center gap-6">
-            <Link href="/privacy" className="transition hover:text-white">
+        {/* ========================================================
+            BOTTOM LEGAL & ETHOS BAR (Matching User's Screenshot)
+            ======================================================== */}
+        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 text-xs text-slate-400 sm:flex-row">
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6">
+            <p>© {new Date().getFullYear()} Carawin Technologies Pvt. Ltd. All Rights Reserved.</p>
+            <Link href="/privacy" className="transition-colors hover:text-white">
               Privacy Policy
             </Link>
-            <Link href="/terms" className="transition hover:text-white">
+            <Link href="/terms" className="transition-colors hover:text-white">
               Terms of Service
             </Link>
-            <Link href="/responsible-ai" className="transition hover:text-white">
+            <Link href="/responsible-ai" className="transition-colors hover:text-white">
               Responsible AI
             </Link>
+          </div>
+
+          <div className="font-mono text-[11px] font-bold uppercase tracking-wider text-slate-400">
+            IDEA • INNOVATION • IMPACT
           </div>
         </div>
       </div>
