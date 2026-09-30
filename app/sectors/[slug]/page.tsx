@@ -13,14 +13,13 @@ export function generateStaticParams() {
     }))
 }
 
-export default async function Page({
-    params,
-}: {
-    params: Promise<{ slug: string }>
+export default async function Page(props: {
+    params: Promise<{ slug: string }> | { slug: string }
 }) {
-    const { slug } = await params
+    const resolvedParams = await Promise.resolve(props.params)
+    const slug = resolvedParams?.slug
 
-    if (!sectors.includes(slug)) {
+    if (!slug || !sectors.includes(slug)) {
         notFound()
     }
 

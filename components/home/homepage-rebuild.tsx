@@ -10,71 +10,11 @@ import {
   Hexagon,
   Lightbulb,
   Zap,
-  GraduationCap,
-  Database,
-  Bot,
-  Cloud,
-  Wifi,
-  Factory,
-  Sprout,
 } from "lucide-react"
 import { solutionVerticals, whyCarawinData, carawinApproach } from "@/lib/carawin-content"
 
 export function HomepageRebuild() {
-  const [activeOrbitNode, setActiveOrbitNode] = useState<string | null>(null)
   const [activeTechNode, setActiveTechNode] = useState<string>("robotics")
-
-  const orbitNodes = [
-    {
-      id: "education",
-      label: "EDUCATION",
-      icon: GraduationCap,
-      color: "#f43f5e",
-      style: { top: "6%", left: "50%", transform: "translate(-50%, -50%)" },
-    },
-    {
-      id: "data",
-      label: "DATA",
-      icon: Database,
-      color: "#38bdf8",
-      style: { top: "22%", left: "18%", transform: "translate(-50%, -50%)" },
-    },
-    {
-      id: "robotics",
-      label: "ROBOTICS",
-      icon: Bot,
-      color: "#22d3ee",
-      style: { top: "22%", left: "82%", transform: "translate(-50%, -50%)" },
-    },
-    {
-      id: "cloud",
-      label: "CLOUD",
-      icon: Cloud,
-      color: "#0284c7",
-      style: { top: "50%", left: "9%", transform: "translate(-50%, -50%)" },
-    },
-    {
-      id: "iot",
-      label: "IOT",
-      icon: Wifi,
-      color: "#10b981",
-      style: { top: "50%", left: "91%", transform: "translate(-50%, -50%)" },
-    },
-    {
-      id: "industry",
-      label: "INDUSTRY",
-      icon: Factory,
-      color: "#eab308",
-      style: { top: "80%", left: "22%", transform: "translate(-50%, -50%)" },
-    },
-    {
-      id: "agriculture",
-      label: "AGRICULTURE",
-      icon: Sprout,
-      color: "#22c55e",
-      style: { top: "78%", left: "80%", transform: "translate(-50%, -50%)" },
-    },
-  ]
 
   const stats = [
     { value: "9+", label: "YEARS OF EXPERIENCE", highlight: false },
@@ -278,68 +218,20 @@ export function HomepageRebuild() {
               </div>
             </div>
 
-            {/* Right Visual Column: Orbital System Node Graphic (5 cols) */}
+            {/* Right Visual Column: AI Globe Ecosystem Visual (5 cols) */}
             <div className="lg:col-span-5">
-              <div className="relative mx-auto aspect-square w-full max-w-[440px] select-none sm:max-w-[490px]">
-                {/* Concentric Orbit Rings */}
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  {/* Outer Orbit */}
-                  <div className="h-[92%] w-[92%] rounded-full border border-[#1e4976]/35" />
-                  {/* Middle Orbit */}
-                  <div className="absolute h-[68%] w-[68%] rounded-full border border-[#1e4976]/45" />
-                  {/* Inner Orbit */}
-                  <div className="absolute h-[44%] w-[44%] rounded-full border border-[#1e4976]/30" />
-                </div>
-
-                {/* Center Core Node */}
-                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
-                  <div className="relative flex h-28 w-28 sm:h-34 sm:w-34 flex-col items-center justify-center rounded-full bg-gradient-to-br from-[#c81e3a] via-[#881337] to-[#4c0519] border-2 border-[#fb7185]/70 shadow-[0_0_55px_rgba(225,29,72,0.65),inset_0_0_20px_rgba(255,255,255,0.25)] transition-transform duration-300 hover:scale-105">
-                    <div className="absolute -inset-2 rounded-full border border-[#e11d48]/40 animate-ping opacity-20 pointer-events-none" />
-                    <span className="text-2xl sm:text-3xl font-black tracking-tight text-white">
-                      AI
-                    </span>
-                    <span className="font-mono text-[8px] sm:text-[9px] font-bold uppercase tracking-[0.22em] text-rose-200 mt-0.5">
-                      CORE NODE
-                    </span>
-                  </div>
-                </div>
-
-                {/* Orbiting Satellite Nodes */}
-                {orbitNodes.map((node) => {
-                  const Icon = node.icon
-                  const isActive = activeOrbitNode === node.id
-
-                  return (
-                    <div
-                      key={node.id}
-                      style={node.style}
-                      onMouseEnter={() => setActiveOrbitNode(node.id)}
-                      onMouseLeave={() => setActiveOrbitNode(null)}
-                      className="absolute z-20 flex flex-col items-center cursor-pointer transition-transform duration-300 hover:scale-110"
-                    >
-                      <div
-                        className={`flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full border bg-[#061833]/90 backdrop-blur-md shadow-lg transition-all duration-300 ${
-                          isActive
-                            ? "border-[#e11d48] shadow-[0_0_20px_rgba(225,29,72,0.6)] scale-110"
-                            : "border-blue-400/30 hover:border-blue-400/60"
-                        }`}
-                      >
-                        <Icon size={16} style={{ color: node.color }} />
-                      </div>
-
-                      <span
-                        className={`mt-1 font-mono text-[8px] sm:text-[9px] font-bold uppercase tracking-wider transition-colors duration-200 ${
-                          isActive ? "text-white" : "text-slate-300"
-                        }`}
-                      >
-                        {node.label}
-                      </span>
-                    </div>
-                  )
-                })}
+              <div className="relative mx-auto aspect-[4/3] w-full max-w-[500px] overflow-hidden rounded-2xl border border-blue-400/25 bg-[#030d1d] shadow-[0_0_40px_rgba(0,102,204,0.35)] transition-transform duration-300 hover:scale-[1.02]">
+                <Image
+                  src="/images/home/hero_ai_globe.jpg"
+                  alt="Carawin Technologies AI Ecosystem"
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 500px"
+                  className="object-contain"
+                />
               </div>
 
-              {/* Ecosystem Micro-Banner below the orbital graphic */}
+              {/* Ecosystem Micro-Banner below the hero graphic */}
               <div className="mt-4 rounded-xl border border-white/10 bg-[#07162b]/80 p-3.5 text-center backdrop-blur-md">
                 <span className="font-mono text-[10px] font-bold uppercase tracking-[.22em] text-[#ff7185]">
                   Unified Technology Ecosystem
@@ -608,52 +500,56 @@ export function HomepageRebuild() {
       </section>
 
       {/* ========================================================
-          4. CARAWIN LABS WIDE BANNER (User's 4th Screenshot)
+          4. CARAWIN LABS WIDE BANNER (Learn. Build. Experiment. Innovate.)
           ======================================================== */}
-      <section className="bg-white py-12 sm:py-16">
-        <div className="container-x">
-          <div className="relative overflow-hidden rounded-[28px] border border-[#06152b] bg-[#071a33] text-white shadow-2xl">
-            <div className="grid items-center lg:grid-cols-12">
-              {/* Left Content Area (5 cols) */}
-              <div className="relative z-10 p-8 sm:p-12 lg:col-span-5 lg:py-16 lg:pl-14 lg:pr-4">
-                <span className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[#ff7185]">
-                  CARAWIN LABS
-                </span>
+      <section className="relative w-full overflow-hidden bg-[#071832] text-white border-y border-[#0f294d]">
+        <div className="w-full grid lg:grid-cols-12 items-stretch min-h-[380px] lg:min-h-[440px]">
+          {/* Left Content Area (5 cols) */}
+          <div className="relative z-10 flex flex-col justify-center px-6 py-12 sm:px-12 lg:col-span-5 lg:py-16 lg:pl-16 xl:pl-24 bg-[#071832]">
+            {/* Subtle ambient glow behind text */}
+            <div className="absolute -left-20 top-1/2 -translate-y-1/2 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
 
-                <h2 className="mt-4 text-3xl font-black leading-tight tracking-tight text-white sm:text-4xl lg:text-[2.5rem]">
-                  LEARN. BUILD.
-                  <br />
-                  EXPERIMENT. INNOVATE.
-                </h2>
+            <span className="relative z-10 font-mono text-xs font-bold uppercase tracking-[0.25em] text-[#38bdf8]">
+              CARAWIN LABS
+            </span>
 
-                <p className="mt-4 font-mono text-xs font-bold uppercase tracking-wider text-slate-300 sm:text-sm">
-                  AI • STEM • STEAM • ROBOTICS • IOT • CODING • INNOVATION • SMART CLASS
-                </p>
+            <h2 className="relative z-10 mt-3 text-3xl font-black leading-tight tracking-tight text-white sm:text-4xl lg:text-[2.6rem]">
+              LEARN. BUILD. EXPERIMENT.
+              <br />
+              INNOVATE.
+            </h2>
 
-                <div className="mt-8">
-                  <Link
-                    href="/solutions/ai-software-iot"
-                    className="inline-flex items-center gap-2 rounded-full bg-[#e11d48] px-7 py-3.5 text-xs font-bold uppercase tracking-wider text-white shadow-[0_0_25px_rgba(225,29,72,0.45)] transition-all duration-300 hover:bg-[#be123c] hover:shadow-[0_0_35px_rgba(225,29,72,0.7)] sm:text-sm"
-                  >
-                    EXPLORE CARAWIN LABS →
-                  </Link>
-                </div>
-              </div>
+            <p className="relative z-10 mt-4 font-mono text-xs sm:text-sm font-semibold uppercase tracking-wider text-[#93c5fd] leading-relaxed">
+              AI • STEM • STEAM • ROBOTICS • IOT • CODING
+              <br />
+              INNOVATION • SMART CLASS
+            </p>
 
-              {/* Right Robotics Image Area (7 cols) */}
-              <div className="relative h-80 sm:h-96 lg:col-span-7 lg:h-full lg:min-h-[420px]">
-                <Image
-                  src="/images/home/carawin_labs_robotics.png"
-                  alt="Carawin Labs Robotics and Innovation"
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 750px"
-                  className="object-cover object-[15%_center] lg:object-left"
-                />
-                {/* Thin edge blend so the student girl is fully and clearly visible */}
-                <div className="hidden lg:block absolute left-0 inset-y-0 w-16 sm:w-24 bg-gradient-to-r from-[#071a33] to-transparent pointer-events-none z-10" />
-                <div className="lg:hidden absolute inset-0 bg-gradient-to-t from-[#071a33] via-[#071a33]/20 to-transparent pointer-events-none z-10" />
-              </div>
+            <div className="relative z-10 mt-8">
+              <Link
+                href="/solutions/ai-software-iot"
+                className="inline-flex items-center gap-2 rounded-full bg-[#2563eb] px-7 py-3.5 text-xs font-bold uppercase tracking-wider text-white shadow-[0_0_25px_rgba(37,99,235,0.45)] transition-all duration-300 hover:bg-[#1d4ed8] hover:shadow-[0_0_35px_rgba(37,99,235,0.7)] hover:scale-105 active:scale-95 sm:text-sm"
+              >
+                EXPLORE CARAWIN LABS →
+              </Link>
             </div>
+          </div>
+
+          {/* Right Image Area (7 cols) with Crystal Clear 4K Image */}
+          <div className="relative h-80 sm:h-96 lg:col-span-7 lg:h-full lg:min-h-[440px] overflow-hidden">
+            <div className="absolute inset-0 w-full h-full lg:[clip-path:polygon(7%_0,100%_0,100%_100%,0%_100%)]">
+              <Image
+                src="/images/home/carawin_labs_students.png"
+                alt="Carawin Labs STEM & Robotics Students Collaborating"
+                fill
+                sizes="(max-width: 1024px) 100vw, 60vw"
+                className="object-cover object-center"
+                priority
+              />
+            </div>
+            {/* Seamless edge blend on large screens */}
+            <div className="hidden lg:block absolute left-0 inset-y-0 w-28 bg-gradient-to-r from-[#071832] via-[#071832]/60 to-transparent pointer-events-none z-10" />
+            <div className="lg:hidden absolute inset-0 bg-gradient-to-t from-[#071832] via-[#071832]/25 to-transparent pointer-events-none z-10" />
           </div>
         </div>
       </section>
@@ -679,33 +575,33 @@ export function HomepageRebuild() {
             </Link>
           </div>
 
-          {/* 6 Products Grid with Crisp HD Assets */}
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {/* 6 Products Grid Matching Exact Reference (6 cols on desktop) */}
+          <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5 sm:gap-4">
             {products.map((prod) => (
               <Link
                 key={prod.title}
                 href={prod.href}
-                className="group flex flex-col justify-between overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-3.5 sm:p-4 shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-xl"
+                className="group flex flex-col justify-between overflow-hidden rounded-xl border border-slate-200/80 bg-white p-3 shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-blue-400/40 hover:shadow-xl"
               >
                 <div>
-                  <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl bg-slate-900">
+                  <div className="relative aspect-[16/10] w-full overflow-hidden rounded-lg bg-slate-900">
                     <Image
                       src={prod.image}
                       alt={prod.title}
                       fill
                       unoptimized
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 420px"
+                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 220px"
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                   </div>
 
-                  <h3 className="mt-4 text-base font-bold text-[var(--navy)] sm:text-lg tracking-tight group-hover:text-[var(--crimson)] transition-colors">
+                  <h3 className="mt-3 text-xs sm:text-sm font-bold text-[var(--navy)] tracking-tight leading-snug group-hover:text-[var(--crimson)] transition-colors">
                     {prod.title}
                   </h3>
                 </div>
 
-                <div className="mt-2">
-                  <span className="inline-flex items-center gap-1 text-xs font-bold text-[var(--crimson)]">
+                <div className="mt-2.5 pt-2 border-t border-slate-100">
+                  <span className="inline-flex items-center gap-1 text-[11px] font-bold text-[var(--crimson)]">
                     Explore →
                   </span>
                 </div>
@@ -766,170 +662,18 @@ export function HomepageRebuild() {
       </section>
 
       {/* ========================================================
-          7. OUR TECHNOLOGY (Screenshot 5)
+          7. OUR TECHNOLOGY — orbital ecosystem visual
           ======================================================== */}
-      <section
-        id="technology"
-        className="relative overflow-hidden bg-[#040d1a] py-20 text-white sm:py-28"
-        style={{
-          backgroundImage: `
-            linear-gradient(to right, rgba(0, 163, 255, 0.08) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(0, 163, 255, 0.08) 1px, transparent 1px)
-          `,
-          backgroundSize: "36px 36px",
-        }}
-      >
-        {/* Ambient Center Glow */}
-        <div
-          className="pointer-events-none absolute inset-0 opacity-30"
-          style={{
-            backgroundImage: `
-              radial-gradient(circle at 50% 50%, rgba(225, 29, 72, 0.25) 0%, rgba(0, 102, 204, 0.15) 45%, transparent 70%)
-            `,
-          }}
+      <section id="technology" className="relative overflow-hidden bg-[#061428]">
+        <h2 className="sr-only">Our Technology. Intelligence at the core.</h2>
+        <Image
+          src="/images/home/tech_orbital.jpg"
+          alt="Our technology ecosystem with AI at the core, connected to artificial intelligence, connected technology, data and analytics, software and cloud, and robotics and automation."
+          width={1376}
+          height={768}
+          sizes="100vw"
+          className="h-auto w-full"
         />
-
-        <div className="container-x relative z-10">
-          <div className="text-center max-w-2xl mx-auto">
-            <p className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[#e11d48]">
-              OUR TECHNOLOGY
-            </p>
-            <h2 className="mt-2 text-3xl font-black tracking-tight text-white sm:text-4xl lg:text-[2.75rem]">
-              INTELLIGENCE AT THE CORE.
-            </h2>
-            <p className="mt-3 text-sm leading-relaxed text-slate-300 sm:text-base">
-              A single technology ecosystem spanning the digital and physical world.
-            </p>
-          </div>
-
-          <div className="mt-16 max-w-5xl mx-auto">
-            {/* Top Row: AI & Connected Technology */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-16">
-              <div
-                onClick={() => setActiveTechNode("ai")}
-                className={`group cursor-pointer rounded-2xl border p-5 backdrop-blur-md transition-all duration-300 ${
-                  activeTechNode === "ai"
-                    ? "border-[#e11d48]/70 bg-[#07162b] shadow-[0_0_25px_rgba(225,29,72,0.3)]"
-                    : "border-white/10 bg-[#07162b]/80 hover:border-white/25 hover:bg-[#07162b]"
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-rose-500/10 text-rose-400 border border-rose-500/20">
-                    <Zap size={18} />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-sm tracking-wide text-white">
-                      ARTIFICIAL INTELLIGENCE
-                    </h3>
-                  </div>
-                </div>
-                <p className="mt-2.5 text-xs text-slate-400">
-                  AI • ML • GenAI • NLP • Computer Vision
-                </p>
-              </div>
-
-              <div
-                onClick={() => setActiveTechNode("connected")}
-                className={`group cursor-pointer rounded-2xl border p-5 backdrop-blur-md transition-all duration-300 ${
-                  activeTechNode === "connected"
-                    ? "border-cyan-400/70 bg-[#07162b] shadow-[0_0_25px_rgba(34,211,238,0.3)]"
-                    : "border-white/10 bg-[#07162b]/80 hover:border-white/25 hover:bg-[#07162b]"
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
-                    <Wifi size={18} />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-sm tracking-wide text-white">
-                      CONNECTED TECHNOLOGY
-                    </h3>
-                  </div>
-                </div>
-                <p className="mt-2.5 text-xs text-slate-400">
-                  IoT • Sensors • Embedded Systems • Edge Computing
-                </p>
-              </div>
-            </div>
-
-            {/* Center Core Engine Badge */}
-            <div className="my-10 flex justify-center">
-              <div className="relative flex h-32 w-32 sm:h-36 sm:w-36 flex-col items-center justify-center rounded-full bg-gradient-to-br from-[#c81e3a] via-[#881337] to-[#4c0519] border-2 border-[#fb7185] shadow-[0_0_60px_rgba(225,29,72,0.7),inset_0_0_20px_rgba(255,255,255,0.25)] transition-transform duration-300 hover:scale-105">
-                <div className="absolute -inset-2.5 rounded-full border border-[#e11d48]/40 animate-pulse pointer-events-none" />
-                <span className="text-3xl sm:text-4xl font-black tracking-tight text-white">
-                  AI
-                </span>
-                <span className="font-mono text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] text-rose-200 mt-1">
-                  CORE ENGINE
-                </span>
-              </div>
-            </div>
-
-            {/* Bottom Row: Data & Analytics, Robotics & Automation, Software & Cloud */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
-              <div
-                onClick={() => setActiveTechNode("data")}
-                className={`group cursor-pointer rounded-2xl border p-5 backdrop-blur-md transition-all duration-300 ${
-                  activeTechNode === "data"
-                    ? "border-blue-400/70 bg-[#07162b] shadow-[0_0_25px_rgba(96,165,250,0.3)]"
-                    : "border-white/10 bg-[#07162b]/80 hover:border-white/25 hover:bg-[#07162b]"
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/20">
-                    <Database size={18} />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-sm tracking-wide text-white">
-                      DATA &amp; ANALYTICS
-                    </h3>
-                  </div>
-                </div>
-                <p className="mt-2.5 text-xs text-slate-400">
-                  Data Platforms • Analytics • Dashboards • Intelligence
-                </p>
-              </div>
-
-              <div
-                onClick={() => setActiveTechNode("robotics")}
-                className="group cursor-pointer rounded-2xl border border-blue-400/40 bg-[#091b35] p-5 backdrop-blur-md shadow-xl transition-all duration-300 hover:border-[#e11d48]/80 hover:shadow-[0_0_30px_rgba(225,29,72,0.35)] -mt-2 md:-mt-4"
-              >
-                <div className="flex items-center gap-2">
-                  <span className="h-2 w-2 rounded-full bg-[#e11d48] shadow-[0_0_8px_#e11d48] animate-pulse" />
-                  <h3 className="font-bold text-sm tracking-wide text-white">
-                    ROBOTICS &amp; AUTOMATION
-                  </h3>
-                </div>
-                <p className="mt-2.5 text-xs text-slate-300">
-                  Robotics • Automation • Smart Devices • Industry 4.0
-                </p>
-              </div>
-
-              <div
-                onClick={() => setActiveTechNode("software")}
-                className={`group cursor-pointer rounded-2xl border p-5 backdrop-blur-md transition-all duration-300 ${
-                  activeTechNode === "software"
-                    ? "border-cyan-400/70 bg-[#07162b] shadow-[0_0_25px_rgba(34,211,238,0.3)]"
-                    : "border-white/10 bg-[#07162b]/80 hover:border-white/25 hover:bg-[#07162b]"
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-sky-500/10 text-sky-400 border border-sky-500/20">
-                    <Cloud size={18} />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-sm tracking-wide text-white">
-                      SOFTWARE &amp; CLOUD
-                    </h3>
-                  </div>
-                </div>
-                <p className="mt-2.5 text-xs text-slate-400">
-                  Mobile • APIs • Cloud • Enterprise Platforms
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
       </section>
 
       {/* ========================================================

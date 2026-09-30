@@ -35,10 +35,21 @@ export function SiteFooter() {
   return (
     <footer className="relative z-10 bg-[#030d1d] text-white">
       {/* ========================================================
-          TOP CTA SECTION (Matching User's Screenshot)
+          TOP CTA SECTION (Matching User's Reference Screenshot)
           ======================================================== */}
-      <div className="border-t border-b border-white/10 bg-[#030d1d] py-14 sm:py-16 lg:py-20">
-        <div className="container-x">
+      <div
+        className="relative overflow-hidden border-t border-b border-white/10 bg-[#020b18] py-16 sm:py-20 lg:py-24"
+        style={{
+          backgroundImage: "linear-gradient(to right, rgba(2,11,24,0.92) 0%, rgba(2,11,24,0.7) 45%, rgba(2,11,24,0.3) 100%), url('/images/home/cta_landscape.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center right",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        {/* Subtle glow overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#020b18]/90 via-[#020b18]/60 to-transparent pointer-events-none" />
+
+        <div className="container-x relative z-10">
           <div className="flex flex-col justify-between gap-8 lg:flex-row lg:items-center">
             {/* Left Content */}
             <div className="max-w-2xl">
@@ -50,14 +61,14 @@ export function SiteFooter() {
                 LET&apos;S BUILD WHAT&apos;S NEXT.
               </h2>
 
-              <p className="mt-4 text-xs sm:text-sm font-medium leading-relaxed text-slate-300">
+              <p className="mt-4 text-xs sm:text-sm font-medium leading-relaxed text-slate-200">
                 Build a product • Deploy AI • Transform an organization • Establish a technology lab • Implement a large-scale programme
               </p>
             </div>
 
             {/* Right Action Button & Ethos */}
             <div className="flex flex-col items-start gap-4 lg:items-end">
-              <div className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-slate-300">
+              <div className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-slate-200">
                 <span>IDEA</span>
                 <span className="mx-2 text-[#e11d48]">→</span>
                 <span>INNOVATION</span>
@@ -67,7 +78,7 @@ export function SiteFooter() {
 
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 rounded-full bg-[#e11d48] px-8 py-4 text-xs font-black uppercase tracking-wider text-white shadow-[0_0_30px_rgba(225,29,72,0.5)] transition-all duration-300 hover:bg-[#be123c] hover:shadow-[0_0_40px_rgba(225,29,72,0.8)] sm:text-sm whitespace-nowrap"
+                className="inline-flex items-center gap-2 rounded-full bg-[#0070f3] px-8 py-4 text-xs font-black uppercase tracking-wider text-white shadow-[0_0_30px_rgba(0,112,243,0.5)] transition-all duration-300 hover:bg-[#0060df] hover:shadow-[0_0_40px_rgba(0,112,243,0.8)] sm:text-sm whitespace-nowrap"
               >
                 START A CONVERSATION
                 <ArrowRight size={16} />

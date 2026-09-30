@@ -11,16 +11,18 @@ export function generateStaticParams() {
   return Array.from(slugs).map((slug) => ({ slug }))
 }
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ slug: string }>
+export default async function Page(props: {
+  params: Promise<{ slug: string }> | { slug: string }
 }) {
-  const { slug } = await params
+  const resolvedParams = await Promise.resolve(props.params)
+  const slug = resolvedParams?.slug
+  console.log(">>> [SOLUTIONS] Slug requested:", slug)
+  
   const vertical = solutionVerticals.find((y) => y.slug === slug)
   const genericSolution = solutions.find((y) => y.slug === slug)
 
   if (!vertical && !genericSolution) {
+    console.log(">>> [SOLUTIONS] NOT FOUND for slug:", slug)
     notFound()
   }
 
