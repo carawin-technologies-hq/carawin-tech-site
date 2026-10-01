@@ -24,6 +24,13 @@ export function HomepageRebuild() {
     { value: "3", label: "INTERNATIONAL PROJECTS", highlight: false },
   ]
 
+  // Hero pills grouped in rows exactly like the reference design (3 / 4 / 2)
+  const heroPillRows = [
+    ["Artificial Intelligence", "Software", "Education Technology"],
+    ["Virtual STEM", "IoT", "Robotics", "Digital Infrastructure"],
+    ["Future Skills", "Innovation"],
+  ]
+
   const aboutFeatures = [
     { title: "Technology Excellence", icon: Star },
     { title: "Domain Expertise", icon: Hexagon },
@@ -56,11 +63,6 @@ export function HomepageRebuild() {
       title: "AI-Powered ERP",
       image: "/images/home/prod_ai_erp.png",
       href: "/solutions/digital-public-infrastructure",
-    },
-    {
-      title: "VAYOM",
-      image: "/images/home/prod_vayom.png",
-      href: "/solutions/ai-software-iot",
     },
   ]
 
@@ -106,151 +108,110 @@ export function HomepageRebuild() {
   return (
     <div className="overflow-hidden bg-[var(--background)] text-[var(--foreground)]">
       {/* ========================================================
-          1. HERO SECTION & STATS (Dark Tech Grid + Orbital System)
+          1. HERO SECTION & STATS
+          The clean artwork (hero_bg.png, 2084x754) is the full background
+          of the hero banner and all text sits on top of it.
           ======================================================== */}
-      <section className="relative overflow-hidden border-b border-white/10 bg-[#040d1a] pt-32 pb-16 sm:pt-36 sm:pb-20 lg:pt-40 lg:pb-24">
-        {/* Tech Grid Pattern */}
-        <div
-          className="absolute inset-0 pointer-events-none opacity-40"
-          style={{
-            backgroundImage: `
-              linear-gradient(to right, rgba(0, 163, 255, 0.1) 1px, transparent 1px),
-              linear-gradient(to bottom, rgba(0, 163, 255, 0.1) 1px, transparent 1px)
-            `,
-            backgroundSize: "36px 36px",
-          }}
-        />
+      <section className="relative overflow-hidden border-b border-white/10 bg-gradient-to-b from-[#011E42] via-[#011A3E] to-[#001739]">
+        {/* ---------- HERO BANNER ---------- */}
+        <div className="relative flex flex-col lg:min-h-[calc(100vw/2.764)] lg:justify-center">
+          {/* Artwork: below the text on mobile/tablet, full background on desktop */}
+          <div className="pointer-events-none relative order-2 aspect-[16/10] w-full overflow-hidden sm:aspect-[2/1] lg:absolute lg:inset-0 lg:z-0 lg:order-none lg:aspect-auto">
+            <Image
+              src="/images/home/hero_bg.png"
+              alt="Carawin Technologies AI & Technology Ecosystem"
+              fill
+              priority
+              quality={100}
+              sizes="100vw"
+              className="object-cover object-right"
+            />
+            {/* Soft blend between text block and artwork on mobile/tablet */}
+            <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-[#001739] to-transparent lg:hidden" />
+            {/* Left shade on desktop so text stays readable over the skyline */}
+            <div className="absolute inset-0 hidden bg-gradient-to-r from-[#001739]/80 via-[#001739]/30 to-transparent lg:block lg:[background-size:60%_100%] lg:bg-no-repeat" />
+          </div>
 
-        {/* Ambient Radial Lights */}
-        <div
-          className="pointer-events-none absolute inset-0 opacity-40"
-          style={{
-            backgroundImage: `
-              radial-gradient(circle at 75% 45%, rgba(0, 102, 204, 0.28) 0%, transparent 55%),
-              radial-gradient(circle at 75% 45%, rgba(225, 29, 72, 0.22) 0%, transparent 35%),
-              radial-gradient(circle at 20% 30%, rgba(0, 163, 255, 0.15) 0%, transparent 45%)
-            `,
-          }}
-        />
-
-        <div className="container-x relative z-10">
-          <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-10">
-            {/* Left Content Column (7 cols) */}
-            <div className="lg:col-span-7">
-              {/* Kicker badge */}
-              <div className="inline-flex items-center gap-2 rounded-full border border-[var(--crimson)]/30 bg-[var(--crimson)]/10 px-4 py-1.5 text-xs font-bold uppercase tracking-[.22em] text-[#ff7185]">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#ff7185] animate-pulse" />
-                CARAWIN TECHNOLOGIES
+          {/* Text content */}
+          <div className="container-x relative z-10 order-1 w-full pt-24 pb-6 sm:pt-28 lg:order-none lg:!mx-0 lg:!max-w-none lg:!px-[4vw] lg:pt-[7rem] lg:pb-[2.5vw]">
+            <div className="max-w-xl lg:max-w-[44vw]">
+              {/* Kicker */}
+              <div className="inline-flex items-center gap-2.5 text-xs font-medium uppercase tracking-[.22em] text-white lg:gap-[1.2vw] lg:text-[clamp(10px,0.85vw,18px)]">
+                <span>CARAWIN TECHNOLOGIES</span>
+                <span className="h-0.5 w-6 bg-[#e11d48] lg:w-[2.6vw]" />
               </div>
 
-              {/* Main Headline (Original Text) */}
-              <h1 className="mt-6 text-3xl font-black leading-[1.02] tracking-[-.045em] text-white sm:text-5xl md:text-6xl lg:text-[3.9rem] xl:text-[4.4rem]">
-                INTELLIGENCE.
-                <br />
-                EXPERIENCE.
+              {/* Main Headline */}
+              <h1 className="mt-4 text-4xl font-black leading-[1.02] tracking-[-.045em] text-white sm:text-6xl lg:mt-[1vw] lg:text-[clamp(2.75rem,4.2vw,6.5rem)] lg:leading-[0.92]">
+                EXPERIENCE<span className="text-white">.</span>
                 <br />
                 <span className="text-[#e11d48]">INNOVATION.</span>
               </h1>
 
-              {/* Subheadline (Original Text) */}
-              <p className="mt-5 text-lg font-bold text-slate-100 sm:text-xl lg:text-2xl">
-                AI for Learning. Technology for Innovation. Skills for the Future.
+              {/* Subheadline */}
+              <p className="mt-4 text-base font-bold leading-snug text-white sm:text-lg lg:mt-[1.1vw] lg:text-[clamp(1rem,1.4vw,2.1rem)]">
+                AI for Learning. Technology for Innovation.
+                <br className="hidden sm:block" /> Skills for the Future.
               </p>
 
-              {/* Description (Original Text) */}
-              <p className="mt-4 max-w-xl text-sm leading-relaxed text-slate-300 sm:text-base lg:text-lg">
-                Carawin Technologies builds AI-powered, technology-enabled ecosystems for education, institutions, governments and industries.
+              {/* Description */}
+              <p className="mt-3 text-sm leading-relaxed text-white lg:mt-[0.8vw] lg:text-[clamp(0.8rem,1vw,1.5rem)]">
+                Carawin Technologies builds AI-powered, technology-enabled ecosystems
+                <br className="hidden lg:block" /> for education, institutions, governments and industries.
               </p>
 
-              {/* Pillars tag list (Original Text) */}
-              <div className="mt-6 flex flex-wrap items-center gap-2 text-xs font-semibold text-slate-200">
-                {[
-                  "Artificial Intelligence",
-                  "Software",
-                  "Education Technology",
-                  "Virtual STEM",
-                  "IoT",
-                  "Robotics",
-                  "Digital Infrastructure",
-                  "Future Skills",
-                  "Innovation",
-                ].map((item, idx) => (
-                  <span
-                    key={item}
-                    className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-[#091b35]/80 px-3 py-1.5 text-slate-200 backdrop-blur-sm"
-                  >
-                    {item}
-                    {idx < 8 && <span className="text-[#e11d48]">/</span>}
-                  </span>
+              {/* Pillars tag list (3 / 4 / 2 rows) */}
+              <div className="mt-5 flex flex-col gap-1.5 lg:mt-[1vw] lg:gap-[0.45vw]">
+                {heroPillRows.map((row, rowIdx) => (
+                  <div key={rowIdx} className="flex flex-wrap items-center gap-1.5 lg:gap-[0.55vw]">
+                    {row.map((item) => (
+                      <span
+                        key={item}
+                        className="inline-flex items-center gap-1.5 rounded-[10px] border border-white/25 bg-[#00132e]/70 px-2.5 py-1.5 text-[11px] font-semibold text-white backdrop-blur-sm sm:text-xs lg:gap-[0.5vw] lg:px-[0.9vw] lg:py-[0.45vw] lg:text-[clamp(10px,0.82vw,18px)]"
+                      >
+                        {item}
+                        <span className="text-[#e11d48]">/</span>
+                      </span>
+                    ))}
+                  </div>
                 ))}
               </div>
 
-              <p className="mt-4 text-xs font-medium text-slate-400">
-                We bring these technologies together to transform ideas into practical solutions.
-              </p>
-
-              {/* Ethos Strip (Original Text) */}
-              <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-xs font-bold uppercase tracking-[.18em] text-[#ff7185]">
+              {/* Ethos Strip */}
+              <div className="mt-5 flex flex-wrap items-center gap-x-2.5 gap-y-1.5 font-mono text-[10px] font-bold uppercase tracking-[.2em] text-[#f43f5e] sm:text-[11px] lg:mt-[1.2vw] lg:gap-x-[1vw] lg:text-[clamp(9px,0.78vw,16px)] lg:tracking-[.3em]">
                 {["Learn", "Explore", "Experiment", "Build", "Innovate"].map((step, i) => (
-                  <span key={step} className="inline-flex items-center gap-4">
+                  <span key={step} className="inline-flex items-center gap-2.5 lg:gap-[1vw]">
                     {step}
-                    {i < 4 && <span className="text-slate-500">·</span>}
+                    {i < 4 && <span className="text-white">·</span>}
                   </span>
                 ))}
               </div>
 
-              {/* CTAs (Crisp White Text on Secondary Button) */}
-              <div className="mt-8 flex flex-wrap items-center gap-4">
+              {/* CTAs */}
+              <div className="mt-6 flex flex-wrap items-center gap-3.5 lg:mt-[1.5vw]">
                 <Link
                   href="/solutions"
-                  className="inline-flex items-center gap-2 rounded-full bg-[#e11d48] px-7 py-3.5 text-xs font-bold uppercase tracking-wider text-white shadow-[0_0_25px_rgba(225,29,72,0.45)] transition-all duration-300 hover:bg-[#be123c] hover:shadow-[0_0_35px_rgba(225,29,72,0.7)] sm:text-sm"
+                  className="inline-flex items-center gap-2 rounded-full bg-[#e11d48] px-6 py-3 text-xs font-bold uppercase tracking-wider text-white shadow-[0_0_25px_rgba(225,29,72,0.45)] transition-all duration-300 hover:bg-[#be123c] hover:shadow-[0_0_35px_rgba(225,29,72,0.7)] sm:text-sm"
                 >
                   Explore Solutions
                   <ArrowUpRight size={16} />
                 </Link>
                 <Link
                   href="/demo"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-7 py-3.5 text-xs font-bold uppercase tracking-wider text-white backdrop-blur-md shadow-sm transition-all duration-300 hover:border-white hover:bg-white/20 sm:text-sm"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-3 text-xs font-bold uppercase tracking-wider text-white backdrop-blur-md shadow-sm transition-all duration-300 hover:border-white hover:bg-white/20 sm:text-sm"
                 >
                   <span className="text-white font-bold">Request a Demonstration</span>
                   <ArrowUpRight size={16} className="text-white" />
                 </Link>
               </div>
             </div>
-
-            {/* Right Visual Column: AI Globe Ecosystem Visual (5 cols) */}
-            <div className="lg:col-span-5">
-              <div className="relative mx-auto aspect-[4/3] w-full max-w-[500px] overflow-hidden rounded-2xl border border-blue-400/25 bg-[#030d1d] shadow-[0_0_40px_rgba(0,102,204,0.35)] transition-transform duration-300 hover:scale-[1.02]">
-                <Image
-                  src="/images/home/hero_ai_globe.jpg"
-                  alt="Carawin Technologies AI Ecosystem"
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 100vw, 500px"
-                  className="object-contain"
-                />
-              </div>
-
-              {/* Ecosystem Micro-Banner below the hero graphic */}
-              <div className="mt-4 rounded-xl border border-white/10 bg-[#07162b]/80 p-3.5 text-center backdrop-blur-md">
-                <span className="font-mono text-[10px] font-bold uppercase tracking-[.22em] text-[#ff7185]">
-                  Unified Technology Ecosystem
-                </span>
-                <p className="mt-1 text-sm font-bold text-white tracking-tight">
-                  AI × Education × Software × STEM × IoT
-                </p>
-                <p className="mt-1 text-[11px] leading-relaxed text-slate-300">
-                  Applied technology architectures powering institutional scale, experiential learning and real-world deployment.
-                </p>
-              </div>
-            </div>
           </div>
         </div>
 
         {/* ========================================================
-            BOTTOM STATS BAR (Screenshot 1)
+            BOTTOM STATS BAR
             ======================================================== */}
-        <div className="mt-14 border-t border-white/10 bg-[#020914] py-8 sm:py-10">
+        <div className="relative z-10 mt-0 border-t border-white/10 bg-[#081933]/95 py-8 sm:py-10 backdrop-blur-sm">
           <div className="container-x">
             <div className="grid grid-cols-2 gap-8 text-center sm:grid-cols-3 lg:grid-cols-5">
               {stats.map((st) => (
@@ -262,7 +223,7 @@ export function HomepageRebuild() {
                   >
                     {st.value}
                   </span>
-                  <span className="mt-2 font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.16em] text-slate-400">
+                  <span className="mt-2 font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.16em] text-white">
                     {st.label}
                   </span>
                 </div>
@@ -273,91 +234,105 @@ export function HomepageRebuild() {
       </section>
 
       {/* ========================================================
-          2. HOME — INTRODUCTION / ABOUT CARAWIN (Screenshot 2)
+          2. HOME — INTRODUCTION / ABOUT CARAWIN
+          about_bg.png (white -> blue VR artwork) is the background of the
+          top block; all original content sits on top of it.
           ======================================================== */}
-      <section className="border-b border-[var(--border)] bg-white py-20 sm:py-28">
-        <div className="container-x">
-          <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-14">
-            {/* Left Content Column (7 cols) */}
-            <div className="lg:col-span-7">
-              <p className="kicker text-[var(--crimson)]">HOME — INTRODUCTION</p>
+      <section className="border-b border-[var(--border)] bg-white">
+        {/* ---------- TOP BLOCK WITH BACKGROUND IMAGE ---------- */}
+        <div className="relative flex flex-col">
+          {/* Artwork: below the text on mobile/tablet, full background on desktop */}
+          <div className="pointer-events-none relative order-2 aspect-[16/10] w-full overflow-hidden sm:aspect-[2/1] lg:absolute lg:inset-0 lg:z-0 lg:order-none lg:aspect-auto">
+            <Image
+              src="/images/home/about_bg.png"
+              alt="Carawin Technologies VR Lab and Learning Solutions"
+              fill
+              priority
+              quality={100}
+              sizes="100vw"
+              className="object-cover object-right"
+            />
+            {/* Soft white blend between text block and artwork on mobile/tablet */}
+            <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-white to-transparent lg:hidden" />
+            {/* Left white shade on desktop so dark text stays readable */}
+            <div className="absolute inset-y-0 left-0 hidden w-[55%] bg-gradient-to-r from-white from-40% via-white/60 to-transparent lg:block" />
 
-              <h2 className="mt-4 text-3xl font-black tracking-[-.04em] text-[var(--navy)] sm:text-5xl">
-                BUILDING TECHNOLOGY FOR A CHANGING WORLD
-              </h2>
-
-              <p className="mt-5 text-base leading-relaxed text-[var(--muted)] sm:text-lg">
-                The future will require people and organisations to continuously learn, adapt and innovate.
+            {/* Floating Bottom-Right Badge */}
+            <div className="absolute bottom-5 right-5 rounded-2xl border border-white/60 bg-white/95 px-5 py-3 shadow-xl backdrop-blur-md lg:bottom-10 lg:right-[6vw]">
+              <p className="text-sm font-black tracking-tight text-[var(--navy)]">
+                Smarter Learning
               </p>
-
-              <div className="mt-6 space-y-4 text-sm leading-relaxed text-slate-600 sm:text-base">
-                <p>
-                  Carawin Technologies is an AI, EdTech and technology product development company working across Artificial Intelligence, Education, IoT, Robotics, Electronics and Digital Transformation.
-                </p>
-                <p>
-                  Since 2017, we have developed and implemented technology solutions for schools, institutions, government, enterprises and industry.
-                </p>
-              </div>
-
-              {/* 4 Feature Pill Cards (Screenshot 2) */}
-              <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
-                {aboutFeatures.map((feat) => {
-                  const Icon = feat.icon
-                  return (
-                    <div
-                      key={feat.title}
-                      className="group flex flex-col items-center justify-center rounded-2xl border border-slate-100 bg-[#f8fafc] p-4 text-center transition-all duration-200 hover:-translate-y-0.5 hover:border-slate-200 hover:bg-white hover:shadow-md"
-                    >
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-rose-50 text-[var(--crimson)] border border-rose-100 transition-colors group-hover:bg-[var(--crimson)] group-hover:text-white">
-                        <Icon size={18} />
-                      </div>
-                      <span className="mt-2.5 text-xs font-bold text-[var(--navy)] sm:text-sm">
-                        {feat.title}
-                      </span>
-                    </div>
-                  )
-                })}
-              </div>
-
-              {/* Discover Carawin CTA */}
-              <div className="mt-8">
-                <Link
-                  href="/about"
-                  className="btn-primary inline-flex items-center gap-2"
-                >
-                  Discover Carawin
-                  <ArrowRight size={16} />
-                </Link>
-              </div>
-            </div>
-
-            {/* Right Visual Card with VR Image (Screenshot 2) */}
-            <div className="lg:col-span-5">
-              <div className="relative mx-auto aspect-[1.18] w-full max-w-lg overflow-hidden rounded-3xl border border-slate-200/80 bg-slate-900 shadow-2xl">
-                <Image
-                  src="/images/home/about_vr.png"
-                  alt="Carawin Technologies VR Lab and Learning Solutions"
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 100vw, 520px"
-                  className="object-cover"
-                />
-
-                {/* Floating Bottom-Right Badge */}
-                <div className="absolute bottom-5 right-5 rounded-2xl border border-white/60 bg-white/95 px-5 py-3 shadow-xl backdrop-blur-md">
-                  <p className="text-sm font-black tracking-tight text-[var(--navy)]">
-                    Smarter Learning
-                  </p>
-                  <p className="text-xs font-bold text-[var(--crimson)]">
-                    Brighter Future
-                  </p>
-                </div>
-              </div>
+              <p className="text-xs font-bold text-[var(--crimson)]">
+                Brighter Future
+              </p>
             </div>
           </div>
 
-          {/* Intersection and Journey Strip */}
-          <div className="mt-14 rounded-2xl border border-[var(--border)] bg-[#f8fafc] p-6 sm:p-10">
+          {/* Content */}
+          <div className="container-x relative z-10 order-1 py-20 sm:py-28 lg:order-none">
+            <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-14">
+              {/* Left Content Column */}
+              <div className="lg:col-span-6">
+                <p className="kicker text-[var(--crimson)]">HOME — INTRODUCTION</p>
+
+                <h2 className="mt-4 text-3xl font-black tracking-[-.04em] text-[var(--navy)] sm:text-5xl">
+                  BUILDING TECHNOLOGY FOR A CHANGING WORLD
+                </h2>
+
+                <p className="mt-5 text-base leading-relaxed text-[var(--muted)] sm:text-lg">
+                  The future will require people and organisations to continuously learn, adapt and innovate.
+                </p>
+
+                <div className="mt-6 space-y-4 text-sm leading-relaxed text-slate-600 sm:text-base">
+                  <p>
+                    Carawin Technologies is an AI, EdTech and technology product development company working across Artificial Intelligence, Education, IoT, Robotics, Electronics and Digital Transformation.
+                  </p>
+                  <p>
+                    Since 2017, we have developed and implemented technology solutions for schools, institutions, government, enterprises and industry.
+                  </p>
+                </div>
+
+                {/* 4 Feature Pill Cards */}
+                <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                  {aboutFeatures.map((feat) => {
+                    const Icon = feat.icon
+                    return (
+                      <div
+                        key={feat.title}
+                        className="group flex flex-col items-center justify-center rounded-2xl border border-slate-100 bg-[#f8fafc] p-4 text-center transition-all duration-200 hover:-translate-y-0.5 hover:border-slate-200 hover:bg-white hover:shadow-md"
+                      >
+                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-rose-50 text-[var(--crimson)] border border-rose-100 transition-colors group-hover:bg-[var(--crimson)] group-hover:text-white">
+                          <Icon size={18} />
+                        </div>
+                        <span className="mt-2.5 text-xs font-bold text-[var(--navy)] sm:text-sm">
+                          {feat.title}
+                        </span>
+                      </div>
+                    )
+                  })}
+                </div>
+
+                {/* Discover Carawin CTA */}
+                <div className="mt-8">
+                  <Link
+                    href="/about"
+                    className="btn-primary inline-flex items-center gap-2"
+                  >
+                    Discover Carawin
+                    <ArrowRight size={16} />
+                  </Link>
+                </div>
+              </div>
+
+              {/* Right column intentionally empty so the background artwork shows through */}
+              <div className="hidden lg:col-span-6 lg:block" />
+            </div>
+          </div>
+        </div>
+
+        {/* ---------- Intersection and Journey Strip ---------- */}
+        <div className="container-x pb-20 pt-14 sm:pb-28">
+          <div className="rounded-2xl border border-[var(--border)] bg-[#f8fafc] p-6 sm:p-10">
             <p className="text-xs font-bold uppercase tracking-[.2em] text-[var(--muted)]">
               Carawin works at the intersection of:
             </p>
@@ -575,8 +550,8 @@ export function HomepageRebuild() {
             </Link>
           </div>
 
-          {/* 6 Products Grid Matching Exact Reference (6 cols on desktop) */}
-          <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5 sm:gap-4">
+          {/* 5 Products Grid (5 cols on desktop) */}
+          <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5 sm:gap-4">
             {products.map((prod) => (
               <Link
                 key={prod.title}
