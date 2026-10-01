@@ -191,16 +191,28 @@ export function SiteFooter() {
             <div className="mt-5 space-y-3 text-xs sm:text-sm text-slate-300">
               <div className="flex items-start gap-2.5">
                 <MapPin size={16} className="mt-0.5 shrink-0 text-[#e11d48]" />
-                <span>Jasola, New Delhi, India</span>
+                <span className="leading-snug">
+                  INNOV8 OKHLA, 3rd Floor, 211, OKHLA INDL. ESTATE PHASE -III NEW DELHI 110020
+                </span>
               </div>
 
               <div className="flex items-center gap-2.5">
                 <Mail size={16} className="shrink-0 text-[#e11d48]" />
                 <a
-                  href="mailto:info@carawintech.com"
+                  href="mailto:office@carawintech.com"
                   className="transition-colors hover:text-[#e11d48]"
                 >
-                  info@carawintech.com
+                  office@carawintech.com
+                </a>
+              </div>
+
+              <div className="flex items-center gap-2.5">
+                <Mail size={16} className="shrink-0 text-[#e11d48]" />
+                <a
+                  href="mailto:hr@carawintech.com"
+                  className="transition-colors hover:text-[#e11d48]"
+                >
+                  hr@carawintech.com
                 </a>
               </div>
 
