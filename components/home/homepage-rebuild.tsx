@@ -12,6 +12,7 @@ import {
   Zap,
 } from "lucide-react"
 import { solutionVerticals, whyCarawinData, carawinApproach } from "@/lib/carawin-content"
+import { TechOrbit } from "./tech-orbit"
 
 export function HomepageRebuild() {
   const [activeTechNode, setActiveTechNode] = useState<string>("robotics")
@@ -114,9 +115,9 @@ export function HomepageRebuild() {
           ======================================================== */}
       <section className="relative overflow-hidden border-b border-white/10 bg-gradient-to-b from-[#011E42] via-[#011A3E] to-[#001739]">
         {/* ---------- HERO BANNER ---------- */}
-        <div className="relative flex flex-col lg:min-h-[calc(100vw/2.764)] lg:justify-center">
-          {/* Artwork: below the text on mobile/tablet, full background on desktop */}
-          <div className="pointer-events-none relative order-2 aspect-[16/10] w-full overflow-hidden sm:aspect-[2/1] lg:absolute lg:inset-0 lg:z-0 lg:order-none lg:aspect-auto">
+        <div className="relative min-h-[70vw] sm:min-h-[55vw] lg:min-h-[calc(100vw/2.764)] flex items-center">
+          {/* Artwork: always a full background layer at all screen sizes */}
+          <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
             <Image
               src="/images/home/hero_bg.png"
               alt="Carawin Technologies AI & Technology Ecosystem"
@@ -124,16 +125,16 @@ export function HomepageRebuild() {
               priority
               quality={100}
               sizes="100vw"
-              className="object-cover object-right"
+              className="hero-artwork object-cover object-right"
             />
-            {/* Soft blend between text block and artwork on mobile/tablet */}
-            <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-[#001739] to-transparent lg:hidden" />
-            {/* Left shade on desktop so text stays readable over the skyline */}
-            <div className="absolute inset-0 hidden bg-gradient-to-r from-[#001739]/80 via-[#001739]/30 to-transparent lg:block lg:[background-size:60%_100%] lg:bg-no-repeat" />
+            {/* Left shade so text stays readable at all sizes */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#001739]/90 via-[#001739]/50 to-transparent sm:from-[#001739]/85 sm:via-[#001739]/40 lg:from-[#001739]/80 lg:via-[#001739]/30" />
+            <div className="hero-light-sweep" />
+            <div className="hero-scan-lines" />
           </div>
 
           {/* Text content */}
-          <div className="container-x relative z-10 order-1 w-full pt-24 pb-6 sm:pt-28 lg:order-none lg:!mx-0 lg:!max-w-none lg:!px-[4vw] lg:pt-[7rem] lg:pb-[2.5vw]">
+          <div className="container-x relative z-10 w-full pt-24 pb-10 sm:pt-28 sm:pb-14 lg:!mx-0 lg:!max-w-none lg:!px-[4vw] lg:pt-[7rem] lg:pb-[2.5vw]">
             <div className="max-w-xl lg:max-w-[44vw]">
               {/* Kicker */}
               <div className="inline-flex items-center gap-2.5 text-xs font-medium uppercase tracking-[.22em] text-white lg:gap-[1.2vw] lg:text-[clamp(10px,0.85vw,18px)]">
@@ -213,17 +214,17 @@ export function HomepageRebuild() {
             ======================================================== */}
         <div className="relative z-10 mt-0 border-t border-white/10 bg-[#081933]/95 py-8 sm:py-10 backdrop-blur-sm">
           <div className="container-x">
-            <div className="grid grid-cols-2 gap-8 text-center sm:grid-cols-3 lg:grid-cols-5">
+            <div className="grid grid-cols-5 gap-3 sm:gap-8 text-center">
               {stats.map((st) => (
                 <div key={st.label} className="flex flex-col items-center justify-center">
                   <span
-                    className={`text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight ${
+                    className={`text-lg sm:text-3xl lg:text-5xl font-black tracking-tight ${
                       st.highlight ? "text-[#e11d48]" : "text-white"
                     }`}
                   >
                     {st.value}
                   </span>
-                  <span className="mt-2 font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.16em] text-white">
+                  <span className="mt-1 sm:mt-2 font-mono text-[7px] sm:text-[10px] lg:text-[11px] font-bold uppercase tracking-[0.1em] sm:tracking-[0.16em] text-white">
                     {st.label}
                   </span>
                 </div>
@@ -240,9 +241,9 @@ export function HomepageRebuild() {
           ======================================================== */}
       <section className="border-b border-[var(--border)] bg-white">
         {/* ---------- TOP BLOCK WITH BACKGROUND IMAGE ---------- */}
-        <div className="relative flex flex-col">
-          {/* Artwork: below the text on mobile/tablet, full background on desktop */}
-          <div className="pointer-events-none relative order-2 aspect-[16/10] w-full overflow-hidden sm:aspect-[2/1] lg:absolute lg:inset-0 lg:z-0 lg:order-none lg:aspect-auto">
+        <div className="relative min-h-[70vw] sm:min-h-[55vw] lg:min-h-0">
+          {/* Artwork: always a full background layer at all screen sizes */}
+          <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
             <Image
               src="/images/home/about_bg.png"
               alt="Carawin Technologies VR Lab and Learning Solutions"
@@ -252,10 +253,8 @@ export function HomepageRebuild() {
               sizes="100vw"
               className="object-cover object-right"
             />
-            {/* Soft white blend between text block and artwork on mobile/tablet */}
-            <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-white to-transparent lg:hidden" />
-            {/* Left white shade on desktop so dark text stays readable */}
-            <div className="absolute inset-y-0 left-0 hidden w-[55%] bg-gradient-to-r from-white from-40% via-white/60 to-transparent lg:block" />
+            {/* Left white shade so dark text stays readable at all sizes */}
+            <div className="absolute inset-y-0 left-0 w-full bg-gradient-to-r from-white from-30% via-white/80 via-55% to-transparent sm:from-white sm:from-35% sm:via-white/70 sm:via-55% lg:w-[55%] lg:from-white lg:from-40% lg:via-white/60" />
 
             {/* Floating Bottom-Right Badge */}
             <div className="absolute bottom-5 right-5 rounded-2xl border border-white/60 bg-white/95 px-5 py-3 shadow-xl backdrop-blur-md lg:bottom-10 lg:right-[6vw]">
@@ -269,7 +268,7 @@ export function HomepageRebuild() {
           </div>
 
           {/* Content */}
-          <div className="container-x relative z-10 order-1 py-20 sm:py-28 lg:order-none">
+          <div className="container-x relative z-10 py-16 sm:py-20 lg:py-24">
             <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-14">
               {/* Left Content Column */}
               <div className="lg:col-span-6">
@@ -293,7 +292,7 @@ export function HomepageRebuild() {
                 </div>
 
                 {/* 4 Feature Pill Cards */}
-                <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                <div className="mt-8 grid grid-cols-4 gap-2 sm:gap-3">
                   {aboutFeatures.map((feat) => {
                     const Icon = feat.icon
                     return (
@@ -377,47 +376,47 @@ export function HomepageRebuild() {
       {/* ========================================================
           3. OUR TECHNOLOGY PORTFOLIO / FIVE CORE VERTICALS (Screenshot 3)
           ======================================================== */}
-      <section className="border-b border-[var(--border)] bg-[#f5f8fb] py-24 sm:py-32">
+      <section className="border-b border-[var(--border)] bg-[#f5f8fb] py-14 sm:py-20 lg:py-24">
         <div className="container-x">
-          <div className="flex flex-col justify-between gap-6 border-b border-[var(--border)] pb-8 lg:flex-row lg:items-end">
+          <div className="flex flex-col items-start justify-between gap-5 border-b border-[var(--border)] pb-7 lg:flex-row lg:items-end lg:gap-8 lg:pb-8">
             <div>
               <p className="kicker text-[var(--crimson)]">OUR TECHNOLOGY PORTFOLIO</p>
-              <h2 className="mt-4 text-3xl font-black tracking-[-.04em] text-[var(--navy)] sm:text-5xl">
+              <h2 className="mt-3 text-3xl font-black tracking-[-.04em] text-[var(--navy)] sm:mt-4 sm:text-5xl">
                 FIVE CORE VERTICALS
               </h2>
             </div>
-            <p className="max-w-md text-sm leading-relaxed text-[var(--muted)]">
+            <p className="max-w-xl text-sm leading-relaxed text-[var(--muted)] lg:max-w-md">
               One connected technology ecosystem powering intelligent learning, modern infrastructure and enterprise-grade execution.
             </p>
           </div>
 
-          <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 grid grid-cols-1 gap-4 sm:mt-10 sm:grid-cols-2 sm:gap-5 lg:mt-12 lg:grid-cols-3 lg:gap-6">
             {solutionVerticals.map((vertical) => (
               <div
                 key={vertical.slug}
-                className="group flex flex-col justify-between rounded-2xl border border-[var(--border)] bg-white p-7 transition duration-200 hover:-translate-y-1 hover:border-[var(--crimson)]/40 hover:shadow-lg sm:p-8"
+                className="group flex min-w-0 flex-col justify-between rounded-2xl border border-[var(--border)] bg-white p-5 transition duration-200 hover:-translate-y-1 hover:border-[var(--crimson)]/40 hover:shadow-lg sm:p-6 lg:p-8"
               >
                 <div>
-                  <div className="flex items-center justify-between border-b border-[var(--border)] pb-4">
+                  <div className="flex items-center justify-between border-b border-[var(--border)] pb-3 sm:pb-4">
                     <span className="font-mono text-xs font-bold text-[var(--crimson)]">
                       {vertical.index} / VERTICAL
                     </span>
                     <span className="h-2 w-2 rounded-full bg-[var(--crimson)] opacity-70" />
                   </div>
 
-                  <h3 className="mt-5 text-2xl font-black tracking-tight text-[var(--navy)]">
+                  <h3 className="mt-4 text-2xl font-black tracking-tight text-[var(--navy)] sm:mt-5">
                     {vertical.name}
                   </h3>
 
-                  <p className="mt-2 text-xs font-bold uppercase tracking-wider text-[var(--crimson)]">
+                  <p className="mt-2 max-w-prose text-xs font-bold uppercase leading-snug tracking-wider text-[var(--crimson)]">
                     {vertical.tagline}
                   </p>
 
-                  <p className="mt-4 text-sm leading-relaxed text-[var(--muted)]">
+                  <p className="mt-4 max-w-prose text-sm leading-6 text-[var(--muted)]">
                     {vertical.desc}
                   </p>
 
-                  <div className="mt-6 flex flex-wrap gap-1.5">
+                  <div className="mt-5 flex max-w-prose flex-wrap gap-1.5 sm:mt-6">
                     {vertical.subItems.slice(0, 4).map((sub) => (
                       <span
                         key={sub}
@@ -434,7 +433,7 @@ export function HomepageRebuild() {
                   </div>
                 </div>
 
-                <div className="mt-8 border-t border-[var(--border)] pt-5">
+                <div className="mt-6 border-t border-[var(--border)] pt-4 sm:mt-8 sm:pt-5">
                   <Link
                     href={vertical.href}
                     className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[var(--navy)] transition group-hover:text-[var(--crimson)]"
@@ -447,7 +446,7 @@ export function HomepageRebuild() {
             ))}
 
             {/* Overview / Ecosystem Card */}
-            <div className="flex flex-col justify-between rounded-2xl border border-[var(--navy)] bg-[var(--navy)] p-7 text-white sm:p-8">
+            <div className="flex min-w-0 flex-col justify-between rounded-2xl border border-[var(--navy)] bg-[var(--navy)] p-5 text-white sm:p-7 lg:p-8">
               <div>
                 <p className="font-mono text-xs font-bold uppercase tracking-[.2em] text-[#ff7185]">
                   ECOSYSTEM INTEGRATION
@@ -478,9 +477,25 @@ export function HomepageRebuild() {
           4. CARAWIN LABS WIDE BANNER (Learn. Build. Experiment. Innovate.)
           ======================================================== */}
       <section className="relative w-full overflow-hidden bg-[#071832] text-white border-y border-[#0f294d]">
-        <div className="w-full grid lg:grid-cols-12 items-stretch min-h-[380px] lg:min-h-[440px]">
-          {/* Left Content Area (5 cols) */}
-          <div className="relative z-10 flex flex-col justify-center px-6 py-12 sm:px-12 lg:col-span-5 lg:py-16 lg:pl-16 xl:pl-24 bg-[#071832]">
+        <div className="relative w-full min-h-[380px] lg:min-h-[440px]">
+          {/* Background Image — always fills the entire section */}
+          <div className="absolute inset-0 z-0 overflow-hidden">
+            <div className="absolute inset-0 w-full h-full lg:[clip-path:polygon(7%_0,100%_0,100%_100%,0%_100%)]">
+              <Image
+                src="/images/home/carawin_labs_students.png"
+                alt="Carawin Labs STEM & Robotics Students Collaborating"
+                fill
+                sizes="100vw"
+                className="object-cover object-center"
+                priority
+              />
+            </div>
+            {/* Gradient overlay so text is readable at all sizes */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#071832] from-20% via-[#071832]/80 via-50% to-[#071832]/20 sm:from-[#071832] sm:from-15% sm:via-[#071832]/70 sm:via-45% lg:from-[#071832] lg:from-10% lg:via-[#071832]/60 lg:via-40% lg:to-transparent pointer-events-none z-10" />
+          </div>
+
+          {/* Left Content Area — overlays the image */}
+          <div className="relative z-20 flex flex-col justify-center px-6 py-12 sm:px-12 lg:py-16 lg:pl-16 xl:pl-24 max-w-2xl">
             {/* Subtle ambient glow behind text */}
             <div className="absolute -left-20 top-1/2 -translate-y-1/2 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
 
@@ -503,28 +518,10 @@ export function HomepageRebuild() {
             <div className="relative z-10 mt-8">
               <Link
                 href="/solutions/ai-software-iot"
-                className="inline-flex items-center gap-2 rounded-full bg-[#2563eb] px-7 py-3.5 text-xs font-bold uppercase tracking-wider text-white shadow-[0_0_25px_rgba(37,99,235,0.45)] transition-all duration-300 hover:bg-[#1d4ed8] hover:shadow-[0_0_35px_rgba(37,99,235,0.7)] hover:scale-105 active:scale-95 sm:text-sm"
-              >
+                className="inline-flex items-center gap-2 rounded-full bg-[#2563eb] px-7 py-3.5 text-xs font-bold uppercase tracking-wider text-white shadow-[0_0_25px_rgba(37,99,235,0.45)] transition-all duration-300 hover:bg-[#1d4ed8] hover:shadow-[0_0_35px_rgba(37,99,235,0.7)] hover:scale-105 active:scale-95 sm:text-sm">
                 EXPLORE CARAWIN LABS →
               </Link>
             </div>
-          </div>
-
-          {/* Right Image Area (7 cols) with Crystal Clear 4K Image */}
-          <div className="relative h-80 sm:h-96 lg:col-span-7 lg:h-full lg:min-h-[440px] overflow-hidden">
-            <div className="absolute inset-0 w-full h-full lg:[clip-path:polygon(7%_0,100%_0,100%_100%,0%_100%)]">
-              <Image
-                src="/images/home/carawin_labs_students.png"
-                alt="Carawin Labs STEM & Robotics Students Collaborating"
-                fill
-                sizes="(max-width: 1024px) 100vw, 60vw"
-                className="object-cover object-center"
-                priority
-              />
-            </div>
-            {/* Seamless edge blend on large screens */}
-            <div className="hidden lg:block absolute left-0 inset-y-0 w-28 bg-gradient-to-r from-[#071832] via-[#071832]/60 to-transparent pointer-events-none z-10" />
-            <div className="lg:hidden absolute inset-0 bg-gradient-to-t from-[#071832] via-[#071832]/25 to-transparent pointer-events-none z-10" />
           </div>
         </div>
       </section>
@@ -532,9 +529,9 @@ export function HomepageRebuild() {
       {/* ========================================================
           5. OUR PRODUCTS & LABS (Ultra Crisp 4K Images)
           ======================================================== */}
-      <section id="products" className="border-b border-[var(--border)] bg-white py-20 sm:py-28">
+      <section id="products" className="border-b border-[var(--border)] bg-white py-16 sm:py-20 lg:py-24">
         <div className="container-x">
-          <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+          <div className="flex flex-row justify-between gap-4 items-end">
             <div>
               <p className="kicker text-[var(--crimson)]">OUR PRODUCTS &amp; LABS</p>
               <h2 className="mt-2 text-3xl font-black tracking-tight text-[var(--navy)] sm:text-4xl lg:text-[2.75rem]">
@@ -551,7 +548,7 @@ export function HomepageRebuild() {
           </div>
 
           {/* 5 Products Grid (5 cols on desktop) */}
-          <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5 sm:gap-4">
+          <div className="mt-10 grid grid-cols-5 gap-2 sm:gap-3.5 lg:gap-4">
             {products.map((prod) => (
               <Link
                 key={prod.title}
@@ -589,7 +586,7 @@ export function HomepageRebuild() {
       {/* ========================================================
           6. HOW WE WORK / STRUCTURED EXECUTION (User's 5th Screenshot)
           ======================================================== */}
-      <section className="border-b border-[var(--border)] bg-[#f8fafc] py-20 sm:py-28">
+      <section className="border-b border-[var(--border)] bg-[#f8fafc] py-16 sm:py-20 lg:py-24">
         <div className="container-x">
           <div className="text-center max-w-2xl mx-auto">
             <p className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[var(--crimson)]">
@@ -604,11 +601,11 @@ export function HomepageRebuild() {
           </div>
 
           {/* 6 Step Cards in a Single Row / Responsive Grid (User's 5th Screenshot) */}
-          <div className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6 sm:gap-4">
+          <div className="mt-10 grid grid-cols-2 gap-3 sm:mt-12 sm:grid-cols-3 sm:gap-4 lg:grid-cols-6">
             {executionSteps.map((step) => (
               <div
                 key={step.number}
-                className="group flex flex-col items-center justify-between rounded-2xl border border-slate-200/80 bg-white p-6 text-center shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-lg"
+                className="group flex min-w-0 flex-col items-center justify-between rounded-2xl border border-slate-200/80 bg-white p-4 text-center shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-lg sm:p-6"
               >
                 <div className="flex flex-col items-center">
                   {/* Step Number Badge */}
@@ -622,11 +619,11 @@ export function HomepageRebuild() {
                     {step.number}
                   </div>
 
-                  <h3 className="mt-4 font-mono text-sm font-black tracking-wider text-[var(--navy)] uppercase">
+                  <h3 className="mt-4 break-words font-mono text-xs font-black tracking-wide text-[var(--navy)] uppercase sm:text-sm sm:tracking-wider">
                     {step.title}
                   </h3>
 
-                  <p className="mt-2 text-xs leading-relaxed text-slate-500">
+                  <p className="mt-2 text-xs leading-5 text-slate-500">
                     {step.desc}
                   </p>
                 </div>
@@ -641,20 +638,13 @@ export function HomepageRebuild() {
           ======================================================== */}
       <section id="technology" className="relative overflow-hidden bg-[#061428]">
         <h2 className="sr-only">Our Technology. Intelligence at the core.</h2>
-        <Image
-          src="/images/home/tech_orbital.jpg"
-          alt="Our technology ecosystem with AI at the core, connected to artificial intelligence, connected technology, data and analytics, software and cloud, and robotics and automation."
-          width={1376}
-          height={768}
-          sizes="100vw"
-          className="h-auto w-full"
-        />
+        <TechOrbit />
       </section>
 
       {/* ========================================================
           8. WHY CARAWIN? (Original Content)
           ======================================================== */}
-      <section className="border-b border-[var(--border)] bg-[#f5f8fb] py-24 sm:py-32">
+      <section className="border-b border-[var(--border)] bg-[#f5f8fb] py-16 sm:py-20 lg:py-24">
         <div className="container-x">
           <div className="max-w-3xl">
             <p className="kicker text-[var(--crimson)]">WHY CARAWIN?</p>
@@ -663,11 +653,11 @@ export function HomepageRebuild() {
             </h2>
           </div>
 
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid grid-cols-1 gap-4 sm:mt-12 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
             {whyCarawinData.pillars.map((pillar, idx) => (
               <div
                 key={pillar.title}
-                className="rounded-2xl border border-[var(--border)] bg-white p-7 shadow-2xs sm:p-8"
+                className="rounded-2xl border border-[var(--border)] bg-white p-4 shadow-2xs sm:p-7 lg:p-8"
               >
                 <div className="flex items-center justify-between">
                   <span className="font-mono text-xs font-bold text-[var(--crimson)]">
