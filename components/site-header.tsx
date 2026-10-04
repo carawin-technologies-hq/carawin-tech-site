@@ -428,6 +428,8 @@ export function SiteHeader() {
               lg:hidden
             "
           >
+            <GoogleTranslator />
+
             <button
               type="button"
               aria-label={mobile ? "Close menu" : "Open menu"}
