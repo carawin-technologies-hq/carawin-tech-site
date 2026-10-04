@@ -695,3 +695,194 @@ canvas {
     height: 72px;
   }
 }
+
+/* =========================================================
+   GOOGLE TRANSLATE - HIDE TOP GOOGLE TOOLBAR
+   ========================================================= */
+
+/* Hide Google's translation banner */
+.goog-te-banner-frame,
+.goog-te-banner-frame.skiptranslate,
+iframe.goog-te-banner-frame {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* Google sometimes injects the banner as a skiptranslate element */
+body > .skiptranslate {
+  display: none !important;
+}
+
+/* Prevent Google from pushing the entire page down */
+html {
+  margin-top: 0 !important;
+}
+
+body {
+  top: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* Google translation toolbar can modify these classes */
+body.translated-ltr,
+body.translated-rtl {
+  top: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* =========================================================
+   GOOGLE TRANSLATE — CARAWIN HEADER FIX
+   ========================================================= */
+
+.google-translate-wrapper {
+  width: 120px !important;
+  height: 38px !important;
+  display: flex !important;
+  align-items: center !important;
+  overflow: hidden !important;
+  flex-shrink: 0 !important;
+}
+
+.google-translate-wrapper .goog-te-gadget {
+  width: 120px !important;
+  height: 38px !important;
+  display: flex !important;
+  align-items: center !important;
+  overflow: hidden !important;
+
+  font-size: 0 !important;
+  line-height: 1 !important;
+}
+
+.google-translate-wrapper .goog-te-combo {
+  width: 120px !important;
+  height: 38px !important;
+
+  margin: 0 !important;
+  padding: 0 28px 0 12px !important;
+
+  border: 1px solid #d9e0e8 !important;
+  border-radius: 20px !important;
+
+  background: #ffffff !important;
+  color: #1e293b !important;
+
+  font-family: inherit !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+
+  line-height: 38px !important;
+
+  appearance: auto !important;
+  -webkit-appearance: auto !important;
+
+  box-sizing: border-box !important;
+}
+
+/* Hide Google's branding text inside the widget */
+.google-translate-wrapper .goog-te-gadget > span {
+  display: none !important;
+}
+
+/* Hide Google logo / branding elements */
+.google-translate-wrapper .goog-logo-link {
+  display: none !important;
+}
+
+.google-translate-wrapper .goog-te-gadget-icon {
+  display: none !important;
+}
+
+/* Remove extra Google-generated spacing */
+.google-translate-wrapper br {
+  display: none !important;
+}
+
+/* =========================================================
+   CARAWIN LANGUAGE SELECTOR
+   ========================================================= */
+.carawin-language-selector {
+  width: 82px;
+  height: 38px;
+  flex-shrink: 0;
+}
+
+.carawin-language-selector select {
+  width: 82px;
+  height: 38px;
+
+  margin: 0;
+  padding: 0 20px 0 10px;
+
+  border: 1px solid #d9e0e8;
+  border-radius: 20px;
+
+  background: #ffffff;
+  color: #1e293b;
+
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+
+  cursor: pointer;
+  outline: none;
+
+  box-sizing: border-box;
+}
+
+.carawin-language-selector select:hover {
+  border-color: #b5122b;
+}
+
+.carawin-language-selector select:focus {
+  border-color: #002147;
+  box-shadow: 0 0 0 3px rgba(0, 33, 71, 0.08);
+}
+
+/* =========================================================
+   HIDDEN GOOGLE TRANSLATE WIDGET
+   ========================================================= */
+
+.google-translate-hidden {
+  position: absolute !important;
+  left: -9999px !important;
+  top: -9999px !important;
+
+  width: 1px !important;
+  height: 1px !important;
+
+  overflow: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Hide Google top translation toolbar */
+
+.goog-te-banner-frame,
+.goog-te-banner-frame.skiptranslate,
+iframe.goog-te-banner-frame {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+body {
+  top: 0 !important;
+  margin-top: 0 !important;
+}
+
+html {
+  margin-top: 0 !important;
+}
+
+body.translated-ltr,
+body.translated-rtl {
+  top: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* Prevent horizontal layout problems */
+
+html,
+body {
+  overflow-x: hidden;
+}

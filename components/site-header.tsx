@@ -10,6 +10,7 @@ import {
 } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { Logo } from "@/components/logo"
+import { GoogleTranslator } from "@/components/google-translator"
 
 const menus = {
   Solutions: [
@@ -18,14 +19,6 @@ const menus = {
     ["Skills & Training", "/solutions/skills-and-training"],
     ["AI, Software & IoT Products", "/solutions/ai-software-iot"],
     ["Consultancy & Advisory", "/solutions/consultancy-and-advisory"],
-  ],
-
-  Sectors: [
-    ["K–12 Schools", "/sectors/k12-schools"],
-    ["Colleges & Universities", "/sectors/colleges-universities"],
-    ["Government & Public Education", "/government"],
-    ["CSR & Foundations", "/sectors/csr-foundations"],
-    ["Industry & Enterprise", "/sectors/industry-enterprise"],
   ],
 
   Impact: [
@@ -41,7 +34,6 @@ type MenuKey = keyof typeof menus
 
 const menuLandingPages: Record<MenuKey, string> = {
   Solutions: "/solutions",
-  Sectors: "/sectors",
   Impact: "/impact",
 }
 
@@ -263,57 +255,6 @@ export function SiteHeader() {
               )}
             </div>
 
-            {/* SECTORS */}
-            <div
-              className="relative"
-              onMouseEnter={() => openMenu("Sectors")}
-              onMouseLeave={scheduleClose}
-            >
-              <button
-                type="button"
-                aria-expanded={open === "Sectors"}
-                onFocus={() => openMenu("Sectors")}
-                className="
-                  flex
-                  items-center
-                  gap-1
-                  whitespace-nowrap
-                  rounded-full
-                  px-2.5
-                  py-2
-                  text-[13px]
-                  font-semibold
-                  text-[var(--muted)]
-                  transition-all
-                  duration-200
-                  hover:bg-[var(--background)]
-                  hover:text-[var(--foreground)]
-                  xl:px-3
-                "
-              >
-                Sectors
-                <ChevronDown
-                  size={13}
-                  className={`
-                    shrink-0
-                    text-[var(--muted)]
-                    transition-transform
-                    duration-200
-                    ${open === "Sectors" ? "rotate-180" : ""}
-                  `}
-                />
-              </button>
-
-              {open === "Sectors" && (
-                <MegaMenu
-                  menu="Sectors"
-                  items={menus.Sectors}
-                  onEnter={cancelClose}
-                  onLeave={scheduleClose}
-                />
-              )}
-            </div>
-
             {/* CONSULTANCY */}
             <Link
               href="/consultancy"
@@ -457,12 +398,15 @@ export function SiteHeader() {
               lg:flex
             "
           >
+            <GoogleTranslator />
+
             <Link
               href="/demo"
               className="btn-secondary whitespace-nowrap"
             >
               Request a Demo
             </Link>
+
             <Link
               href="/contact"
               className="btn-primary whitespace-nowrap"
@@ -529,7 +473,6 @@ export function SiteHeader() {
             {[
               "About",
               "Solutions",
-              "Sectors",
               "Consultancy",
               "Impact",
               "Partners",
@@ -541,17 +484,15 @@ export function SiteHeader() {
                   ? "/about"
                   : item === "Solutions"
                     ? "/solutions"
-                    : item === "Sectors"
-                      ? "/sectors"
-                      : item === "Consultancy"
-                        ? "/consultancy"
-                        : item === "Impact"
-                          ? "/impact"
-                          : item === "Partners"
-                            ? "/partners"
-                            : item === "Careers"
-                              ? "/careers"
-                              : "/contact"
+                    : item === "Consultancy"
+                      ? "/consultancy"
+                      : item === "Impact"
+                        ? "/impact"
+                        : item === "Partners"
+                          ? "/partners"
+                          : item === "Careers"
+                            ? "/careers"
+                            : "/contact"
 
               return (
                 <Link
@@ -746,9 +687,7 @@ function MegaMenu({
           >
             {menu === "Solutions"
               ? "View all solutions"
-              : menu === "Sectors"
-                ? "View all sectors"
-                : "View our impact"}
+              : "View our impact"}
 
             <ArrowUpRight size={13} />
           </Link>
