@@ -15,10 +15,35 @@ import { solutionVerticals, whyCarawinData, carawinApproach } from "@/lib/carawi
 import { TechOrbit } from "./tech-orbit"
 import { Reveal } from "@/components/motion-primitives"
 
+import {
+  motion,
+  useScroll,
+  useTransform,
+} from "framer-motion"
+
+import { useEffect } from "react"
+
+
+
 export function HomepageRebuild() {
   const [activeTechNode, setActiveTechNode] = useState<string>("robotics")
   const capabilityRailRef = useRef<HTMLDivElement | null>(null)
 
+const executionRailRef = useRef<HTMLDivElement | null>(null)
+
+const scrollExecution = (direction: number) => {
+  const rail = executionRailRef.current
+  if (!rail) return
+
+  const card = rail.querySelector<HTMLElement>(
+    ".execution-photo-card"
+  )
+
+  rail.scrollBy({
+    left: direction * ((card?.getBoundingClientRect().width ?? rail.clientWidth * 0.82) + 20),
+    behavior: "smooth",
+  })
+}
 const scrollCapabilities = (direction: number) => {
   capabilityRailRef.current?.scrollBy({
     left: direction * 460,
@@ -102,46 +127,214 @@ const scrollCapabilities = (direction: number) => {
   alt: "Carawin ecosystem integration",
 },
 ]
+const labImages = [
+  "/images/home/carawin_labs_students.png",
+  "/images/home/lab_students_1.jpg",
+  "/images/home/lab_students_2.png",
+  "/images/home/lab_students_3.jpg",
+  "/images/home/lab_students_4.jpg",  
+]
+
+const whyCarawinImages = [
+  "/images/home/integrated.jpg",
+  "/images/home/experiential.jpg",
+  "/images/home/practical.jpg",
+  "/images/home/scalable.jpg",
+  "/images/home/measurable.jpg",
+  "/images/home/cross-sector.jpg",
+]
+
+const executionSteps = [
+  {
+    number: "01",
+    title: "DISCOVER",
+    desc: "Understand problem & opportunity",
+    image: "/images/home/discover.jpg",
+    highlight: true,
+  },
+  {
+    number: "02",
+    title: "DESIGN",
+    desc: "Create product & architecture",
+    image: "/images/home/design.jpg",
+    highlight: false,
+  },
+  {
+    number: "03",
+    title: "DEVELOP",
+    desc: "Build platform, product or solution",
+    image: "/images/home/develop.jpg",
+    highlight: false,
+  },
+  {
+    number: "04",
+    title: "PILOT",
+    desc: "Validate in real-world environments",
+    image: "/images/home/pilot.jpg",
+    highlight: false,
+  },
+  {
+    number: "05",
+    title: "DEPLOY",
+    desc: "Implement, integrate & operationalize",
+    image: "/images/home/deploy.jpg",
+    highlight: false,
+  },
+  {
+    number: "06",
+    title: "SCALE",
+    desc: "Expand across users & markets",
+    image: "/images/home/scale.jpg",
+    highlight: true,
+  },
+]
+
+  const technologyRef = useRef<HTMLElement | null>(null)
+const technologyVideoRef = useRef<HTMLVideoElement | null>(null)
+
+const { scrollYProgress: technologyProgress } = useScroll()
+
+const technologyOpacity = useTransform(
+  technologyProgress,
+  [0, 0.18, 0.5, 0.82, 1],
+  [0, 1, 1, 0.78, 0]
+)
+
+const technologyY = useTransform(
+  technologyProgress,
+  [0, 0.18, 0.5, 0.82, 1],
+  [120, 0, 0, -40, -100]
+)
+
+const technologyScale = useTransform(
+  technologyProgress,
+  [0, 0.18, 0.5, 0.82, 1],
+  [0.96, 1, 1, 0.99, 0.975]
+)
+
+const aboutSectionRef = useRef<HTMLElement | null>(null)
+const [aboutImageVisible, setAboutImageVisible] = useState(false)
 
 
-  const executionSteps = [
-    {
-      number: "01",
-      title: "DISCOVER",
-      desc: "Understand problem & opportunity",
-      highlight: true,
+
+
+useEffect(() => {
+  const section = technologyRef.current
+  const video = technologyVideoRef.current
+
+  if (!section || !video) return
+
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) {
+        video.currentTime = 0
+        video.play().catch(() => {})
+      } else {
+        video.pause()
+      }
     },
     {
-      number: "02",
-      title: "DESIGN",
-      desc: "Create product & architecture",
-      highlight: false,
+      threshold: 0.45,
+    }
+  )
+
+  observer.observe(section)
+
+  return () => observer.disconnect()
+}, [])
+
+useEffect(() => {
+  const section = aboutSectionRef.current
+  if (!section) return
+
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) {
+        setAboutImageVisible(true)
+        observer.unobserve(section)
+      }
     },
-    {
-      number: "03",
-      title: "DEVELOP",
-      desc: "Build platform, product or solution",
-      highlight: false,
-    },
-    {
-      number: "04",
-      title: "PILOT",
-      desc: "Validate in real-world environments",
-      highlight: false,
-    },
-    {
-      number: "05",
-      title: "DEPLOY",
-      desc: "Implement, integrate & operationalize",
-      highlight: false,
-    },
-    {
-      number: "06",
-      title: "SCALE",
-      desc: "Expand across users & markets",
-      highlight: true,
-    },
-  ]
+    { threshold: 0.1 }
+  )
+
+  observer.observe(section)
+
+  return () => observer.disconnect()
+}, [])
+
+
+const [activeHeroVideo, setActiveHeroVideo] = useState(0)
+
+const heroVideoRefs = useRef<Array<HTMLVideoElement | null>>([
+  null,
+  null,
+])
+
+const activeHeroVideoRef = useRef(0)
+const heroCrossfadeRef = useRef(false)
+
+const handleHeroVideoTimeUpdate = (index: number) => {
+  if (
+    index !== activeHeroVideoRef.current ||
+    heroCrossfadeRef.current
+  ) {
+    return
+  }
+
+  const currentVideo = heroVideoRefs.current[index]
+
+  if (
+    !currentVideo ||
+    !Number.isFinite(currentVideo.duration) ||
+    currentVideo.duration <= 1.2
+  ) {
+    return
+  }
+
+  // Begin the crossfade 1.1 seconds before the video ends.
+  if (currentVideo.duration - currentVideo.currentTime > 1.1) {
+    return
+  }
+
+  const nextIndex = index === 0 ? 1 : 0
+  const nextVideo = heroVideoRefs.current[nextIndex]
+
+  if (!nextVideo) return
+
+  heroCrossfadeRef.current = true
+  nextVideo.currentTime = 0
+
+  nextVideo.play()
+    .then(() => {
+      activeHeroVideoRef.current = nextIndex
+      setActiveHeroVideo(nextIndex)
+    })
+    .catch(() => {
+      heroCrossfadeRef.current = false
+      currentVideo.loop = true
+    })
+}
+
+const handleHeroVideoTransitionEnd = (index: number) => {
+  // Clean up the outgoing video after its fade-out finishes.
+  if (
+    !heroCrossfadeRef.current ||
+    index === activeHeroVideoRef.current
+  ) {
+    return
+  }
+
+  const outgoingVideo = heroVideoRefs.current[index]
+
+  if (outgoingVideo) {
+    outgoingVideo.pause()
+    outgoingVideo.currentTime = 0
+  }
+
+  heroCrossfadeRef.current = false
+}
+
+
 
   return (
     <div className="overflow-hidden bg-[var(--background)] text-[var(--foreground)]">
@@ -155,14 +348,31 @@ const scrollCapabilities = (direction: number) => {
   {/* ONE SINGLE BACKGROUND FOR THE ENTIRE HERO */}
   <div className="pointer-events-none absolute inset-0 z-0">
 
-    <Image
-      src="/images/home/BG-IMG-2.png"
-      alt=""
-      fill
-      priority
-      sizes="100vw"
-      className="object-cover object-center"
+{[0, 1].map((index) => (
+  <video
+    key={index}
+    ref={(node) => {
+      heroVideoRefs.current[index] = node
+    }}
+    className={`hero-bg-video ${
+      activeHeroVideo === index ? "is-active" : ""
+    }`}
+    autoPlay={index === 0}
+    muted
+    loop
+    playsInline
+    preload={index === 0 ? "auto" : "metadata"}
+    poster="/images/home/BG-IMG-2.png"
+    aria-hidden="true"
+    onTimeUpdate={() => handleHeroVideoTimeUpdate(index)}
+    onTransitionEnd={() => handleHeroVideoTransitionEnd(index)}
+  >
+    <source
+      src="/videos/bg-video-new.mp4"
+      type="video/mp4"
     />
+  </video>
+))}
 
     {/* Readability overlay */}
     <div className="absolute inset-0 bg-gradient-to-r from-[#001739]/90 via-[#001739]/55 to-[#001739]/10" />
@@ -358,11 +568,20 @@ className="hero-cta hero-cta-blue inline-flex w-full items-center justify-center
           about_bg.png (white -> blue VR artwork) is the background of the
           top block; all original content sits on top of it.
           ======================================================== */}
-<section className="relative overflow-hidden bg-gradient-to-b from-[#011E42] via-[#011A3E] to-[#001739]">
+<section
+  ref={aboutSectionRef}
+  className="relative overflow-hidden bg-gradient-to-b from-[#011E42] via-[#011A3E] to-[#001739]"
+>  
+  
+  
   {/* ---------- TOP BLOCK WITH BACKGROUND IMAGE ---------- */}
         <div className="relative min-h-[70vw] sm:min-h-[55vw] lg:min-h-0">
           {/* Artwork: always a full background layer at all screen sizes */}
-          <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+          <div
+  className={`about-intro-artwork-layer pointer-events-none absolute inset-0 z-0 overflow-hidden ${
+    aboutImageVisible ? "about-intro-artwork-layer-visible" : ""
+  }`}
+>
             <Image
               src="/images/home/about_bg.png"
               alt="Carawin Technologies VR Lab and Learning Solutions"
@@ -382,10 +601,10 @@ className="hero-cta hero-cta-blue inline-flex w-full items-center justify-center
           </div>
 
           {/* Content */}
-          <div className="container-x relative z-10 pt-24 pb-16 sm:pt-28 sm:pb-20 lg:pt-32 lg:pb-24">
-            <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-14">
+          <div className="relative z-10 mx-auto w-full max-w-[1680px] px-5 pt-24 pb-16 sm:px-8 sm:pt-28 sm:pb-20 lg:px-[4vw] lg:pt-32 lg:pb-24">
+            <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-10">
               {/* Left Content Column */}
-              <div className="lg:col-span-6">
+              <div className="w-full max-w-[560px] lg:col-span-5">
                 <Reveal>
   <p className="kicker text-[var(--crimson)]">
     HOME — INTRODUCTION
@@ -445,7 +664,7 @@ className="group flex min-w-0 flex-col items-center justify-center rounded-2xl b
               </div>
 
               {/* Right column intentionally empty so the background artwork shows through */}
-              <div className="hidden lg:col-span-6 lg:block" />
+              <div className="hidden lg:col-span-7 lg:block" />
             </div>
           </div>
         </div>
@@ -455,7 +674,7 @@ className="group flex min-w-0 flex-col items-center justify-center rounded-2xl b
 </section>
 {/* ---------- Editorial Technology Statement ---------- */}
 <section className="border-b border-slate-200 bg-white py-16 sm:py-20 lg:py-24">
-  <div className="container-x">
+  <div className="w-full max-w-none px-5 sm:px-8 lg:px-[4vw]">
 
 <div className="max-w-[1280px]">
       {/* Left editorial label */}
@@ -513,8 +732,7 @@ className="group flex min-w-0 flex-col items-center justify-center rounded-2xl b
     3. CAPABILITIES
     ======================================================== */}
 <section className="border-b border-slate-200 bg-[#f7f9fc] py-20 sm:py-24 lg:py-32">
-  <div className="container-x">
-
+<div className="w-full max-w-none px-3 sm:px-5 lg:px-6 xl:px-8">
     {/* Section header */}
     <div className="grid gap-8 lg:grid-cols-[0.7fr_1.3fr] lg:items-end lg:gap-20">
 
@@ -543,28 +761,7 @@ className="group flex min-w-0 flex-col items-center justify-center rounded-2xl b
 <div className="relative mt-14 sm:mt-16 lg:mt-20">
 
   {/* Navigation arrows */}
-  <div className="mb-5 flex items-center justify-end gap-2 sm:mb-6">
-
-    <button
-      type="button"
-      onClick={() => scrollCapabilities(-1)}
-      aria-label="Previous capability"
-      className="flex h-11 w-11 items-center justify-center rounded-full border border-[#061A35]/15 bg-white text-[#061A35] transition-all duration-300 hover:border-[#061A35] hover:bg-[#061A35] hover:text-white"
-    >
-      <ArrowLeft size={18} />
-    </button>
-
-    <button
-      type="button"
-      onClick={() => scrollCapabilities(1)}
-      aria-label="Next capability"
-      className="flex h-11 w-11 items-center justify-center rounded-full border border-[#061A35]/15 bg-white text-[#061A35] transition-all duration-300 hover:border-[#061A35] hover:bg-[#061A35] hover:text-white"
-    >
-      <ArrowRight size={18} />
-    </button>
-
-  </div>
-
+ 
 
   {/* Scrollable rail */}
   <div
@@ -717,23 +914,41 @@ className="group flex min-w-0 flex-col items-center justify-center rounded-2xl b
       {/* ========================================================
           4. CARAWIN LABS WIDE BANNER (Learn. Build. Experiment. Innovate.)
           ======================================================== */}
-      <section className="relative w-full overflow-hidden bg-[#071832] text-white border-y border-[#0f294d]">
+      <section className="relative w-full overflow-hidden bg-[#071832] text-white">
         <div className="relative w-full min-h-[380px] lg:min-h-[440px]">
           {/* Background Image — always fills the entire section */}
-          <div className="absolute inset-0 z-0 overflow-hidden">
-            <div className="absolute inset-0 w-full h-full lg:[clip-path:polygon(7%_0,100%_0,100%_100%,0%_100%)]">
-              <Image
-                src="/images/home/carawin_labs_students.png"
-                alt="Carawin Labs STEM & Robotics Students Collaborating"
-                fill
-                sizes="100vw"
-                className="object-cover object-center"
-                priority
-              />
-            </div>
-            {/* Gradient overlay so text is readable at all sizes */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#071832] from-20% via-[#071832]/80 via-50% to-[#071832]/20 sm:from-[#071832] sm:from-15% sm:via-[#071832]/70 sm:via-45% lg:from-[#071832] lg:from-10% lg:via-[#071832]/60 lg:via-40% lg:to-transparent pointer-events-none z-10" />
-          </div>
+          {/* Cinematic Labs background */}
+<div className="absolute inset-0 z-0 overflow-hidden">
+
+  <div className="absolute inset-0 w-full h-full lg:[clip-path:polygon(7%_0,100%_0,100%_100%,0%_100%)]">
+
+    {labImages.map((src, index) => (
+      <div
+        key={src}
+        className={`labs-bg-image labs-bg-image-${index}`}
+      >
+        <Image
+          src={src}
+          alt=""
+          fill
+          sizes="100vw"
+          className="object-cover object-center"
+          priority={index === 0}
+        />
+      </div>
+    ))}
+
+  </div>
+{/* Soft edge fade */}
+<div className="labs-edge-fade" />
+
+  {/* Readability overlay */}
+  <div className="absolute inset-0 z-10 bg-gradient-to-r from-[#071832]/95 via-[#071832]/65 to-[#071832]/15 sm:from-[#071832]/90 sm:via-[#071832]/60 sm:to-[#071832]/10" />
+
+  {/* Bottom cinematic fade */}
+  <div className="absolute inset-x-0 bottom-0 z-10 h-32 bg-gradient-to-t from-[#071832]/70 to-transparent sm:h-40" />
+
+</div>
 
           {/* Left Content Area — overlays the image */}
           <div className="relative z-20 flex flex-col justify-center px-6 py-12 sm:px-12 lg:py-16 lg:pl-16 xl:pl-24 max-w-2xl">
@@ -768,34 +983,47 @@ className="group flex min-w-0 flex-col items-center justify-center rounded-2xl b
       </section>
 
       {/* ========================================================
-          5. OUR PRODUCTS & LABS (Ultra Crisp 4K Images)
+          5. OUR PRODUCTS & LABS (5 Products in a Grid)
           ======================================================== */}
       <section id="products" className="border-b border-[var(--border)] bg-white py-16 sm:py-20 lg:py-24">
-        <div className="container-x">
-          <div className="flex flex-row justify-between gap-4 items-end">
-            <div>
-              <p className="kicker text-[var(--crimson)]">OUR PRODUCTS &amp; LABS</p>
-              <h2 className="mt-2 text-3xl font-black tracking-tight text-[var(--navy)] sm:text-4xl lg:text-[2.75rem]">
-                FROM IDEAS TO PRODUCTS.
-              </h2>
-            </div>
+        <div className="w-full max-w-none px-5 sm:px-8 lg:px-[4vw]">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
 
-            <Link
-              href="/solutions"
-              className="inline-flex items-center gap-1 font-mono text-xs font-bold uppercase tracking-wider text-[var(--navy)] transition-colors hover:text-[var(--crimson)]"
-            >
-              VIEW ALL PRODUCTS &amp; LABS →
-            </Link>
-          </div>
+  <div>
+    <Reveal>
+      <p className="kicker text-[var(--crimson)]">
+        OUR PRODUCTS &amp; LABS
+      </p>
+    </Reveal>
+
+    <Reveal delay={0.08} y={35}>
+      <h2 className="mt-2 text-3xl font-black tracking-tight text-[var(--navy)] sm:text-4xl lg:text-[2.75rem]">
+        FROM IDEAS TO PRODUCTS.
+      </h2>
+    </Reveal>
+  </div>
+
+  <Reveal delay={0.16} y={20}>
+    <Link
+      href="/solutions"
+      className="inline-flex items-center gap-1 font-mono text-xs font-bold uppercase tracking-wider text-[var(--navy)] transition-colors hover:text-[var(--crimson)]"
+    >
+      VIEW ALL PRODUCTS &amp; LABS →
+    </Link>
+  </Reveal>
+
+</div>
 
           {/* 5 Products Grid (5 cols on desktop) */}
-          <div className="mt-10 grid grid-cols-5 gap-2 sm:gap-3.5 lg:gap-4">
+          <div
+  id="product-grid"
+  className="product-grid mt-10"
+>
             {products.map((prod) => (
               <Link
                 key={prod.title}
                 href={prod.href}
-                className="group flex flex-col justify-between overflow-hidden rounded-xl border border-slate-200/80 bg-white p-3 shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-blue-400/40 hover:shadow-xl"
-              >
+className="product-card group relative flex flex-col justify-between overflow-visible rounded-2xl border border-slate-200/80 bg-white p-3 shadow-xs sm:p-4"              >
                 <div>
                   <div className="relative aspect-[16/10] w-full overflow-hidden rounded-lg bg-slate-900">
                     <Image
@@ -804,119 +1032,299 @@ className="group flex min-w-0 flex-col items-center justify-center rounded-2xl b
                       fill
                       unoptimized
                       sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 220px"
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="product-card-image object-cover transition-[transform,filter] duration-700 ease-out group-hover:scale-110 group-hover:brightness-110"
                     />
                   </div>
 
-                  <h3 className="mt-3 text-xs sm:text-sm font-bold text-[var(--navy)] tracking-tight leading-snug group-hover:text-[var(--crimson)] transition-colors">
-                    {prod.title}
-                  </h3>
+                  <h3 className="mt-3 text-xs font-bold leading-snug tracking-tight text-[var(--navy)] transition-transform duration-500 ease-out group-hover:-translate-y-1 sm:text-sm">
+  {prod.title}
+</h3>
                 </div>
 
                 <div className="mt-2.5 pt-2 border-t border-slate-100">
-                  <span className="inline-flex items-center gap-1 text-[11px] font-bold text-[var(--crimson)]">
-                    Explore →
-                  </span>
+                  <span className="inline-flex items-center gap-1 text-[11px] font-bold text-[var(--crimson)] transition-all duration-500 group-hover:gap-2">
+  Explore →
+</span>
                 </div>
               </Link>
-            ))}
+                        ))}
           </div>
+
+          {/* Mobile product navigation */}
+          <div className="mt-5 flex justify-end gap-2 sm:hidden">
+            <button
+              type="button"
+              aria-label="Previous product"
+              onClick={() => {
+                document
+                  .getElementById("product-grid")
+                  ?.scrollBy({
+                    left: -180,
+                    behavior: "smooth",
+                  })
+              }}
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-[var(--navy)] shadow-sm"
+            >
+              <ArrowLeft size={16} />
+            </button>
+
+            <button
+              type="button"
+              aria-label="Next product"
+              onClick={() => {
+                document
+                  .getElementById("product-grid")
+                  ?.scrollBy({
+                    left: 180,
+                    behavior: "smooth",
+                  })
+              }}
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-[var(--navy)] shadow-sm"
+            >
+              <ArrowRight size={16} />
+            </button>
+          </div>
+
         </div>
       </section>
 
-      {/* ========================================================
-          6. HOW WE WORK / STRUCTURED EXECUTION (User's 5th Screenshot)
-          ======================================================== */}
-      <section className="border-b border-[var(--border)] bg-[#f8fafc] py-16 sm:py-20 lg:py-24">
-        <div className="container-x">
-          <div className="text-center max-w-2xl mx-auto">
-            <p className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[var(--crimson)]">
-              HOW WE WORK
-            </p>
-            <h2 className="mt-2 text-3xl font-black tracking-tight text-[var(--navy)] sm:text-4xl lg:text-[2.75rem]">
-              FROM IDEA TO IMPACT.
-            </h2>
-            <p className="mt-3 text-sm text-slate-500 sm:text-base">
-              Structured Execution From Discovery to Scale
-            </p>
-          </div>
 
-          {/* 6 Step Cards in a Single Row / Responsive Grid (User's 5th Screenshot) */}
-          <div className="mt-10 grid grid-cols-2 gap-3 sm:mt-12 sm:grid-cols-3 sm:gap-4 lg:grid-cols-6">
-            {executionSteps.map((step) => (
-              <div
-                key={step.number}
-                className="group flex min-w-0 flex-col items-center justify-between rounded-2xl border border-slate-200/80 bg-white p-4 text-center shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-lg sm:p-6"
-              >
-                <div className="flex flex-col items-center">
-                  {/* Step Number Badge */}
-                  <div
-                    className={`flex h-9 w-9 items-center justify-center rounded-full text-xs font-black ${
-                      step.highlight
-                        ? "bg-rose-50 text-[var(--crimson)] border border-rose-200"
-                        : "bg-slate-100 text-slate-700 border border-slate-200"
-                    }`}
-                  >
-                    {step.number}
+{/* ========================================================
+    6. HOW WE WORK — IMAGE-LED WORKFLOW
+    ======================================================== */}
+<section className="execution-section border-b border-[var(--border)] bg-[#eef3f9] py-14 sm:py-20 lg:py-24">
+<div className="w-full max-w-none px-3 sm:px-5 lg:px-6 xl:px-8">
+    {/* Header */}
+    <div className="mb-9 max-w-2xl sm:mb-12">
+      <Reveal>
+        <p className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[var(--crimson)]">
+          HOW WE WORK
+        </p>
+      </Reveal>
+
+      <Reveal delay={0.08} y={35}>
+        <h2 className="mt-3 text-3xl font-black leading-[0.95] tracking-[-0.045em] text-[var(--navy)] sm:text-5xl lg:text-6xl">
+          FROM IDEA TO IMPACT.
+        </h2>
+      </Reveal>
+
+      <Reveal delay={0.16} y={20}>
+        <p className="mt-4 text-sm leading-6 text-slate-500 sm:text-base">
+          Structured execution, from discovery to scale.
+        </p>
+      </Reveal>
+    </div>
+
+    {/* Large photographic workflow cards */}
+    
+{/* Horizontal workflow carousel */}
+<div className="mt-8 sm:mt-10">
+
+
+  {/* Scrollable rail */}
+  <div
+    ref={executionRailRef}
+    className="execution-photo-rail-shell"
+  >
+    <div className="execution-photo-rail">
+
+      {executionSteps.map((step, index) => (
+        <Reveal
+          key={step.number}
+          delay={0.06 + (index % 3) * 0.08}
+          y={30}
+        >
+          <article className="execution-photo-card group">
+
+            <Image
+              src={step.image}
+              alt={`${step.title}: ${step.desc}`}
+              fill
+              sizes="(max-width: 640px) 82vw, 460px"
+              className="execution-photo-card-image object-cover"
+            />
+
+            <div
+              className="execution-photo-card-shade"
+              aria-hidden="true"
+            />
+
+            <div className="execution-photo-card-content">
+
+              <div className="flex items-center justify-between">
+                
+
+              </div>
+
+              <div className="execution-photo-copy">
+                <span className="execution-photo-accent" />
+
+                <h3>{step.title}</h3>
+
+                <p>{step.desc}</p>
+              </div>
+
+              
+
+            </div>
+          </article>
+        </Reveal>
+      ))}
+
+    </div>
+  </div>
+</div>
+
+  </div>
+</section>
+
+
+
+
+{/* ========================================================
+    8. WHY CARAWIN?
+    ======================================================== */}
+<section className="border-b border-slate-200 bg-white py-16 sm:py-20 lg:py-24">
+  <div className="container-x">
+
+    {/* Header */}
+    <div className="max-w-4xl">
+
+      <Reveal>
+        <p className="kicker text-[var(--crimson)]">
+          WHY CARAWIN?
+        </p>
+      </Reveal>
+
+      <Reveal delay={0.08} y={35}>
+        <h2 className="mt-4 max-w-4xl text-3xl font-black leading-[0.95] tracking-[-0.045em] text-[var(--navy)] sm:text-5xl lg:text-6xl">
+          {whyCarawinData.headline}
+        </h2>
+      </Reveal>
+
+    </div>
+
+    {/* Image-led pillar rail */}
+    <div className="relative mt-10 sm:mt-14 lg:mt-16">
+
+      {/* Navigation */}
+      <div className="mb-5 flex items-center justify-end gap-2 sm:mb-6">
+        <button
+          type="button"
+          aria-label="Previous pillar"
+          onClick={() => {
+            document
+              .getElementById("why-carawin-rail")
+              ?.scrollBy({ left: -460, behavior: "smooth" })
+          }}
+          className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-[var(--navy)] shadow-sm transition-all duration-300 hover:border-[var(--navy)] hover:bg-[var(--navy)] hover:text-white"
+        >
+          <ArrowLeft size={16} />
+        </button>
+
+        <button
+          type="button"
+          aria-label="Next pillar"
+          onClick={() => {
+            document
+              .getElementById("why-carawin-rail")
+              ?.scrollBy({ left: 460, behavior: "smooth" })
+          }}
+          className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-[var(--navy)] shadow-sm transition-all duration-300 hover:border-[var(--navy)] hover:bg-[var(--navy)] hover:text-white"
+        >
+          <ArrowRight size={16} />
+        </button>
+      </div>
+
+      <div
+        id="why-carawin-rail"
+        className="capability-marquee-shell"
+      >
+        <div className="capability-marquee">
+
+          {whyCarawinData.pillars.map((pillar, idx) => (
+            <Reveal
+              key={pillar.title}
+              delay={0.08 + idx * 0.06}
+              y={35}
+            >
+              <div className="capability-card group">
+
+                <div className="capability-card-media">
+
+                  {/* Background image */}
+                  <Image
+                    src={whyCarawinImages[idx]}
+                    alt={pillar.title}
+                    fill
+                    sizes="(max-width: 640px) 82vw, (max-width: 1024px) 48vw, 420px"
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  />
+
+                  {/* Dark readability gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#061A35] via-[#061A35]/55 via-55% to-[#061A35]/5" />
+
+                  {/* Subtle hover glow */}
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(0,174,239,0.18),transparent_35%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+
+                  {/* Card content */}
+                  <div className="relative z-10 flex h-full flex-col justify-between p-6 text-white sm:p-8">
+
+                    {/* Number */}
+                    <div className="flex items-center justify-between">
+
+                      <span className="font-mono text-xs font-bold tracking-[0.2em] text-white/75">
+                        0{idx + 1}
+                      </span>
+
+                      <span className="h-2.5 w-2.5 rounded-full bg-[#E11D48]" />
+
+                    </div>
+
+                    {/* Bottom content */}
+                    <div>
+
+                      <p className="mb-3 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#5BC8FF] sm:text-xs">
+                        CARAWIN PILLAR
+                      </p>
+
+                      <h3 className="max-w-[360px] text-3xl font-black leading-[0.95] tracking-[-0.035em] text-white sm:text-4xl">
+                        {pillar.title}
+                      </h3>
+
+                      <p className="mt-4 max-w-[360px] text-sm leading-6 text-white/78 sm:text-[15px]">
+                        {pillar.desc}
+                      </p>
+
+                      <div className="mt-7 flex items-center justify-between border-t border-white/20 pt-4">
+
+                        <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-white/70 transition-colors duration-300 group-hover:text-white">
+                          EXPLORE PILLAR
+                        </span>
+
+                        <span className="flex h-10 w-10 items-center justify-center rounded-full border border-white/30 text-white transition-all duration-300 group-hover:border-white group-hover:bg-white group-hover:text-[#061A35]">
+                          <ArrowUpRight size={17} />
+                        </span>
+
+                      </div>
+
+                    </div>
+
                   </div>
 
-                  <h3 className="mt-4 break-words font-mono text-xs font-black tracking-wide text-[var(--navy)] uppercase sm:text-sm sm:tracking-wider">
-                    {step.title}
-                  </h3>
-
-                  <p className="mt-2 text-xs leading-5 text-slate-500">
-                    {step.desc}
-                  </p>
                 </div>
+
               </div>
-            ))}
-          </div>
+            </Reveal>
+          ))}
+
         </div>
-      </section>
+      </div>
 
-      {/* ========================================================
-          7. OUR TECHNOLOGY — orbital ecosystem visual
-          ======================================================== */}
-      <section id="technology" className="relative overflow-hidden bg-[#061428]">
-        <h2 className="sr-only">Our Technology. Intelligence at the core.</h2>
-        <TechOrbit />
-      </section>
+    </div>
 
-      {/* ========================================================
-          8. WHY CARAWIN? (Original Content)
-          ======================================================== */}
-<section className="bg-white py-16 sm:py-20 lg:py-24">       
-   <div className="container-x">
-          <div className="max-w-3xl">
-            <p className="kicker text-[var(--crimson)]">WHY CARAWIN?</p>
-            <h2 className="mt-4 text-3xl font-black tracking-[-.04em] text-[var(--navy)] sm:text-5xl">
-              {whyCarawinData.headline}
-            </h2>
-          </div>
-
-          <div className="mt-10 grid grid-cols-1 gap-4 sm:mt-12 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-            {whyCarawinData.pillars.map((pillar, idx) => (
-              <div
-                key={pillar.title}
-                className="rounded-2xl border border-[var(--border)] bg-white p-4 shadow-2xs sm:p-7 lg:p-8"
-              >
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-xs font-bold text-[var(--crimson)]">
-                    0{idx + 1} / PILLAR
-                  </span>
-                  <span className="h-2 w-2 rounded-full bg-[var(--crimson)]" />
-                </div>
-                <h3 className="mt-4 text-xl font-black tracking-tight text-[var(--navy)]">
-                  {pillar.title}
-                </h3>
-                <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">
-                  {pillar.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+  </div>
+</section>
 
     </div>
   )
