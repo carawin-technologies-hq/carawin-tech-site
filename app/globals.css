@@ -1349,35 +1349,7 @@ body {
   }
 }
 
-/* =========================================================
-   CARAWIN LABS BACKGROUND SLIDESHOW
-   ========================================================= */
 
-.labs-bg-image {
-  opacity: 0;
-  transform: scale(1.04);
-  transition:
-    opacity 1200ms ease,
-    transform 6s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
-}
-
-.labs-bg-image-active {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.labs-bg-image-hidden {
-  opacity: 0;
-  transform: scale(1.04);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .labs-bg-image {
-    transition: none;
-    transform: none;
-  }
-}
 
 .capability-marquee-shell {
   width: calc(100% + 8vw);
@@ -1403,13 +1375,13 @@ body {
 
 .capability-card {
   display: block;
-  width: 420px;
-  flex: 0 0 420px;
+width: 280px;
+flex: 0 0 280px;
 }
 
 .capability-card-media {
   position: relative;
-  height: 560px;
+  height: 430px;
   overflow: hidden;
   border-radius: 24px;
   background: #061a35;
@@ -1433,10 +1405,10 @@ body {
     gap: 14px;
   }
 
-  .capability-card {
-    width: 82vw;
-    flex-basis: 82vw;
-  }
+ .capability-card {
+  width: 76vw;
+  flex: 0 0 76vw;
+}
 
   .capability-card-media {
     height: 470px;
@@ -1460,8 +1432,8 @@ body {
   }
 
   .capability-card {
-    width: 340px;
-    flex-basis: 340px;
+    width: 300px;
+    flex-basis: 300px;
   }
 
   .capability-card-media {
@@ -1476,7 +1448,7 @@ body {
 
   .capability-card {
     width: 82vw;
-    flex-basis: 0 082vw;
+    flex-basis: 0 0 82vw;
   }f
 
   .capability-card-media {
@@ -2671,19 +2643,20 @@ body {
     padding: 4px 2px 20px;
   }
 
-  .execution-photo-rail > * {
-    flex: 0 0 82vw !important;
-    width: 82vw !important;
-    scroll-snap-align: start;
-  }
+.execution-photo-rail > * {
+  flex: 0 0 76vw !important;
+  width: 76vw !important;
+  scroll-snap-align: start;
+}
 
-  .execution-photo-card {
-    height: 440px;
-    border-radius: 20px;
-  }
+.execution-photo-card {
+  height: 340px !important;
+  min-height: 0 !important;
+  border-radius: 18px;
+}
 
   .execution-photo-card-content {
-    padding: 22px;
+    padding: 18px;
   }
 
   .execution-photo-label {
@@ -2706,20 +2679,18 @@ body {
 }
 
 
-/* =========================================================
-   CAPABILITIES — HORIZONTAL SCROLL AT ALL SCREEN SIZES
-   ========================================================= */
+/* CAPABILITIES — HORIZONTAL SCROLL, COMPACT CARDS */
 
 .capability-marquee-shell {
   position: relative;
   width: 100vw !important;
   max-width: none !important;
   margin-left: calc(50% - 50vw) !important;
-  padding: 0 24px;
+  padding: 0 24px 16px;
   box-sizing: border-box;
   overflow-x: auto !important;
   overflow-y: hidden !important;
-  scroll-snap-type: x proximity;
+  scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   overscroll-behavior-x: contain;
   scrollbar-width: none;
@@ -2732,54 +2703,69 @@ body {
 
 .capability-marquee {
   display: flex !important;
+  flex-direction: row !important;
   flex-wrap: nowrap !important;
-  align-items: stretch;
-  gap: 18px;
+  grid-template-columns: none !important;
   width: max-content !important;
+  min-width: max-content !important;
   max-width: none !important;
-  padding-bottom: 20px;
+  gap: 20px;
 }
 
-.capability-marquee > * {
-  flex: 0 0 clamp(260px, 18.2vw, 320px) !important;
-  width: clamp(260px, 18.2vw, 320px) !important;
-  min-width: 0;
+.capability-marquee > .capability-card {
+  display: block;
+  flex: 0 0 420px !important;
+  width: 420px !important;
+  min-width: 420px !important;
+  max-width: 420px !important;
   scroll-snap-align: start;
 }
 
-.capability-card {
-  display: block;
-  width: 100% !important;
-  min-width: 0;
-}
-
 .capability-card-media {
-  position: relative;
   width: 100%;
-  height: clamp(400px, 32vw, 500px);
+  height: 560px !important;
+  border-radius: 22px;
   overflow: hidden;
-  border-radius: 20px;
 }
 
-@media (max-width: 640px) {
-  .capability-marquee-shell {
-    padding-inline: 14px;
-  }
-
-  .capability-marquee {
-    gap: 14px;
-  }
-
-  .capability-marquee > * {
-    flex-basis: 82vw !important;
-    width: 82vw !important;
+/* Tablet */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .capability-marquee > .capability-card {
+    flex-basis: 340px !important;
+    width: 340px !important;
+    min-width: 340px !important;
+    max-width: 340px !important;
   }
 
   .capability-card-media {
-    height: 470px;
-    border-radius: 20px;
+    height: 460px !important;
   }
 }
+
+/* Phone */
+@media (max-width: 640px) {
+  .capability-marquee-shell {
+    padding-inline: 12px;
+  }
+
+  .capability-marquee {
+    gap: 12px;
+  }
+
+  .capability-marquee > .capability-card {
+    flex: 0 0 76vw !important;
+    width: 76vw !important;
+    min-width: 76vw !important;
+    max-width: 76vw !important;
+  }
+
+  .capability-card-media {
+    height: 360px !important;
+    border-radius: 18px;
+  }
+}
+
+
 
 /* HERO VIDEO — REMOVE VISIBLE EDGE BANDS */
 /* HOW WE WORK — HORIZONTAL IMAGE CAROUSEL */
@@ -2851,9 +2837,46 @@ body {
 }
 
 
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
 
 
 
 
+/* FINAL OVERRIDE — CARAWIN LABS STATIC IMAGE */
+.labs-bg-image,
+.labs-bg-image-0,
+.labs-bg-image-1,
+.labs-bg-image-2,
+.labs-bg-image-3,
+.labs-bg-image-4 {
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+.labs-bg-image-0 {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
 
 
+
+/* Fix Lighthouse CLS from the animated light sweep */
+.hero-light-sweep {
+  display: none !important;
+  animation: none !important;
+}

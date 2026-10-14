@@ -76,12 +76,12 @@ const scrollCapabilities = (direction: number) => {
   const products = [
     {
       title: "AI Education Platform",
-      image: "/images/home/prod_ai_education.png",
+      image: "/images/home/optimized/prod_ai_education-280kb.jpeg",
       href: "/solutions/ai-in-education",
     },
     {
       title: "AI Tutor",
-      image: "/images/home/prod_ai_tutor.png",
+      image: "/images/home/optimized/prod_ai_tutor-280kb.jpeg",
       href: "/ai",
     },
     {
@@ -91,7 +91,7 @@ const scrollCapabilities = (direction: number) => {
     },
     {
       title: "Virtual STEM Lab",
-      image: "/images/home/prod_stem_lab.png",
+      image: "/images/home/optimized/prod_stem_lab-280kb.jpeg",
       href: "/solutions/ai-software-iot",
     },
     {
@@ -103,23 +103,23 @@ const scrollCapabilities = (direction: number) => {
 
   const capabilityImages = [
   {
-    src: "/images/home/ai.jpg",
+    src: "/images/home/ai.webp",
     alt: "Technology and digital learning",
   },
   {
-    src: "/images/home/transformation.jpg",
+    src: "/images/home/optimized/transformation-170kb.webp",
     alt: "Students using technology in a learning environment",
   },
   {
-    src: "/images/home/software.jpg",
+    src: "/images/home/optimized/software-250kb.webp",
     alt: "Student using digital technology",
   },
   {
-    src: "/images/home/iot.jpg",
+    src: "/images/home/iot.webp",
     alt: "Industrial technology and infrastructure",
   },
   {
-    src: "/images/home/education.jpg",
+    src: "/images/home/education.webp",
     alt: "Enterprise technology and digital transformation",
   },
   {
@@ -128,11 +128,7 @@ const scrollCapabilities = (direction: number) => {
 },
 ]
 const labImages = [
-  "/images/home/carawin_labs_students.png",
-  "/images/home/lab_students_1.jpg",
-  "/images/home/lab_students_2.png",
-  "/images/home/lab_students_3.jpg",
-  "/images/home/lab_students_4.jpg",  
+  "/images/home/optimized/carawin_labs_students-260kb.webp",
 ]
 
 const whyCarawinImages = [
@@ -141,7 +137,7 @@ const whyCarawinImages = [
   "/images/home/practical.jpg",
   "/images/home/scalable.jpg",
   "/images/home/measurable.jpg",
-  "/images/home/cross-sector.jpg",
+  "/images/home/optimized/cross-sector-280kb.jpg",
 ]
 
 const executionSteps = [
@@ -149,7 +145,7 @@ const executionSteps = [
     number: "01",
     title: "DISCOVER",
     desc: "Understand problem & opportunity",
-    image: "/images/home/discover.jpg",
+    image: "/images/home/optimized/discover-280kb (1).jpg",
     highlight: true,
   },
   {
@@ -170,7 +166,7 @@ const executionSteps = [
     number: "04",
     title: "PILOT",
     desc: "Validate in real-world environments",
-    image: "/images/home/pilot.jpg",
+    image: "/images/home/optimized/pilot-280kb.jpg",
     highlight: false,
   },
   {
@@ -349,29 +345,19 @@ const handleHeroVideoTransitionEnd = (index: number) => {
   <div className="pointer-events-none absolute inset-0 z-0">
 
 {[0, 1].map((index) => (
-  <video
-    key={index}
-    ref={(node) => {
-      heroVideoRefs.current[index] = node
-    }}
-    className={`hero-bg-video ${
-      activeHeroVideo === index ? "is-active" : ""
-    }`}
-    autoPlay={index === 0}
-    muted
-    loop
-    playsInline
-    preload={index === 0 ? "auto" : "metadata"}
-    poster="/images/home/BG-IMG-2.png"
-    aria-hidden="true"
-    onTimeUpdate={() => handleHeroVideoTimeUpdate(index)}
-    onTransitionEnd={() => handleHeroVideoTransitionEnd(index)}
-  >
-    <source
-      src="/videos/bg-video-new.mp4"
-      type="video/mp4"
-    />
-  </video>
+<video
+  key={index}
+  className="hero-bg-video"
+  autoPlay
+  muted
+  loop
+  playsInline
+  preload="none"
+  poster="/images/home/BG-IMG-2.webp"
+  aria-hidden="true"
+>
+  <source src="/videos/bg-video-new.mp4" type="video/mp4" />
+</video>
 ))}
 
     {/* Readability overlay */}
@@ -583,11 +569,10 @@ className="hero-cta hero-cta-blue inline-flex w-full items-center justify-center
   }`}
 >
             <Image
-              src="/images/home/about_bg.png"
+              src="/images/home/compressed_about_bg.webp"
               alt="Carawin Technologies VR Lab and Learning Solutions"
               fill
-              priority
-              quality={100}
+              quality={75}
               sizes="100vw"
               className="object-cover object-right"
             />
@@ -848,7 +833,7 @@ className="group flex min-w-0 flex-col items-center justify-center rounded-2xl b
   <div className="capability-card-media">
 
     <Image
-      src="/images/home/one-ecosystem.jpg"
+      src="/images/home/one-ecosystem.webp"
       alt="Carawin ecosystem integration"
       fill
       sizes="(max-width: 640px) 82vw, (max-width: 1024px) 48vw, 420px"
@@ -922,21 +907,16 @@ className="group flex min-w-0 flex-col items-center justify-center rounded-2xl b
 
   <div className="absolute inset-0 w-full h-full lg:[clip-path:polygon(7%_0,100%_0,100%_100%,0%_100%)]">
 
-    {labImages.map((src, index) => (
-      <div
-        key={src}
-        className={`labs-bg-image labs-bg-image-${index}`}
-      >
-        <Image
-          src={src}
-          alt=""
-          fill
-          sizes="100vw"
-          className="object-cover object-center"
-          priority={index === 0}
-        />
-      </div>
-    ))}
+   <div className="absolute inset-0">
+  <Image
+    src="/images/home/optimized/carawin_labs_students-260kb.webp"
+    alt=""
+    fill
+    priority
+    sizes="100vw"
+    className="object-cover object-center"
+  />
+</div>
 
   </div>
 {/* Soft edge fade */}
@@ -1284,9 +1264,7 @@ className="product-card group relative flex flex-col justify-between overflow-vi
                     {/* Bottom content */}
                     <div>
 
-                      <p className="mb-3 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#5BC8FF] sm:text-xs">
-                        CARAWIN PILLAR
-                      </p>
+                     
 
                       <h3 className="max-w-[360px] text-3xl font-black leading-[0.95] tracking-[-0.035em] text-white sm:text-4xl">
                         {pillar.title}

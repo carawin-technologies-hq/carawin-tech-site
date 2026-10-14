@@ -40,7 +40,7 @@ export function SiteFooter() {
       <div
         className="relative overflow-hidden border-t border-b border-white/10 bg-[#020b18] py-16 sm:py-20 lg:py-24"
         style={{
-          backgroundImage: "linear-gradient(to right, rgba(2,11,24,0.92) 0%, rgba(2,11,24,0.7) 45%, rgba(2,11,24,0.3) 100%), url('/images/home/cta_landscape.png')",
+          backgroundImage: "linear-gradient(to right, rgba(2,11,24,0.92) 0%, rgba(2,11,24,0.7) 45%, rgba(2,11,24,0.3) 100%), url('/images/home/cta_landscape.webp')",
           backgroundSize: "cover",
           backgroundPosition: "center right",
           backgroundRepeat: "no-repeat",
