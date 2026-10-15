@@ -275,57 +275,7 @@ export function SiteHeader() {
               Consultancy
             </Link>
 
-            {/* IMPACT */}
-            <div
-              className="relative"
-              onMouseEnter={() => openMenu("Impact")}
-              onMouseLeave={scheduleClose}
-            >
-              <button
-                type="button"
-                aria-expanded={open === "Impact"}
-                onFocus={() => openMenu("Impact")}
-                className="
-                  flex
-                  items-center
-                  gap-1
-                  whitespace-nowrap
-                  rounded-full
-                  px-2.5
-                  py-2
-                  text-[13px]
-                  font-semibold
-                  text-[var(--muted)]
-                  transition-all
-                  duration-200
-                  hover:bg-[var(--background)]
-                  hover:text-[var(--foreground)]
-                  xl:px-3
-                "
-              >
-                Impact
-                <ChevronDown
-                  size={13}
-                  className={`
-                    shrink-0
-                    text-[var(--muted)]
-                    transition-transform
-                    duration-200
-                    ${open === "Impact" ? "rotate-180" : ""}
-                  `}
-                />
-              </button>
-
-              {open === "Impact" && (
-                <MegaMenu
-                  menu="Impact"
-                  items={menus.Impact}
-                  onEnter={cancelClose}
-                  onLeave={scheduleClose}
-                />
-              )}
-            </div>
-
+         
             {/* PARTNERS */}
             <Link
               href="/partners"
@@ -476,7 +426,6 @@ export function SiteHeader() {
               "About",
               "Solutions",
               "Consultancy",
-              "Impact",
               "Partners",
               "Careers",
               "Contact",
@@ -488,8 +437,7 @@ export function SiteHeader() {
                     ? "/solutions"
                     : item === "Consultancy"
                       ? "/consultancy"
-                      : item === "Impact"
-                        ? "/impact"
+
                         : item === "Partners"
                           ? "/partners"
                           : item === "Careers"

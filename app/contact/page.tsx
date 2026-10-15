@@ -125,7 +125,7 @@ export default function ContactPage() {
                 <div className="mt-4 space-y-3 text-xs leading-relaxed text-white/80">
                   <p className="flex items-start gap-2.5">
                     <MapPin size={16} className="mt-0.5 shrink-0 text-[#ff7185]" />
-                    <span>22-A, 2nd Floor, Asaf Ali Road, Ajmeri Gate Extension, New Delhi – 110002, India</span>
+                    <span>INNOV8 OKHLA, 3rd Floor, 211, OKHLA INDL. ESTATE PHASE -III NEW DELHI 110020</span>
                   </p>
                   <p className="flex items-center gap-2.5">
                     <Mail size={16} className="shrink-0 text-[#ff7185]" />

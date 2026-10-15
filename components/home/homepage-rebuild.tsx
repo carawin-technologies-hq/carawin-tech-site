@@ -569,7 +569,7 @@ className="hero-cta hero-cta-blue inline-flex w-full items-center justify-center
   }`}
 >
             <Image
-              src="/images/home/compressed_about_bg.webp"
+              src="/images/home/about_bg.webp"
               alt="Carawin Technologies VR Lab and Learning Solutions"
               fill
               quality={75}
@@ -900,33 +900,53 @@ className="group flex min-w-0 flex-col items-center justify-center rounded-2xl b
           4. CARAWIN LABS WIDE BANNER (Learn. Build. Experiment. Innovate.)
           ======================================================== */}
       <section className="relative w-full overflow-hidden bg-[#071832] text-white">
-        <div className="relative w-full min-h-[380px] lg:min-h-[440px]">
-          {/* Background Image — always fills the entire section */}
-          {/* Cinematic Labs background */}
+<div className="relative w-full min-h-[460px] lg:min-h-[560px]">
+  
+  
+  
+            {/* Background Image — always fills the entire section */}
+
+
+        
+{/* Cinematic Labs background — image on right, fading left */}
 <div className="absolute inset-0 z-0 overflow-hidden">
 
-  <div className="absolute inset-0 w-full h-full lg:[clip-path:polygon(7%_0,100%_0,100%_100%,0%_100%)]">
-
-   <div className="absolute inset-0">
-  <Image
-    src="/images/home/optimized/carawin_labs_students-260kb.webp"
+  {/* Background photo */}
+  <div className="absolute inset-0 left-auto w-full overflow-hidden sm:w-[78%] lg:w-[70%]">
+    <Image
+       src="/images/home/optimized/carawin_labs_students.jpg"
     alt=""
     fill
     priority
     sizes="100vw"
-    className="object-cover object-center"
-  />
-</div>
-
+className="object-cover object-[100%_center]"    />
   </div>
-{/* Soft edge fade */}
-<div className="labs-edge-fade" />
 
-  {/* Readability overlay */}
-  <div className="absolute inset-0 z-10 bg-gradient-to-r from-[#071832]/95 via-[#071832]/65 to-[#071832]/15 sm:from-[#071832]/90 sm:via-[#071832]/60 sm:to-[#071832]/10" />
+  {/* Fade the image into the navy background */}
+{/* Strong, seamless fade from image into navy */}
+<div
+  aria-hidden="true"
+  className="pointer-events-none absolute inset-0 z-10"
+  style={{
+    background: `
+      linear-gradient(
+        to right,
+        #071832 0%,
+        #071832 25%,
+        rgba(7, 24, 50, 0.98) 35%,
+        rgba(7, 24, 50, 0.90) 43%,
+        rgba(7, 24, 50, 0.72) 52%,
+        rgba(7, 24, 50, 0.42) 63%,
+        rgba(7, 24, 50, 0.16) 76%,
+        rgba(7, 24, 50, 0.04) 90%,
+        transparent 100%
+      )
+    `,
+  }}
+/>
 
   {/* Bottom cinematic fade */}
-  <div className="absolute inset-x-0 bottom-0 z-10 h-32 bg-gradient-to-t from-[#071832]/70 to-transparent sm:h-40" />
+  <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-32 bg-gradient-to-t from-[#071832]/70 to-transparent sm:h-40" />
 
 </div>
 

@@ -38,14 +38,23 @@ export function SiteFooter() {
           TOP CTA SECTION (Matching User's Reference Screenshot)
           ======================================================== */}
       <div
-        className="relative overflow-hidden border-t border-b border-white/10 bg-[#020b18] py-16 sm:py-20 lg:py-24"
-        style={{
-          backgroundImage: "linear-gradient(to right, rgba(2,11,24,0.92) 0%, rgba(2,11,24,0.7) 45%, rgba(2,11,24,0.3) 100%), url('/images/home/cta_landscape.webp')",
-          backgroundSize: "cover",
-          backgroundPosition: "center right",
-          backgroundRepeat: "no-repeat",
-        }}
-      >
+  className="relative overflow-hidden border-t border-b border-white/10 bg-[#020b18] py-16 sm:py-20 lg:py-24"
+  style={{
+    backgroundImage: "url('/images/home/cta_landscape.png')",
+    backgroundSize: "cover",
+    backgroundPosition: "center 45%",
+    backgroundRepeat: "no-repeat",
+  }}
+>
+  {/* Single seamless fade: dark on left, image visible on right */}
+  <div
+    aria-hidden="true"
+    className="pointer-events-none absolute inset-0"
+    style={{
+      background:
+        "linear-gradient(90deg, #020b18 0%, rgba(2,11,24,0.98) 25%, rgba(2,11,24,0.88) 42%, rgba(2,11,24,0.58) 58%, rgba(2,11,24,0.20) 78%, rgba(2,11,24,0.08) 100%)",
+    }}
+  />
         {/* Subtle glow overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-[#020b18]/90 via-[#020b18]/60 to-transparent pointer-events-none" />
 

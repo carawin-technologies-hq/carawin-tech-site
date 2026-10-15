@@ -9,7 +9,7 @@ export function Logo() {
       className="group inline-flex shrink-0 items-center"
     >
       <Image
-        src="/images/home/optimized/carawin_logo-220kb.jpeg"
+        src="/images/carawin_logo.png"
         alt="Carawin Technologies"
         width={596}
         height={238}
