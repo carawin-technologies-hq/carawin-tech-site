@@ -85,25 +85,28 @@ export function GoogleTranslator() {
   }, [])
 
   const changeLanguage = (code: string) => {
-    setLanguage(code)
+  setLanguage(code)
 
-    const googleSelect = document.querySelector(
-      "#google_translate_hidden .goog-te-combo"
-    ) as HTMLSelectElement | null
+  if (code === "en") {
+    document.cookie = "googtrans=; path=/; max-age=0"
+    document.cookie = "googtrans=; path=/; domain=" + window.location.hostname + "; max-age=0"
 
-    if (!googleSelect) {
-      console.warn("Google Translate selector not ready")
-      return
-    }
-
-    googleSelect.value = code === "en" ? "" : code
-
-    googleSelect.dispatchEvent(
-      new Event("change", {
-        bubbles: true,
-      })
-    )
+    window.location.reload()
+    return
   }
+
+  const googleSelect = document.querySelector(
+    "#google_translate_hidden .goog-te-combo"
+  ) as HTMLSelectElement | null
+
+  if (!googleSelect) {
+    console.warn("Google Translate selector not ready")
+    return
+  }
+
+  googleSelect.value = code
+  googleSelect.dispatchEvent(new Event("change", { bubbles: true }))
+}
 
   return (
     <>

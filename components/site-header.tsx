@@ -158,6 +158,7 @@ export function SiteHeader() {
             grid
             min-h-[82px]
             grid-cols-[auto_minmax(0,1fr)_auto]
+            xl:gap-4
             items-center
             gap-3
             px-5
@@ -181,7 +182,7 @@ export function SiteHeader() {
               items-center
               justify-center
               gap-0
-              lg:flex
+              xl:flex
             "
           >
             {/* ABOUT */}
@@ -375,7 +376,7 @@ export function SiteHeader() {
               items-center
               justify-end
               gap-2
-              lg:hidden
+              xl:hidden
             "
           >
             <GoogleTranslator />
