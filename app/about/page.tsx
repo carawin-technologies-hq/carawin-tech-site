@@ -33,7 +33,8 @@ export default function AboutPage() {
     <main className="overflow-hidden bg-[#f5f7fa] text-[#071f40]">
       {/* 01 — About hero */}
       <section className="relative bg-white">
-        <div className="container-x mx-auto grid items-center gap-10 py-12 sm:py-16 lg:grid-cols-[1.05fr_.95fr] lg:gap-14 lg:py-20">
+
+<div className="container-x mx-auto grid items-center gap-10 pt-32 pb-12 sm:pt-36 sm:pb-16 lg:grid-cols-[1.05fr_.95fr] lg:gap-14 lg:pt-40 lg:pb-20">
           <Reveal>
             <div className="max-w-2xl">
               <p className="flex items-center gap-3 font-mono text-xs font-bold uppercase tracking-[.22em] text-[#ed174c]">

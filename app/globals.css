@@ -2902,3 +2902,1206 @@ flex: 0 0 280px;
     animation: none;
   }
 }
+
+
+
+
+/* =========================================================
+   CARAWIN HOMEPAGE — VERTICAL SECTION SNAP + SLOW REVEALS
+   ========================================================= */
+
+/* Enable vertical snapping only on pages containing this homepage. */
+html:has(.homepage-scroll-root) {
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+  scroll-padding-top: 80px;
+}
+
+/* Snap the homepage's main sections, not its horizontal carousels. */
+.homepage-scroll-root > .homepage-snap-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+/* Slow, soft reveal for text and selected controls. */
+.homepage-scroll-root .homepage-reveal {
+  opacity: 0;
+  transform: translate3d(0, 22px, 0);
+  transition:
+    opacity 1.15s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1.15s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.homepage-scroll-root .homepage-reveal.homepage-revealed {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Avoid affecting the existing horizontal rails. */
+.homepage-scroll-root .capability-marquee-shell,
+.homepage-scroll-root .product-grid,
+.homepage-scroll-root .execution-photo-rail-shell {
+  scroll-snap-type: x mandatory;
+}
+
+/* Respect reduced-motion preferences. */
+@media (prefers-reduced-motion: reduce) {
+  html:has(.homepage-scroll-root) {
+    scroll-behavior: auto;
+    scroll-snap-type: none;
+  }
+
+  .homepage-scroll-root > .homepage-snap-section {
+    scroll-snap-align: none;
+    scroll-snap-stop: normal;
+  }
+
+  .homepage-scroll-root .homepage-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    will-change: auto;
+  }
+}
+
+
+
+/* =========================================================
+   CARAWIN — CONNECTED TECHNOLOGY TIMELINE
+   ========================================================= */
+
+.technology-timeline-shell {
+  width: 100%;
+}
+
+.technology-timeline {
+  --timeline-blue: #1769d2;
+  --timeline-red: #e11d48;
+
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 18px;
+  isolation: isolate;
+}
+
+/* Horizontal connector behind the six nodes */
+.technology-timeline__track {
+  position: absolute;
+  top: 19px;
+  left: 8.333%;
+  right: 8.333%;
+  z-index: -1;
+  height: 2px;
+  overflow: hidden;
+  background: #dbe5f2;
+}
+
+.technology-timeline__signal {
+  display: block;
+  width: 35%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--timeline-blue),
+    #8270d8,
+    var(--timeline-red),
+    transparent
+  );
+  animation: technology-signal-flow 5s ease-in-out infinite;
+}
+
+/* Each timeline entry */
+.technology-timeline__item {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  animation: technology-node-focus 4.2s ease-in-out infinite;
+}
+
+.technology-timeline__node {
+  position: relative;
+  display: flex;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #dce7f6;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--timeline-blue);
+  transition:
+    color 300ms ease,
+    border-color 300ms ease,
+    box-shadow 300ms ease;
+}
+
+.technology-timeline__dot {
+  position: absolute;
+  top: -3px;
+  right: -1px;
+  width: 8px;
+  height: 8px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: var(--timeline-blue);
+  box-shadow: 0 0 0 1px #b9d5fa;
+}
+
+.technology-timeline__number {
+  margin-top: 16px;
+  color: #94a3b8;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+}
+
+.technology-timeline__name {
+  display: block;
+  max-width: 175px;
+  margin-top: 6px;
+  color: #183653;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+  transition: color 300ms ease;
+}
+
+/* Staggered blue/red focus */
+.technology-timeline__item:hover .technology-timeline__node {
+  border-color: #a9ccfa;
+  box-shadow: 0 6px 18px rgba(23, 105, 210, 0.1);
+}
+
+.technology-timeline__item:hover .technology-timeline__name {
+  color: var(--timeline-blue);
+}
+
+.technology-timeline__item:nth-of-type(n + 6) .technology-timeline__dot {
+  background: var(--timeline-red);
+}
+
+@keyframes technology-signal-flow {
+  0% {
+    transform: translateX(-110%);
+  }
+
+  50% {
+    transform: translateX(190%);
+  }
+
+  100% {
+    transform: translateX(-110%);
+  }
+}
+
+@keyframes technology-node-focus {
+  0%,
+  100% {
+    opacity: 0.86;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Tablet: three domains per row */
+@media (max-width: 1023px) {
+  .technology-timeline {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    row-gap: 28px;
+  }
+
+  .technology-timeline__track {
+    display: none;
+  }
+
+  .technology-timeline__name {
+    max-width: 220px;
+  }
+}
+
+/* Mobile: horizontal swipe strip */
+@media (max-width: 639px) {
+  .technology-timeline-shell {
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 8px;
+  }
+
+  .technology-timeline-shell::-webkit-scrollbar {
+    display: none;
+  }
+
+  .technology-timeline {
+    display: flex;
+    width: max-content;
+    min-width: 100%;
+    gap: 0;
+    padding: 4px 2px 12px;
+  }
+
+  .technology-timeline > * {
+    width: 155px;
+    flex: 0 0 155px;
+  }
+
+  .technology-timeline__track {
+    display: block;
+    top: 23px;
+    left: 22px;
+    right: 22px;
+  }
+
+  .technology-timeline__node {
+    width: 44px;
+    height: 44px;
+  }
+
+  .technology-timeline__item {
+    min-height: 110px;
+    padding-right: 14px;
+  }
+
+  .technology-timeline__number {
+    margin-top: 12px;
+  }
+
+  .technology-timeline__name {
+    max-width: 135px;
+    font-size: 12px;
+  }
+}
+
+/* Respect users who prefer less motion */
+@media (prefers-reduced-motion: reduce) {
+  .technology-timeline__signal,
+  .technology-timeline__item {
+    animation: none !important;
+  }
+
+  .technology-timeline__node,
+  .technology-timeline__name {
+    transition: none !important;
+  }
+}
+
+/* =========================================================
+   MOBILE — COMPACT 2 × 3 TECHNOLOGY GRID
+   ========================================================= */
+@media (max-width: 639px) {
+  .technology-timeline-shell {
+    overflow: visible;
+    padding: 0;
+  }
+
+  .technology-timeline {
+    display: grid;
+    width: 100%;
+    min-width: 0;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    padding: 0;
+  }
+
+  /* Override the old horizontal scrolling item widths */
+  .technology-timeline > * {
+    width: auto;
+    min-width: 0;
+    flex: initial;
+  }
+
+  /* No horizontal connector on mobile */
+  .technology-timeline__track {
+    display: none;
+  }
+
+  /* Compact, consistent domain tiles */
+  .technology-timeline__item {
+    display: grid;
+    grid-template-columns: 36px minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    align-items: center;
+    column-gap: 10px;
+    row-gap: 3px;
+    min-width: 0;
+    min-height: 86px;
+    padding: 12px 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.9);
+    opacity: 1;
+    animation: none;
+    transition:
+      border-color 250ms ease,
+      background-color 250ms ease;
+  }
+
+  .technology-timeline__item:active {
+    background: #f0f6ff;
+    border-color: #bfd8ff;
+  }
+
+  /* Icon on the left */
+  .technology-timeline__node {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    width: 36px;
+    height: 36px;
+    border-radius: 11px;
+    background: #f0f6ff;
+  }
+
+  .technology-timeline__dot {
+    top: -3px;
+    right: -3px;
+    width: 7px;
+    height: 7px;
+  }
+
+  /* Number above the label */
+  .technology-timeline__number {
+    grid-column: 2;
+    grid-row: 1;
+    margin: 0;
+    font-size: 8px;
+    line-height: 1.2;
+  }
+
+  .technology-timeline__name {
+    grid-column: 2;
+    grid-row: 2;
+    max-width: none;
+    margin-top: 2px;
+    font-size: 11px;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+  }
+}
+
+/* =========================================================
+   TECHNOLOGY TIMELINE — ALIGNMENT + COLOR + LOOPING MOTION
+   ========================================================= */
+
+.technology-timeline {
+  position: relative;
+}
+
+/* Connect the first node to the last node */
+.technology-timeline__track {
+  top: 20px;
+  left: calc(100% / 12);
+  right: calc(100% / 12);
+  height: 2px;
+  overflow: hidden;
+  background: linear-gradient(
+    90deg,
+    rgba(23, 105, 210, 0.18),
+    rgba(23, 105, 210, 0.38),
+    rgba(225, 29, 72, 0.28)
+  );
+}
+
+/* Ensure every desktop node sits on the connector */
+.technology-timeline__node {
+  align-self: center;
+  justify-self: center;
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid #cfe0ff;
+  border-radius: 50%;
+  background: #eef5ff;
+  color: #1769d2;
+  box-shadow: 0 0 0 4px rgba(23, 105, 210, 0.045);
+  animation: technology-node-glow 4.2s ease-in-out infinite;
+}
+
+/* Give the icon its own visible visual layer */
+.technology-timeline__icon {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  color: inherit;
+  transition: transform 300ms ease;
+}
+
+.technology-timeline__item:hover .technology-timeline__icon {
+  transform: scale(1.14);
+}
+
+/* Colored satellite marker */
+.technology-timeline__dot {
+  top: -3px;
+  right: -3px;
+  width: 10px;
+  height: 10px;
+  border: 2px solid white;
+  background: #1769d2;
+  box-shadow: 0 0 0 2px #bfdbfe;
+  z-index: 3;
+}
+
+/* AI — blue */
+.technology-timeline > :nth-child(2) .technology-timeline__node {
+  color: #1769d2;
+  background: #eaf3ff;
+  border-color: #bfdbfe;
+  animation-delay: 0s;
+}
+
+/* Education — cyan */
+.technology-timeline > :nth-child(3) .technology-timeline__node {
+  color: #0785b8;
+  background: #e8f8ff;
+  border-color: #b7eaff;
+  animation-delay: 0.7s;
+}
+
+.technology-timeline > :nth-child(3) .technology-timeline__dot {
+  background: #0785b8;
+  box-shadow: 0 0 0 2px #b7eaff;
+}
+
+/* Software — indigo */
+.technology-timeline > :nth-child(4) .technology-timeline__node {
+  color: #5b5bd6;
+  background: #f0efff;
+  border-color: #d5d4ff;
+  animation-delay: 1.4s;
+}
+
+.technology-timeline > :nth-child(4) .technology-timeline__dot {
+  background: #5b5bd6;
+  box-shadow: 0 0 0 2px #d5d4ff;
+}
+
+/* IoT — teal */
+.technology-timeline > :nth-child(5) .technology-timeline__node {
+  color: #078b83;
+  background: #e6faf6;
+  border-color: #b6eee4;
+  animation-delay: 2.1s;
+}
+
+.technology-timeline > :nth-child(5) .technology-timeline__dot {
+  background: #078b83;
+  box-shadow: 0 0 0 2px #b6eee4;
+}
+
+/* Robotics — violet */
+.technology-timeline > :nth-child(6) .technology-timeline__node {
+  color: #8150c9;
+  background: #f4edff;
+  border-color: #e0cdfb;
+  animation-delay: 2.8s;
+}
+
+.technology-timeline > :nth-child(6) .technology-timeline__dot {
+  background: #8150c9;
+  box-shadow: 0 0 0 2px #e0cdfb;
+}
+
+/* Digital transformation — crimson */
+.technology-timeline > :nth-child(7) .technology-timeline__node {
+  color: #e11d48;
+  background: #fff0f3;
+  border-color: #ffc9d5;
+  animation-delay: 3.5s;
+}
+
+.technology-timeline > :nth-child(7) .technology-timeline__dot {
+  background: #e11d48;
+  box-shadow: 0 0 0 2px #ffc9d5;
+}
+
+/* Subtle staggered glow */
+@keyframes technology-node-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 4px rgba(23, 105, 210, 0.045);
+    transform: scale(1);
+  }
+
+  50% {
+    box-shadow: 0 0 0 7px rgba(23, 105, 210, 0.10);
+    transform: scale(1.035);
+  }
+}
+
+/* Keep the signal travelling along the complete connector */
+.technology-timeline__signal {
+  width: 32%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #1769d2,
+    #8b5bd7,
+    #e11d48,
+    transparent
+  );
+  animation: technology-signal-flow 4.5s linear infinite;
+}
+
+@keyframes technology-signal-flow {
+  from {
+    transform: translateX(-110%);
+  }
+
+  to {
+    transform: translateX(320%);
+  }
+}
+
+/* Mobile 2 × 3 grid: no connector; keep colorful icons */
+@media (max-width: 639px) {
+  .technology-timeline__track {
+    display: none;
+  }
+
+  .technology-timeline__node {
+    align-self: center;
+    justify-self: center;
+    animation-duration: 4.2s;
+  }
+}
+
+/* Tablet layout has no horizontal connector */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .technology-timeline__track {
+    display: none;
+  }
+}
+
+/* Respect reduced-motion settings */
+@media (prefers-reduced-motion: reduce) {
+  .technology-timeline__signal,
+  .technology-timeline__node,
+  .technology-timeline__item {
+    animation: none !important;
+  }
+
+  .technology-timeline__icon {
+    transition: none;
+  }
+}
+
+/* Align technology domain icons and labels */
+@media (min-width: 640px) {
+  .technology-timeline__item {
+    align-items: center;
+    text-align: center;
+  }
+
+  .technology-timeline__node {
+    align-self: center;
+    margin-inline: auto;
+  }
+
+  .technology-timeline__number {
+    width: 100%;
+    text-align: center;
+  }
+
+  .technology-timeline__name {
+    width: 100%;
+    max-width: 100%;
+    text-align: center;
+    text-wrap: balance;
+  }
+}
+
+
+/* =========================================================
+   CARAWIN INTRO — FEATHERED BACKGROUND AND CINEMATIC MOTION
+   ========================================================= */
+
+.about-blended-hero {
+  background: #f8faff;
+  isolation: isolate;
+}
+
+.about-blended-art {
+  z-index: 0;
+  contain: paint;
+}
+
+/* Artwork remains an atmospheric part of the page */
+.about-blended-art__image {
+  object-position: 68% center;
+  opacity: 0.96;
+  transform: scale(1.025);
+  transform-origin: 68% 45%;
+}
+
+/* Radial mask fades the left edge instead of creating a rectangle */
+.about-blended-art__wash {
+  background: linear-gradient(
+    90deg,
+    #f8faff 0%,
+    rgba(248, 250, 255, 0.99) 22%,
+    rgba(248, 250, 255, 0.93) 34%,
+    rgba(248, 250, 255, 0.72) 46%,
+    rgba(248, 250, 255, 0.20) 65%,
+    transparent 82%
+  );
+
+  -webkit-mask-image: radial-gradient(
+    ellipse 105% 110% at 84% 45%,
+    transparent 0%,
+    rgba(0, 0, 0, 0.10) 8%,
+    rgba(0, 0, 0, 0.65) 32%,
+    #000 55%
+  );
+
+  mask-image: radial-gradient(
+    ellipse 105% 110% at 84% 45%,
+    transparent 0%,
+    rgba(0, 0, 0, 0.10) 8%,
+    rgba(0, 0, 0, 0.65) 32%,
+    #000 55%
+  );
+}
+
+/* Blends the image into the section's lower edge */
+.about-blended-art__bottom {
+  background: linear-gradient(
+    180deg,
+    transparent 58%,
+    rgba(248, 250, 255, 0.12) 70%,
+    rgba(248, 250, 255, 0.70) 88%,
+    #f8faff 100%
+  );
+}
+
+/* Color integration */
+.about-blended-art__glow {
+  background:
+    radial-gradient(
+      ellipse at 75% 40%,
+      rgba(23, 105, 210, 0.09),
+      transparent 45%
+    ),
+    radial-gradient(
+      ellipse at 94% 72%,
+      rgba(225, 29, 72, 0.065),
+      transparent 34%
+    );
+}
+
+/* Slow, restrained drift */
+.about-blended-art__image--active {
+  animation: carawin-blended-image-drift 24s ease-in-out infinite alternate;
+}
+
+@keyframes carawin-blended-image-drift {
+  0% {
+    transform: scale(1.025) translate3d(0, 0, 0);
+  }
+
+  100% {
+    transform: scale(1.075) translate3d(-0.5%, -0.35%, 0);
+  }
+}
+
+/* Tablet adjustments */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .about-blended-art__wash {
+    background: linear-gradient(
+      90deg,
+      #f8faff 0%,
+      rgba(248, 250, 255, 0.97) 25%,
+      rgba(248, 250, 255, 0.80) 48%,
+      rgba(248, 250, 255, 0.24) 78%,
+      transparent 100%
+    );
+  }
+}
+
+/* =========================================================
+   MOBILE HERO — STRONGER IMAGE, NATURAL FADE
+   ========================================================= */
+@media (max-width: 639px) {
+  /* Keep the artwork in the top portion rather than stretching
+     it across the entire tall mobile section. */
+  .about-blended-hero .about-blended-art {
+    inset: 0 0 auto;
+    height: 760px;
+  }
+
+  .about-blended-hero .about-blended-art__image {
+    opacity: 0.9;
+    object-position: 72% top;
+    transform: scale(1.02);
+  }
+
+  /* Let the original image show through around the VR subject. */
+  .about-blended-hero .about-blended-art__wash {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(248, 250, 255, 0.02) 0%,
+        rgba(248, 250, 255, 0.06) 18%,
+        rgba(248, 250, 255, 0.22) 35%,
+        rgba(248, 250, 255, 0.58) 49%,
+        rgba(248, 250, 255, 0.88) 62%,
+        #f8faff 76%
+      ),
+      linear-gradient(
+        90deg,
+        rgba(248, 250, 255, 0.25) 0%,
+        rgba(248, 250, 255, 0.08) 60%,
+        transparent 100%
+      );
+
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  /* Blend the artwork into the lower text and feature strip. */
+  .about-blended-hero .about-blended-art__bottom {
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      transparent 32%,
+      rgba(248, 250, 255, 0.25) 46%,
+      rgba(248, 250, 255, 0.75) 62%,
+      #f8faff 82%,
+      #f8faff 100%
+    );
+  }
+
+  .about-blended-hero .about-blended-art__glow {
+    opacity: 0.7;
+  }
+
+  /* Avoid zooming the artwork excessively on smaller devices. */
+  .about-blended-hero .about-blended-art__image--active {
+    animation: carawin-blended-image-drift 28s ease-in-out infinite alternate;
+  }
+}
+
+
+
+/* =========================================================
+   CARAWIN LABS — CINEMATIC IMAGE BLENDING
+   ========================================================= */
+
+.labs-hero {
+  isolation: isolate;
+  background: #071832;
+}
+
+.labs-hero__background {
+  contain: paint;
+}
+
+.labs-hero__image {
+  opacity: 0.96;
+  transform: scale(1.025);
+  transform-origin: 68% 50%;
+  animation: labs-image-drift 26s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+/* Deep navy on the left, seamless transition across the image */
+.labs-hero__scrim {
+  background: linear-gradient(
+    90deg,
+    #071832 0%,
+    #071832 23%,
+    rgba(7, 24, 50, 0.97) 33%,
+    rgba(7, 24, 50, 0.82) 43%,
+    rgba(7, 24, 50, 0.54) 54%,
+    rgba(7, 24, 50, 0.20) 70%,
+    rgba(7, 24, 50, 0.04) 100%
+  );
+}
+
+/* Low-intensity cinematic light */
+.labs-hero__light {
+  background:
+    radial-gradient(
+      ellipse at 70% 35%,
+      rgba(56, 155, 255, 0.14),
+      transparent 42%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(7, 24, 50, 0.08),
+      transparent 35%,
+      rgba(7, 24, 50, 0.12)
+    );
+  animation: labs-light-breathe 8s ease-in-out infinite alternate;
+}
+
+.labs-hero__bottom {
+  background: linear-gradient(
+    to top,
+    rgba(7, 24, 50, 0.52),
+    rgba(7, 24, 50, 0.12) 48%,
+    transparent
+  );
+  pointer-events: none;
+}
+
+@keyframes labs-image-drift {
+  from {
+    transform: scale(1.025) translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: scale(1.075) translate3d(-0.45%, -0.25%, 0);
+  }
+}
+
+@keyframes labs-light-breathe {
+  from {
+    opacity: 0.65;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Tablet: retain image visibility while preserving text contrast */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .labs-hero__scrim {
+    background: linear-gradient(
+      90deg,
+      #071832 0%,
+      rgba(7, 24, 50, 0.96) 35%,
+      rgba(7, 24, 50, 0.75) 55%,
+      rgba(7, 24, 50, 0.25) 100%
+    );
+  }
+}
+
+/* Mobile: full-bleed photo with a vertical readability gradient */
+@media (max-width: 639px) {
+  .labs-hero__image {
+    opacity: 0.78;
+    object-position: 67% center;
+  }
+
+  .labs-hero__scrim {
+    background: linear-gradient(
+      180deg,
+      rgba(7, 24, 50, 0.60) 0%,
+      rgba(7, 24, 50, 0.78) 28%,
+      rgba(7, 24, 50, 0.88) 62%,
+      #071832 100%
+    );
+  }
+
+  .labs-hero__light {
+    opacity: 0.65;
+  }
+
+  .labs-hero__image {
+    animation-duration: 32s;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .labs-hero__image,
+  .labs-hero__light {
+    animation: none !important;
+    transform: none;
+    will-change: auto;
+  }
+}
+/* Soft, continuous light sweep — clipped to the letters */
+.labs-hero__beam-word {
+  position: relative;
+  display: inline-block;
+  isolation: isolate;
+  white-space: nowrap;
+}
+
+.labs-hero__beam-word::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  display: block;
+
+  font: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+  white-space: inherit;
+
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  background: linear-gradient(
+    110deg,
+    transparent 0%,
+    transparent 43%,
+    rgba(255, 255, 255, 0.08) 46%,
+    rgba(255, 255, 255, 0.58) 49%,
+    rgba(255, 100, 130, 0.36) 51%,
+    rgba(255, 255, 255, 0.12) 54%,
+    transparent 59%,
+    transparent 100%
+  );
+  background-size: 300% 100%;
+  background-position: 100% 0;
+  background-clip: text;
+  -webkit-background-clip: text;
+
+  opacity: 0;
+  pointer-events: none;
+  animation: subtle-word-sheen 5.5s ease-in-out infinite;
+}
+
+@keyframes subtle-word-sheen {
+  0%,
+  8% {
+    opacity: 0;
+    background-position: 100% 0;
+  }
+
+  15% {
+    opacity: 0.72;
+  }
+
+  55% {
+    opacity: 0.72;
+    background-position: 0% 0;
+  }
+
+  64%,
+  100% {
+    opacity: 0;
+    background-position: 0% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .labs-hero__beam-word::after {
+    animation: none;
+    display: none;
+  }
+}
+
+
+/* =========================================================
+   FOOTER CTA — MOUNTAIN JOURNEY
+   ========================================================= */
+
+.footer-journey {
+  isolation: isolate;
+  background: #020b18;
+}
+
+.footer-journey__image {
+  opacity: 0.88;
+  transform: scale(1.025);
+  transform-origin: 72% 48%;
+  animation: footer-mountain-drift 28s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+/* Blend the landscape into the dark copy area */
+.footer-journey__scrim {
+  background: linear-gradient(
+    90deg,
+    #020b18 0%,
+    #020b18 22%,
+    rgba(2, 11, 24, 0.96) 33%,
+    rgba(2, 11, 24, 0.82) 44%,
+    rgba(2, 11, 24, 0.49) 56%,
+    rgba(2, 11, 24, 0.15) 72%,
+    rgba(2, 11, 24, 0.05) 100%
+  );
+}
+
+.footer-journey__atmosphere {
+  background:
+    radial-gradient(
+      ellipse at 75% 32%,
+      rgba(23, 105, 210, 0.16),
+      transparent 44%
+    ),
+    radial-gradient(
+      ellipse at 88% 62%,
+      rgba(225, 29, 72, 0.08),
+      transparent 32%
+    );
+}
+
+.footer-journey__svg {
+  overflow: visible;
+}
+
+/* Traveling white signal along the route */
+.footer-journey__signal {
+  animation: footer-route-flow 5s linear infinite;
+}
+
+@keyframes footer-route-flow {
+  from {
+    stroke-dashoffset: 0;
+  }
+
+  to {
+    stroke-dashoffset: -272;
+  }
+}
+
+@keyframes footer-mountain-drift {
+  from {
+    transform: scale(1.025) translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: scale(1.065) translate3d(-0.35%, -0.2%, 0);
+  }
+}
+
+/* Route milestone cards */
+.footer-journey__milestone {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: max-content;
+  max-width: 200px;
+  padding: 11px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.19);
+  border-radius: 12px;
+  background: rgba(4, 18, 39, 0.73);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  animation: footer-milestone-float 6s ease-in-out infinite;
+}
+
+.footer-journey__icon {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.footer-journey__milestone small {
+  display: block;
+  margin-bottom: 3px;
+  color: #9db4d3;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.footer-journey__milestone strong {
+  display: block;
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.footer-journey__milestone--one {
+  left: 9%;
+  top: 72%;
+  animation-delay: 0s;
+}
+
+.footer-journey__milestone--two {
+  left: 30%;
+  top: 49%;
+  animation-delay: 0.6s;
+}
+
+.footer-journey__milestone--three {
+  left: 49%;
+  top: 29%;
+  animation-delay: 1.2s;
+}
+
+.footer-journey__milestone--four {
+  left: 71%;
+  top: 9%;
+  animation-delay: 1.8s;
+}
+
+@keyframes footer-milestone-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+/* Tablet */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .footer-journey__scrim {
+    background: linear-gradient(
+      90deg,
+      #020b18 0%,
+      rgba(2, 11, 24, 0.95) 38%,
+      rgba(2, 11, 24, 0.69) 65%,
+      rgba(2, 11, 24, 0.28) 100%
+    );
+  }
+}
+
+/* Mobile: prioritize copy and button; avoid overlapping milestone cards */
+@media (max-width: 639px) {
+  .footer-journey__image {
+    opacity: 0.42;
+    object-position: 66% center;
+    animation-duration: 34s;
+  }
+
+  .footer-journey__scrim {
+    background: linear-gradient(
+      180deg,
+      rgba(2, 11, 24, 0.64) 0%,
+      rgba(2, 11, 24, 0.88) 44%,
+      #020b18 100%
+    );
+  }
+
+  .footer-journey__atmosphere {
+    opacity: 0.6;
+  }
+
+  .footer-journey__map {
+    display: none;
+  }
+}
+
+/* Reduced-motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .footer-journey__image,
+  .footer-journey__signal,
+  .footer-journey__milestone {
+    animation: none !important;
+    transform: none;
+    will-change: auto;
+  }
+}

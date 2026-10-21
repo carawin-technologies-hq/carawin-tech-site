@@ -134,7 +134,9 @@ export default function ContactPage() {
           className="pointer-events-none absolute -right-24 -top-28 h-80 w-80 rounded-full bg-[#ed174c]/[.045] blur-3xl"
         />
 
-        <div className="container-x relative mx-auto py-14 sm:py-20 lg:py-24">
+
+
+<div className="container-x relative mx-auto pt-32 pb-14 sm:pt-36 sm:pb-20 lg:pt-40 lg:pb-24">
           <div className="max-w-4xl">
             <p className="flex items-center gap-3 font-mono text-xs font-bold uppercase tracking-[.22em] text-[#ed174c]">
               CONTACT CARAWIN
