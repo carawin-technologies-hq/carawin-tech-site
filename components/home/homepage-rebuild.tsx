@@ -10,7 +10,34 @@ import {
   Hexagon,
   Lightbulb,
   Zap,
+  Sparkles,
+  Layers,
+  Gauge,
+  Workflow,
+  Globe,
+  BookOpen,
+  BarChart3,
+  FlaskConical,
+  LayoutDashboard,
 } from "lucide-react"
+
+
+
+
+import {
+  Cpu,
+  UsersRound,
+  Laptop,
+  Building2,
+  Network,
+  BrainCircuit,
+  GraduationCap,
+  Code2,
+  RadioTower,
+  Bot,
+} from "lucide-react"
+
+
 import { solutionVerticals, whyCarawinData, carawinApproach } from "@/lib/carawin-content"
 import { TechOrbit } from "./tech-orbit"
 import { Reveal } from "@/components/motion-primitives"
@@ -28,6 +55,7 @@ import { useEffect } from "react"
 export function HomepageRebuild() {
   const [activeTechNode, setActiveTechNode] = useState<string>("robotics")
   const capabilityRailRef = useRef<HTMLDivElement | null>(null)
+  const homepageRef = useRef<HTMLDivElement | null>(null)
 
 const executionRailRef = useRef<HTMLDivElement | null>(null)
 
@@ -239,24 +267,55 @@ useEffect(() => {
   return () => observer.disconnect()
 }, [])
 
-useEffect(() => {
-  const section = aboutSectionRef.current
-  if (!section) return
 
-  const observer = new IntersectionObserver(
-    ([entry]) => {
-      if (entry.isIntersecting) {
-        setAboutImageVisible(true)
-        observer.unobserve(section)
-      }
-    },
-    { threshold: 0.1 }
+
+useEffect(() => {
+  const root = homepageRef.current
+  if (!root) return
+
+  const sections = Array.from(
+    root.querySelectorAll<HTMLElement>(":scope > section")
   )
 
-  observer.observe(section)
+  sections.forEach((section) => {
+    section.classList.add("homepage-snap-section")
+  })
+
+  // Do not interfere with existing Reveal/Framer Motion animations.
+  const targets = sections.flatMap((section) =>
+    Array.from(
+      section.querySelectorAll<HTMLElement>(
+        ".homepage-reveal-target"
+      )
+    )
+  )
+
+  const reducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches
+
+  if (reducedMotion || targets.length === 0) return
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        entry.target.classList.toggle(
+          "homepage-revealed",
+          entry.isIntersecting
+        )
+      })
+    },
+    {
+      threshold: 0.15,
+      rootMargin: "0px 0px -8% 0px",
+    }
+  )
+
+  targets.forEach((element) => observer.observe(element))
 
   return () => observer.disconnect()
 }, [])
+
 
 
 const [activeHeroVideo, setActiveHeroVideo] = useState(0)
@@ -333,8 +392,10 @@ const handleHeroVideoTransitionEnd = (index: number) => {
 
 
   return (
-    <div className="overflow-hidden bg-[var(--background)] text-[var(--foreground)]">
-<section className="relative overflow-hidden border-b border-white/10 bg-gradient-to-b from-[#011E42] via-[#011A3E] to-[#001739]">
+<div
+  ref={homepageRef}
+  className="homepage-scroll-root overflow-hidden bg-[var(--background)] text-[var(--foreground)]"
+><section className="relative overflow-hidden border-b border-white/10 bg-gradient-to-b from-[#011E42] via-[#011A3E] to-[#001739]">
 {/* ========================================================
     HERO + INTEGRATED STATS
     ======================================================== */}
@@ -391,7 +452,7 @@ const handleHeroVideoTransitionEnd = (index: number) => {
         <h1 className="hero-headline mt-4 font-black leading-[0.9] tracking-[-0.055em]">
 
           <span className="hero-word hero-word-1 hero-word-glow-blue block text-[clamp(2.8rem,4.6vw,4.8rem)] font-black text-white">
-            EXPERIENCE<span className="text-white">.</span>
+            EXPERIENCE<span className="text-white"></span>
           </span>
 
           <span className="hero-word hero-word-2 hero-word-glow-red block text-[clamp(2.8rem,4.6vw,4.8rem)] font-black text-[#E11D48]">
@@ -549,632 +610,989 @@ className="hero-cta hero-cta-blue inline-flex w-full items-center justify-center
 </div>
 </section>
 
-      {/* ========================================================
-          2. HOME — INTRODUCTION / ABOUT CARAWIN
-          about_bg.png (white -> blue VR artwork) is the background of the
-          top block; all original content sits on top of it.
-          ======================================================== */}
+{/* ========================================================
+    2. HOME — INTRODUCTION / ABOUT CARAWIN
+    Natural image blending · Responsive · Animated
+    ======================================================== */}
 <section
   ref={aboutSectionRef}
-  className="relative overflow-hidden bg-gradient-to-b from-[#011E42] via-[#011A3E] to-[#001739]"
->  
-  
-  
-  {/* ---------- TOP BLOCK WITH BACKGROUND IMAGE ---------- */}
-        <div className="relative min-h-[70vw] sm:min-h-[55vw] lg:min-h-0">
-          {/* Artwork: always a full background layer at all screen sizes */}
-          <div
-  className={`about-intro-artwork-layer pointer-events-none absolute inset-0 z-0 overflow-hidden ${
-    aboutImageVisible ? "about-intro-artwork-layer-visible" : ""
-  }`}
+  className="about-blended-hero relative isolate overflow-hidden border-b border-slate-200 bg-[#f8faff] text-[#08284d]"
 >
-            <Image
-              src="/images/home/about_bg.webp"
-              alt="Carawin Technologies VR Lab and Learning Solutions"
-              fill
-              quality={75}
-              sizes="100vw"
-              className="object-cover object-right"
-            />
-            <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-white via-white/40 to-transparent sm:h-40 lg:h-48" />
-    
+  {/* Full-bleed atmospheric artwork */}
+  <div className="about-blended-art pointer-events-none absolute inset-0 z-0 overflow-hidden">
+    <Image
+      src="/images/home/about_bg.webp"
+      alt=""
+      fill
+      priority
+      quality={80}
+      sizes="100vw"
+      aria-hidden="true"
+      className={`about-blended-art__image object-cover ${
+        aboutImageVisible ? "about-blended-art__image--active" : ""
+      }`}
+    />
 
-            {/* Left white shade so dark text stays readable at all sizes */}
-            <div className="absolute inset-y-0 left-0 w-full bg-gradient-to-r from-white from-30% via-white/80 via-55% to-transparent sm:from-white sm:from-35% sm:via-white/70 sm:via-55% lg:w-[55%] lg:from-white lg:from-40% lg:via-white/60" />
+    {/* Dissolves the image into the white text area */}
+    <div className="about-blended-art__wash absolute inset-0" />
 
-            
-          </div>
+    {/* Softens the transition into the feature strip */}
+    <div className="about-blended-art__bottom absolute inset-0" />
 
-          {/* Content */}
-          <div className="relative z-10 mx-auto w-full max-w-[1680px] px-5 pt-24 pb-16 sm:px-8 sm:pt-28 sm:pb-20 lg:px-[4vw] lg:pt-32 lg:pb-24">
-            <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-10">
-              {/* Left Content Column */}
-              <div className="w-full max-w-[560px] lg:col-span-5">
-                <Reveal>
-  <p className="kicker text-[var(--crimson)]">
-    HOME — INTRODUCTION
-  </p>
-</Reveal>
-
-<Reveal delay={0.08} y={45}>
-  <h2 className="mt-4 text-3xl font-black tracking-[-.04em] text-[var(--navy)] sm:text-5xl">
-    BUILDING TECHNOLOGY FOR A CHANGING WORLD
-  </h2>
-</Reveal>
-
-                <Reveal delay={0.16} y={25}>
-  <p className="mt-5 text-base leading-relaxed text-[var(--muted)] sm:text-lg">
-    The future will require people and organisations to continuously learn, adapt and innovate.
-  </p>
-</Reveal>
-
-<Reveal delay={0.24} y={25}>
-  <div className="mt-6 space-y-4 text-sm leading-relaxed text-slate-600 sm:text-base">
-                      <p>
-                    Carawin Technologies is an AI, EdTech and technology product development company working across Artificial Intelligence, Education, IoT, Robotics, Electronics and Digital Transformation.
-                  </p>
-                  <p>
-                    Since 2017, we have developed and implemented technology solutions for schools, institutions, government, enterprises and industry.
-                  </p>
-                </div>
-</Reveal>
-                {/* 4 Feature Pill Cards */}
-                <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-3">
-                  {aboutFeatures.map((feat) => {
-                    const Icon = feat.icon
-                    return (
-                      <div
-                        key={feat.title}
-className="group flex min-w-0 flex-col items-center justify-center rounded-2xl border border-slate-100 bg-[#f8fafc] p-3 text-center transition-all duration-200 hover:-translate-y-0.5 hover:border-slate-200 hover:bg-white hover:shadow-md sm:p-4"                      >
-                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-rose-50 text-[var(--crimson)] border border-rose-100 transition-colors group-hover:bg-[var(--crimson)] group-hover:text-white">
-                          <Icon size={18} />
-                        </div>
-<span className="mt-2.5 text-[11px] font-bold leading-tight text-[var(--navy)] sm:text-sm">                          {feat.title}
-                        </span>
-                      </div>
-                    )
-                  })}
-                </div>
-
-                {/* Discover Carawin CTA */}
-                <div className="mt-8">
-                  <Link
-                    href="/about"
-                    className="btn-primary inline-flex items-center gap-2"
-                  >
-                    Discover Carawin
-                    <ArrowRight size={16} />
-                  </Link>
-                </div>
-              </div>
-
-              {/* Right column intentionally empty so the background artwork shows through */}
-              <div className="hidden lg:col-span-7 lg:block" />
-            </div>
-          </div>
-        </div>
-
-
-<div className="pointer-events-none absolute inset-x-0 bottom-0 z-30 h-28 bg-gradient-to-b from-transparent via-white/20 to-white sm:h-36 lg:h-44" />
-</section>
-{/* ---------- Editorial Technology Statement ---------- */}
-<section className="border-b border-slate-200 bg-white py-16 sm:py-20 lg:py-24">
-  <div className="w-full max-w-none px-5 sm:px-8 lg:px-[4vw]">
-
-<div className="max-w-[1280px]">
-      {/* Left editorial label */}
-      <Reveal>
-  <div className="flex items-center gap-3">
-    <span className="h-2 w-2 rounded-full bg-[#E11D48]" />
-
-    <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 sm:text-xs">
-      WHAT WE BUILD
-    </p>
+    {/* Restrained blue and crimson ambient light */}
+    <div className="about-blended-art__glow absolute inset-0" />
   </div>
 
-  <div className="mt-5 h-px w-20 bg-[#00AEEF]" />
-</Reveal>
+  {/* Main content */}
+  <div className="relative z-10 mx-auto w-full max-w-[1680px] px-5 pb-8 pt-20 sm:px-8 sm:pb-10 sm:pt-24 lg:px-[4vw] lg:pb-12 lg:pt-28">
+    <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-8">
+      {/* Introduction copy */}
+      <div className="relative z-10 w-full max-w-[660px] lg:col-span-7 xl:col-span-6">
+        <Reveal>
+          <div className="flex items-center gap-3">
+            <span className="h-[3px] w-8 rounded-full bg-gradient-to-r from-[#1769d2] to-[#e11d48]" />
 
-      {/* Main statement */}
-      <div>
-        <Reveal delay={0.08} y={45}>
-<h2 className="mt-10 max-w-[980px] text-4xl font-black leading-[0.94] tracking-[-0.045em] text-[#061A35] sm:text-5xl md:text-6xl lg:text-[4.5rem] xl:text-[5rem]">
-  WE CONNECT
-  <br />
-  <span className="text-[#0077C8]">TECHNOLOGY,</span>
-  <br />
-  PEOPLE AND REAL-WORLD
-  <br />
-  <span className="text-[#E11D48]">OUTCOMES.</span>
-</h2>
+            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#b5122b] sm:text-xs">
+              HOME — INTRODUCTION
+            </p>
+          </div>
         </Reveal>
 
-        <Reveal delay={0.18} y={30}>
-<p className="mt-8 max-w-3xl text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">            From intelligent learning systems to digital infrastructure,
-            robotics and enterprise technology, Carawin builds technology
-            that moves from idea to implementation and measurable impact.
+        <Reveal delay={0.08} y={28}>
+          <h2 className="mt-5 text-[clamp(2.8rem,5.4vw,5.6rem)] font-black leading-[0.91] tracking-[-0.065em] text-[#08284d] sm:mt-6">
+            BUILDING
+            <br />
+            TECHNOLOGY
+            <br />
+            FOR A CHANGING
+            <br />
+            <span className="bg-gradient-to-r from-[#1769d2] via-[#6560d5] to-[#e11d48] bg-clip-text text-transparent">
+              WORLD.
+            </span>
+          </h2>
+        </Reveal>
+
+        <Reveal delay={0.16} y={18}>
+          <p className="mt-6 max-w-xl text-base font-medium leading-7 text-slate-600 sm:mt-7 sm:text-lg sm:leading-8">
+            The future will require people and organisations to continuously
+            learn, adapt and innovate.
           </p>
         </Reveal>
 
-        <Reveal delay={0.28} y={20}>
-<div className="mt-10 pt-6 lg:mt-14">
-      <div className="flex flex-wrap items-center gap-x-6 gap-y-3 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#667892] sm:gap-x-8 sm:text-xs">
-      <span>AI</span>
-      <span>Education</span>
-      <span>Software</span>
-      <span>IoT</span>
-      <span>Robotics</span>
-      <span>Digital Transformation</span>
-    </div>
-  </div>
-</Reveal>
+        <Reveal delay={0.22} y={16}>
+          <div className="mt-5 max-w-xl space-y-3 text-sm leading-6 text-slate-600 sm:mt-6 sm:text-[15px] sm:leading-7">
+            <p>
+              Carawin Technologies is an AI, EdTech and technology product
+              development company working across Artificial Intelligence,
+              Education, IoT, Robotics, Electronics and Digital Transformation.
+            </p>
+
+            <p>
+              Since 2017, we have developed and implemented technology
+              solutions for schools, institutions, government, enterprises
+              and industry.
+            </p>
+          </div>
+        </Reveal>
+
+        {/* CTA */}
+        <Reveal delay={0.3} y={14}>
+          <div className="mt-7 sm:mt-8">
+            <Link
+              href="/about"
+              className="group inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-gradient-to-r from-[#1769d2] to-[#e11d48] px-6 text-sm font-bold text-white shadow-[0_10px_28px_rgba(23,105,210,.20)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_35px_rgba(225,29,72,.22)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1769d2] focus-visible:ring-offset-2"
+            >
+              Discover Carawin
+
+              <ArrowRight
+                size={17}
+                className="transition-transform duration-300 group-hover:translate-x-1"
+              />
+            </Link>
+          </div>
+        </Reveal>
       </div>
 
+      {/* Open space lets the VR artwork remain visible */}
+      <div className="hidden lg:col-span-5 lg:block xl:col-span-6" />
+    </div>
+
+    {/* Capability strip */}
+<div className="relative z-10 mt-5 grid grid-cols-2 gap-3 border-t border-white/70 pt-4 sm:mt-6 sm:grid-cols-4 sm:gap-4 sm:pt-5 lg:mt-8">      {aboutFeatures.map((feat, index) => {
+        const Icon = feat.icon;
+
+        return (
+          <Reveal
+            key={feat.title}
+            delay={0.12 + index * 0.07}
+            y={14}
+          >
+            <div className="group flex min-w-0 items-center gap-3 rounded-2xl border border-white/80 bg-white/65 p-3 shadow-[0_8px_24px_rgba(8,40,77,.035)] backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-blue-200 hover:bg-white/90 hover:shadow-[0_14px_30px_rgba(8,40,77,.08)] sm:p-4">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-blue-100 bg-blue-50/90 text-[#1769d2] transition-all duration-300 group-hover:border-rose-100 group-hover:bg-rose-50 group-hover:text-[#e11d48] sm:h-11 sm:w-11">
+                <Icon size={19} strokeWidth={1.8} />
+              </span>
+
+              <span className="min-w-0 text-xs font-bold leading-snug text-[#08284d] sm:text-sm">
+                {feat.title}
+              </span>
+            </div>
+          </Reveal>
+        );
+      })}
     </div>
   </div>
 </section>
+
 {/* ========================================================
-    3. CAPABILITIES
+    WHAT WE BUILD — CONNECTED TECHNOLOGY TIMELINE
     ======================================================== */}
-<section className="border-b border-slate-200 bg-[#f7f9fc] py-20 sm:py-24 lg:py-32">
-<div className="w-full max-w-none px-3 sm:px-5 lg:px-6 xl:px-8">
-    {/* Section header */}
-    <div className="grid gap-8 lg:grid-cols-[0.7fr_1.3fr] lg:items-end lg:gap-20">
-
-      <Reveal>
-  <div className="flex items-center gap-3">
-    <span className="h-2 w-2 rounded-full bg-[#E11D48]" />
-
-    <p className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-[#E11D48] sm:text-xs">
-      CAPABILITIES
-    </p>
+<section className="relative isolate overflow-hidden border-b border-slate-200 bg-white py-16 sm:py-20 lg:py-24">
+  {/* Very subtle brand atmosphere */}
+  <div
+    aria-hidden="true"
+    className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
+  >
+    <div className="absolute -left-40 top-0 h-72 w-72 rounded-full bg-blue-100/40 blur-[100px]" />
+    <div className="absolute -right-32 top-20 h-72 w-72 rounded-full bg-rose-100/30 blur-[100px]" />
   </div>
-</Reveal>
 
-      <Reveal delay={0.08} y={35}>
-  <h2 className="max-w-4xl text-4xl font-black leading-[0.95] tracking-[-0.05em] text-[#061A35] sm:text-5xl lg:text-6xl">
-    TECHNOLOGY
-    <br />
-    THAT MOVES
-    <span className="text-[#0077C8]"> WITH YOU.</span>
-  </h2>
-</Reveal>
+  <div className="mx-auto w-full max-w-[1680px] px-5 sm:px-8 lg:px-[4vw]">
+    {/* Editorial header */}
+    <Reveal>
+      <div className="flex items-center gap-3">
+        <span className="h-[3px] w-8 rounded-full bg-gradient-to-r from-[#1769d2] to-[#e11d48]" />
+        <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 sm:text-xs">
+          WHAT WE BUILD
+        </p>
+      </div>
+    </Reveal>
 
+    {/* Main statement */}
+    <div className="mt-7 grid gap-7 lg:grid-cols-[1.15fr_0.85fr] lg:items-end lg:gap-16">
+      <Reveal delay={0.08} y={24}>
+        <h2 className="max-w-[1000px] text-4xl font-black leading-[0.94] tracking-[-0.055em] text-[#08284d] sm:text-5xl md:text-6xl lg:text-[4.5rem] xl:text-[5rem]">
+          WE CONNECT
+          <br />
+          <span className="text-[#1769d2]">TECHNOLOGY,</span>
+          <br />
+          PEOPLE AND REAL-WORLD
+          <br />
+          <span className="bg-gradient-to-r from-[#5268d5] to-[#e11d48] bg-clip-text text-transparent">
+            OUTCOMES.
+          </span>
+        </h2>
+      </Reveal>
+
+      <Reveal delay={0.16} y={18}>
+        <div className="max-w-xl pb-1 lg:justify-self-end">
+          <p className="text-sm leading-7 text-slate-600 sm:text-base sm:leading-8 lg:text-lg">
+            From intelligent learning systems to digital infrastructure,
+            robotics and enterprise technology, Carawin builds technology
+            that moves from idea to implementation and measurable impact.
+          </p>
+
+          <div className="mt-6 flex items-center gap-3">
+            <span className="h-[3px] w-9 rounded-full bg-[#1769d2]" />
+            <span className="h-[3px] w-5 rounded-full bg-[#e11d48]" />
+            <span className="ml-1 font-mono text-[9px] font-bold uppercase tracking-[0.15em] text-slate-400 sm:text-[10px]">
+              Idea · Implementation · Impact
+            </span>
+          </div>
+        </div>
+      </Reveal>
     </div>
 
-{/* Capability carousel */}
-<div className="relative mt-14 sm:mt-16 lg:mt-20">
+    {/* Connected technology timeline */}
+    <div className="mt-12 border-t border-slate-200 pt-8 sm:mt-16 sm:pt-10 lg:mt-20">
+      <Reveal>
+        <div className="mb-8 flex items-center justify-between gap-4">
+          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500 sm:text-xs">
+            TECHNOLOGY DOMAINS
+          </p>
 
-  {/* Navigation arrows */}
- 
+        </div>
+      </Reveal>
 
-  {/* Scrollable rail */}
-  <div
-    ref={capabilityRailRef}
-    className="capability-marquee-shell"
-  >
+      <div className="technology-timeline-shell">
+        <div className="technology-timeline">
+          {/* The line sits behind the timeline nodes */}
+          <div className="technology-timeline__track" aria-hidden="true">
+            <span className="technology-timeline__signal" />
+          </div>
 
-    <div className="capability-marquee">
+          {[
+            { number: "", name: "Artificial Intelligence", Icon: BrainCircuit },
+            { number: "02", name: "Education", Icon: GraduationCap },
+            { number: "03", name: "Software", Icon: Code2 },
+            { number: "04", name: "IoT", Icon: RadioTower },
+            { number: "05", name: "Robotics", Icon: Bot },
+            { number: "06", name: "Digital Transformation", Icon: Workflow },
+          ].map((domain, index) => {
+            const Icon = domain.Icon
 
+            return (
+              <Reveal
+                key={domain.number}
+                delay={0.08 + index * 0.07}
+                y={14}
+              >
+                <div
+                  className="technology-timeline__item"
+                  style={{ animationDelay: `${index * 0.7}s` }}
+                >
+                  <div className="technology-timeline__node">
+                    <span className="technology-timeline__dot" />
+
+                    <span className="technology-timeline__icon">
+                      <Icon size={19} strokeWidth={1.7} />
+                    </span>
+                  </div>
+
+                  <span className="technology-timeline__number">
+                    {domain.number}
+                  </span>
+
+                  <span className="technology-timeline__name">
+                    {domain.name}
+                  </span>
+                </div>
+              </Reveal>
+            )
+          })}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+{/* ========================================================
+    3. CAPABILITIES — RESPONSIVE CARD LAYOUT
+    ======================================================== */}
+<section className="relative isolate overflow-hidden border-b border-slate-200 bg-[#f7faff] py-16 sm:py-20 lg:py-24">
+  {/* Blue and red ambient background */}
+  <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+    <div className="absolute -left-40 top-20 h-80 w-80 rounded-full bg-blue-100/60 blur-[100px]" />
+    <div className="absolute -right-32 bottom-0 h-80 w-80 rounded-full bg-rose-100/40 blur-[100px]" />
+  </div>
+
+  <div className="relative mx-auto w-full max-w-[1900px] px-5 sm:px-8 lg:px-10 xl:px-12">
+    {/* Header */}
+    <div className="grid gap-5 lg:grid-cols-[1fr_0.85fr] lg:items-end">
+      <div>
+        <Reveal>
+          <div className="flex items-center gap-3">
+            <span className="h-[3px] w-8 rounded-full bg-gradient-to-r from-[#1769d2] to-[#e11d48]" />
+            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#b5122b] sm:text-xs">
+              CAPABILITIES
+            </p>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.08} y={28}>
+          <h2 className="mt-3 text-3xl font-black leading-[0.95] tracking-[-0.045em] text-[var(--navy)] sm:text-5xl lg:text-6xl">
+            TECHNOLOGY
+            <br />
+            THAT MOVES
+            <span className="bg-gradient-to-r from-[#1769d2] to-[#e11d48] bg-clip-text text-transparent">
+              {" "}WITH YOU.
+            </span>
+          </h2>
+        </Reveal>
+      </div>
+
+      <Reveal delay={0.16} y={18}>
+        <div className="flex flex-col gap-5 lg:items-end">
+          <p className="max-w-md text-sm leading-6 text-slate-600 sm:text-base sm:leading-7 lg:text-right">
+            We bring together technology, education and domain expertise
+            to create end-to-end solutions that drive measurable change.
+          </p>
+
+          <div className="flex items-center gap-2">
+            <span className="h-[3px] w-10 rounded-full bg-[#1769d2]" />
+            <span className="h-[3px] w-5 rounded-full bg-[#e11d48]" />
+          </div>
+        </div>
+      </Reveal>
+    </div>
+
+    {/* Cards: horizontal on mobile, grid on tablet and desktop */}
+    <div
+      ref={capabilityRailRef}
+      className="mt-9 flex items-stretch gap-3 overflow-x-auto overflow-y-hidden overscroll-x-contain snap-x snap-mandatory pb-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mt-12 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible sm:pb-0 lg:mt-14 xl:grid-cols-6"
+    >
       {solutionVerticals.map((vertical, index) => {
+        const image = capabilityImages[index % capabilityImages.length]
 
-        const image =
-          capabilityImages[index % capabilityImages.length]
+        const icons = [
+          Cpu,
+          UsersRound,
+          Laptop,
+          Workflow,
+          Building2,
+          Network,
+        ]
+
+        const Icon = icons[index % icons.length]
 
         return (
-          <Link
+          <div
             key={vertical.slug}
-            href={vertical.href}
-            className="capability-card group"
+            className="w-[82vw] max-w-[320px] shrink-0 snap-start sm:w-full sm:max-w-none sm:min-w-0"
           >
+            <Reveal
+              delay={0.05 + (index % 4) * 0.06}
+              y={20}
+            >
+              <Link
+                href={vertical.href}
+                className="group block h-full min-w-0"
+              >
+                <article className="relative flex h-[350px] flex-col overflow-hidden rounded-[18px] border border-slate-200/90 bg-white shadow-[0_8px_24px_rgba(8,40,77,.045)] transition-[transform,box-shadow,border-color] duration-500 ease-out group-hover:-translate-y-1.5 group-hover:border-blue-200 group-hover:shadow-[0_18px_40px_rgba(8,40,77,.12)] sm:h-[360px]">
+                  {/* Image */}
+                  <div className="relative h-[145px] shrink-0 overflow-hidden bg-[#e8eff8] sm:h-[155px]">
+                    <Image
+                      src={image.src}
+                      alt={image.alt}
+                      fill
+                      sizes="(max-width: 639px) 82vw, (max-width: 1023px) 30vw, 17vw"
+                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    />
 
-            <div className="capability-card-media">
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#08284d]/35 to-transparent" />
 
-              <Image
-                src={image.src}
-                alt={image.alt}
-                fill
-                sizes="(max-width: 640px) 82vw, (max-width: 1024px) 48vw, 420px"
-                className="object-cover opacity-[0.70] transition-transform duration-700 ease-out group-hover:scale-105"
-              />
+                    <span className="absolute left-3 top-3 rounded-md border border-white/70 bg-white/95 px-2 py-1 font-mono text-[9px] font-bold tracking-[0.15em] text-[#08284d] shadow-sm">
+                      {vertical.index}
+                    </span>
 
-              <div className="absolute inset-0 bg-gradient-to-t from-[#061A35] via-[#061A35]/35 to-transparent" />
+                    <span className="absolute right-3 top-3 h-2 w-2 rounded-full bg-[#e11d48] ring-4 ring-rose-300/20" />
+                  </div>
 
+                  {/* Card content */}
+                  <div className="relative flex min-h-0 flex-1 flex-col px-3.5 pb-4 pt-7 sm:px-4 sm:pb-4">
+                    <span className="absolute -top-5 left-3.5 grid h-10 w-10 place-items-center rounded-xl border border-blue-100 bg-white text-[#1769d2] shadow-[0_5px_16px_rgba(8,40,77,.09)] transition-all duration-300 group-hover:-translate-y-1 group-hover:border-blue-200 group-hover:bg-blue-50 sm:left-4">
+                      <Icon size={19} strokeWidth={1.8} />
+                    </span>
 
-              {/* Number */}
-              <div className="absolute left-5 top-5 flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-[#E11D48]" />
+                    <h3 className="line-clamp-2 text-xs font-bold leading-snug tracking-[-0.02em] text-[#08284d] transition-colors duration-300 group-hover:text-[#1769d2] sm:text-sm">
+                      {vertical.name}
+                    </h3>
 
-                <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-white/80">
-                  {vertical.index}
-                </span>
-              </div>
+                    <p className="mt-2 line-clamp-4 text-[11px] leading-[1.55] text-slate-500 sm:text-xs sm:leading-5">
+                      {vertical.desc}
+                    </p>
 
-
-              {/* Content */}
-              <div className="absolute inset-x-5 bottom-5 sm:inset-x-6 sm:bottom-6">
-
-                <p className="font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-[#65C7FF] sm:text-[10px]">
-                  {vertical.tagline}
-                </p>
-
-                <h3 className="mt-2 text-2xl font-black leading-none tracking-[-0.04em] text-white sm:text-3xl lg:text-4xl">
-                  {vertical.name}
-                </h3>
-
-                <p className="mt-3 max-w-sm text-xs leading-5 text-white/75 sm:text-sm sm:leading-6">
-                  {vertical.desc}
-                </p>
-
-                <div className="mt-5 flex items-center justify-between border-t border-white/20 pt-4">
-
-                  <span className="text-[9px] font-bold uppercase tracking-[0.15em] text-white/65 sm:text-[10px]">
-                    Explore capability
-                  </span>
-
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full border border-white/30 text-white transition-all duration-300 group-hover:border-white group-hover:bg-white group-hover:text-[#061A35] sm:h-10 sm:w-10">
-                    <ArrowUpRight size={16} />
-                  </span>
-
-                </div>
-
-              </div>
-
-            </div>
-
-          </Link>
+                    <div className="mt-auto flex items-center gap-1.5 pt-4">
+                      <span className="h-[3px] w-7 rounded-full bg-[#1769d2] transition-all duration-500 group-hover:w-12" />
+                      <span className="h-[3px] w-2 rounded-full bg-blue-200" />
+                    </div>
+                  </div>
+                </article>
+              </Link>
+            </Reveal>
+          </div>
         )
       })}
 
+      {/* Ecosystem Integration — existing image */}
+      <div className="w-[82vw] max-w-[320px] shrink-0 snap-start sm:w-full sm:max-w-none sm:min-w-0">
+        <Reveal delay={0.2} y={20}>
+          <Link
+            href="/solutions"
+            className="group block h-full min-w-0"
+          >
+            <article className="relative flex h-[350px] flex-col overflow-hidden rounded-[18px] border border-rose-100 bg-white shadow-[0_8px_24px_rgba(8,40,77,.045)] transition-[transform,box-shadow,border-color] duration-500 ease-out group-hover:-translate-y-1.5 group-hover:border-rose-200 group-hover:shadow-[0_18px_40px_rgba(181,18,43,.10)] sm:h-[360px]">
+              <div className="relative h-[145px] shrink-0 overflow-hidden bg-[#e8eff8] sm:h-[155px]">
+                <Image
+                  src="/images/home/one-ecosystem.webp"
+                  alt="Carawin ecosystem integration"
+                  fill
+                  sizes="(max-width: 639px) 82vw, (max-width: 1023px) 30vw, 17vw"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                />
 
-      {/* ECOSYSTEM INTEGRATION CARD */}
-<div className="capability-card group">
+                <div className="absolute inset-0 bg-gradient-to-t from-[#08284d]/45 to-transparent" />
 
-  <div className="capability-card-media">
+                <span className="absolute left-3 top-3 rounded-md border border-white/70 bg-white/95 px-2 py-1 font-mono text-[9px] font-bold tracking-[0.15em] text-[#08284d] shadow-sm">
+                  06
+                </span>
 
-    <Image
-      src="/images/home/one-ecosystem.webp"
-      alt="Carawin ecosystem integration"
-      fill
-      sizes="(max-width: 640px) 82vw, (max-width: 1024px) 48vw, 420px"
-      className="object-cover opacity-[0.45]"
-    />
+                <span className="absolute right-3 top-3 h-2 w-2 rounded-full bg-[#e11d48] ring-4 ring-rose-300/20" />
+              </div>
 
-    <div className="absolute inset-0 bg-[#061A35]/80" />
+              <div className="relative flex min-h-0 flex-1 flex-col px-3.5 pb-4 pt-7 sm:px-4 sm:pb-4">
+                <span className="absolute -top-5 left-3.5 grid h-10 w-10 place-items-center rounded-xl border border-rose-100 bg-white text-[#e11d48] shadow-[0_5px_16px_rgba(8,40,77,.09)] transition-all duration-300 group-hover:-translate-y-1 group-hover:bg-rose-50 sm:left-4">
+                  <Network size={19} strokeWidth={1.8} />
+                </span>
 
-    <div className="relative z-10 flex h-full flex-col justify-between p-6 text-white sm:p-8">
+                <h3 className="line-clamp-2 text-xs font-bold leading-snug tracking-[-0.02em] text-[#08284d] transition-colors duration-300 group-hover:text-[#b5122b] sm:text-sm">
+                  Ecosystem Integration
+                </h3>
 
-      <div>
+                <p className="mt-2 line-clamp-4 text-[11px] leading-[1.55] text-slate-500 sm:text-xs sm:leading-5">
+                  Connecting AI, education, robotics, IoT and digital infrastructure.
+                </p>
 
-        <p className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[#FF7185]">
-          ECOSYSTEM INTEGRATION
-        </p>
-
-        <h3 className="mt-5 text-3xl font-black leading-[0.95] tracking-[-0.04em] text-white sm:text-4xl">
-          ONE ECOSYSTEM.
-          <br />
-          MULTIPLE
-          <br />
-          POSSIBILITIES.
-        </h3>
-
-        <p className="mt-5 max-w-md text-sm leading-6 text-white/75 sm:text-base">
-          From AI tutors and virtual simulations to physical robotics
-          labs, custom industrial IoT, and statewide policy advisory —
-          Carawin connects all 5 verticals into one coherent delivery
-          framework.
-        </p>
-
+                <div className="mt-auto flex items-center gap-1.5 pt-4">
+                  <span className="h-[3px] w-7 rounded-full bg-[#e11d48] transition-all duration-500 group-hover:w-12" />
+                  <span className="h-[3px] w-2 rounded-full bg-rose-200" />
+                </div>
+              </div>
+            </article>
+          </Link>
+        </Reveal>
       </div>
-
-      <div className="border-t border-white/20 pt-5">
-
-        <Link
-          href="/solutions"
-          className="inline-flex items-center gap-3 text-xs font-bold uppercase tracking-wider text-white transition hover:text-[#FF7185]"
-        >
-          VIEW ALL SOLUTIONS
-          <ArrowUpRight size={16} />
-        </Link>
-
-      </div>
-
     </div>
-
-  </div>
-
-</div>
-      
-
-    </div>
-
-  </div>
-
-</div>
-
-
   </div>
 </section>
 
-      {/* ========================================================
-          4. CARAWIN LABS WIDE BANNER (Learn. Build. Experiment. Innovate.)
-          ======================================================== */}
-      <section className="relative w-full overflow-hidden bg-[#071832] text-white">
-<div className="relative w-full min-h-[460px] lg:min-h-[560px]">
-  
-  
-  
-            {/* Background Image — always fills the entire section */}
 
 
-        
-{/* Cinematic Labs background — image on right, fading left */}
-<div className="absolute inset-0 z-0 overflow-hidden">
 
-  {/* Background photo */}
-  <div className="absolute inset-0 left-auto w-full overflow-hidden sm:w-[78%] lg:w-[70%]">
+
+
+
+ {/* ========================================================
+    4. CARAWIN LABS — CINEMATIC IMMERSIVE BANNER
+    ======================================================== */}
+<section className="labs-hero relative isolate w-full overflow-hidden bg-[#071832] text-white">
+
+  {/* Full-bleed background image */}
+  <div className="labs-hero__background absolute inset-0 z-0 overflow-hidden">
     <Image
-       src="/images/home/optimized/carawin_labs_students.jpg"
-    alt=""
-    fill
-    priority
-    sizes="100vw"
-className="object-cover object-[100%_center]"    />
+      src="/images/home/optimized/carawin_labs_students.jpg"
+      alt=""
+      fill
+      sizes="100vw"
+      quality={88}
+      className="labs-hero__image object-cover object-[65%_center]"
+      aria-hidden="true"
+    />
+
+    {/* Natural blend from navy copy area into the photo */}
+    <div className="labs-hero__scrim absolute inset-0" />
+
+    {/* Subtle atmospheric blue light */}
+    <div className="labs-hero__light absolute inset-0" />
+
+    {/* Lower cinematic fade */}
+    <div className="labs-hero__bottom absolute inset-x-0 bottom-0 h-28" />
   </div>
 
-  {/* Fade the image into the navy background */}
-{/* Strong, seamless fade from image into navy */}
-<div
-  aria-hidden="true"
-  className="pointer-events-none absolute inset-0 z-10"
-  style={{
-    background: `
-      linear-gradient(
-        to right,
-        #071832 0%,
-        #071832 25%,
-        rgba(7, 24, 50, 0.98) 35%,
-        rgba(7, 24, 50, 0.90) 43%,
-        rgba(7, 24, 50, 0.72) 52%,
-        rgba(7, 24, 50, 0.42) 63%,
-        rgba(7, 24, 50, 0.16) 76%,
-        rgba(7, 24, 50, 0.04) 90%,
-        transparent 100%
-      )
-    `,
-  }}
-/>
+  {/* Main content */}
+  <div className="relative z-10 mx-auto flex min-h-[240px] w-full max-w-[1800px] items-center px-5 py-10 sm:min-h-[380px] sm:px-8 sm:py-12 lg:min-h-[420px] lg:px-[5vw] lg:py-14">
+    <div className="max-w-[650px]">
 
-  {/* Bottom cinematic fade */}
-  <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-32 bg-gradient-to-t from-[#071832]/70 to-transparent sm:h-40" />
+      {/* Eyebrow */}
+      <Reveal>
+        <div className="inline-flex items-center gap-3 border border-white/15 bg-[#071832]/45 px-3 py-2 backdrop-blur-md">
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#60a5fa] opacity-50" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-[#60a5fa]" />
+          </span>
 
-</div>
-
-          {/* Left Content Area — overlays the image */}
-          <div className="relative z-20 flex flex-col justify-center px-6 py-12 sm:px-12 lg:py-16 lg:pl-16 xl:pl-24 max-w-2xl">
-            {/* Subtle ambient glow behind text */}
-            <div className="absolute -left-20 top-1/2 -translate-y-1/2 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
-
-            <span className="relative z-10 font-mono text-xs font-bold uppercase tracking-[0.25em] text-[#38bdf8]">
-              CARAWIN LABS
-            </span>
-
-            <h2 className="relative z-10 mt-3 text-3xl font-black leading-tight tracking-tight text-white sm:text-4xl lg:text-[2.6rem]">
-              LEARN. BUILD. EXPERIMENT.
-              <br />
-              INNOVATE.
-            </h2>
-
-            <p className="relative z-10 mt-4 font-mono text-xs sm:text-sm font-semibold uppercase tracking-wider text-[#93c5fd] leading-relaxed">
-              AI • STEM • STEAM • ROBOTICS • IOT • CODING
-              <br />
-              INNOVATION • SMART CLASS
-            </p>
-
-            <div className="relative z-10 mt-8">
-              <Link
-                href="/solutions/ai-software-iot"
-                className="inline-flex items-center gap-2 rounded-full bg-[#2563eb] px-7 py-3.5 text-xs font-bold uppercase tracking-wider text-white shadow-[0_0_25px_rgba(37,99,235,0.45)] transition-all duration-300 hover:bg-[#1d4ed8] hover:shadow-[0_0_35px_rgba(37,99,235,0.7)] hover:scale-105 active:scale-95 sm:text-sm">
-                EXPLORE CARAWIN LABS →
-              </Link>
-            </div>
-          </div>
+          <span className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-white sm:text-xs">
+            CARAWIN LABS
+          </span>
         </div>
-      </section>
+      </Reveal>
 
-      {/* ========================================================
-          5. OUR PRODUCTS & LABS (5 Products in a Grid)
-          ======================================================== */}
-      <section id="products" className="border-b border-[var(--border)] bg-white py-16 sm:py-20 lg:py-24">
-        <div className="w-full max-w-none px-5 sm:px-8 lg:px-[4vw]">
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+      {/* Headline */}
+      <Reveal delay={0.08} y={28}>
+        <h2 className="mt-6 text-[clamp(2.5rem,5.2vw,4.5rem)] font-black leading-[0.94] tracking-[-0.06em] text-white">
+          LEARN. BUILD.
+          <br />
+          EXPERIMENT.
+          <br />
+          <span
+  data-text="INNOVATE."
+  className="labs-hero__beam-word relative inline-block bg-gradient-to-r from-[#7cc7ff] via-[#d5e9ff] to-white bg-clip-text text-transparent"
+>
+  INNOVATE.
+</span>
+        </h2>
+      </Reveal>
 
-  <div>
-    <Reveal>
-      <p className="kicker text-[var(--crimson)]">
-        OUR PRODUCTS &amp; LABS
-      </p>
-    </Reveal>
+      {/* Technology categories */}
+      <Reveal delay={0.16} y={18}>
+        <div className="mt-6 max-w-[520px]">
+          <p className="font-mono text-[10px] font-bold uppercase leading-6 tracking-[0.14em] text-blue-200 sm:text-xs sm:leading-7">
+            AI <span className="px-1.5 text-[#f87191]">•</span>
+            STEM <span className="px-1.5 text-[#f87191]">•</span>
+            STEAM <span className="px-1.5 text-[#f87191]">•</span>
+            ROBOTICS <span className="px-1.5 text-[#f87191]">•</span>
+            IOT <span className="px-1.5 text-[#f87191]">•</span>
+            CODING
+            <br />
+            INNOVATION <span className="px-1.5 text-[#f87191]">•</span>
+            SMART CLASS
+          </p>
+        </div>
+      </Reveal>
 
-    <Reveal delay={0.08} y={35}>
-      <h2 className="mt-2 text-3xl font-black tracking-tight text-[var(--navy)] sm:text-4xl lg:text-[2.75rem]">
-        FROM IDEAS TO PRODUCTS.
-      </h2>
-    </Reveal>
+      {/* CTA */}
+      <Reveal delay={0.24} y={16}>
+        <div className="mt-8">
+          <Link
+            href="/solutions/ai-software-iot"
+            className="group inline-flex min-h-12 items-center gap-4 rounded-full bg-gradient-to-r from-[#1769d2] to-[#e11d48] px-6 text-xs font-bold uppercase tracking-[0.09em] text-white shadow-[0_10px_30px_rgba(23,105,210,0.25)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_15px_38px_rgba(225,29,72,0.30)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7cc7ff] focus-visible:ring-offset-2 focus-visible:ring-offset-[#071832] sm:text-sm"
+          >
+            EXPLORE CARAWIN LABS
+
+            <ArrowRight
+              size={17}
+              className="transition-transform duration-300 group-hover:translate-x-1"
+            />
+          </Link>
+        </div>
+      </Reveal>
+    </div>
   </div>
 
-  <Reveal delay={0.16} y={20}>
-    <Link
-      href="/solutions"
-      className="inline-flex items-center gap-1 font-mono text-xs font-bold uppercase tracking-wider text-[var(--navy)] transition-colors hover:text-[var(--crimson)]"
-    >
-      VIEW ALL PRODUCTS &amp; LABS →
-    </Link>
-  </Reveal>
+  {/* Fine brand accent at the bottom */}
+  <div className="absolute inset-x-0 bottom-0 z-20 h-[2px] bg-gradient-to-r from-[#1769d2] via-[#8190db] to-[#e11d48]" />
+</section>
 
-</div>
-
-          {/* 5 Products Grid (5 cols on desktop) */}
-          <div
-  id="product-grid"
-  className="product-grid mt-10"
+{/* ========================================================
+    OUR PRODUCTS & LABS — PREMIUM RESPONSIVE SHOWCASE
+    Desktop: five image cards, no navigation arrows
+    Mobile: horizontal product tiles with icon badges
+    ======================================================== */}
+<section
+  id="products-labs"
+  className="relative isolate overflow-hidden border-b border-slate-200 bg-white py-14 sm:py-16 lg:py-20"
 >
-            {products.map((prod) => (
+  {/* Subtle background atmosphere */}
+  <div
+    aria-hidden="true"
+    className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-48 bg-gradient-to-t from-blue-50/80 to-transparent"
+  />
+
+  <div className="mx-auto w-full max-w-[1800px] px-5 sm:px-8 lg:px-[4vw]">
+
+    {/* Section heading */}
+    <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+      <div>
+        <Reveal>
+          <div className="flex items-center gap-3">
+            <span className="h-[3px] w-8 rounded-full bg-gradient-to-r from-[#1769d2] to-[#e11d48]" />
+
+            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#b5122b] sm:text-xs">
+              OUR PRODUCTS & LABS
+            </p>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.08} y={22}>
+          <h2 className="mt-3 text-3xl font-black leading-[0.96] tracking-[-0.055em] text-[#08284d] sm:text-5xl lg:text-6xl">
+            FROM IDEAS TO PRODUCTS
+            <span className="text-[#e11d48]">.</span>
+          </h2>
+        </Reveal>
+      </div>
+
+      {/* Desktop link only — no desktop carousel arrows */}
+      <Reveal delay={0.15} y={12}>
+        <Link
+          href="/solutions"
+          className="group hidden items-center gap-2 border-b border-slate-200 pb-2 text-[10px] font-bold uppercase tracking-[0.14em] text-[#193653] transition-colors duration-300 hover:border-[#1769d2] hover:text-[#1769d2] sm:inline-flex"
+        >
+          VIEW ALL PRODUCTS & LABS
+          <ArrowUpRight
+            size={15}
+            className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+          />
+        </Link>
+      </Reveal>
+    </div>
+
+    {/* =====================================================
+        DESKTOP PRODUCT CARDS
+        ===================================================== */}
+    <div className="mt-9 hidden grid-cols-2 gap-4 sm:grid lg:mt-11 lg:grid-cols-5 lg:gap-5">
+      {products.slice(0, 5).map((product, index) => (
+        <Reveal
+          key={`desktop-product-${product.title}`}
+          delay={0.05 + index * 0.06}
+          y={18}
+        >
+          <Link
+            href={product.href}
+            className="group block h-full min-w-0"
+          >
+            <article className="relative flex h-full flex-col overflow-hidden rounded-[17px] border border-slate-200 bg-white transition-all duration-400 ease-out group-hover:-translate-y-1 group-hover:border-blue-200 group-hover:shadow-[0_16px_35px_rgba(8,40,77,0.09)]">
+
+              {/* Product image */}
+              <div className="relative aspect-[4/3] shrink-0 overflow-hidden bg-[#edf3fa]">
+                <Image
+                  src={product.image}
+                  alt={product.title}
+                  fill
+                  sizes="(max-width: 1023px) 45vw, 19vw"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.045]"
+                />
+
+                {/* Light image overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#08284d]/25 via-transparent to-transparent opacity-70 transition-opacity duration-300 group-hover:opacity-100" />
+
+                {/* Number */}
+                <span className="absolute left-3 top-3 rounded-md border border-white/75 bg-white/90 px-2 py-1 font-mono text-[9px] font-bold tracking-[0.12em] text-[#08284d] shadow-sm backdrop-blur-sm">
+                  0{index + 1}
+                </span>
+              </div>
+
+              {/* Product label */}
+              <div className="flex flex-1 flex-col px-3.5 py-4 sm:px-4">
+                <h3 className="text-sm font-bold leading-snug tracking-[-0.025em] text-[#08284d] transition-colors duration-300 group-hover:text-[#1769d2]">
+                  {product.title}
+                </h3>
+
+                <div className="mt-3 flex items-center justify-between border-t border-slate-100 pt-3">
+                  <span className="text-[10px] font-semibold text-slate-500 transition-colors duration-300 group-hover:text-[#1769d2]">
+                    Explore product
+                  </span>
+
+                  <span className="grid h-7 w-7 place-items-center rounded-full border border-slate-200 text-[#1769d2] transition-all duration-300 group-hover:border-[#1769d2] group-hover:bg-[#1769d2] group-hover:text-white">
+                    <ArrowUpRight size={14} />
+                  </span>
+                </div>
+
+                {/* Brand accent */}
+                <span
+                  className={`absolute bottom-0 left-0 h-[3px] rounded-r-full transition-all duration-500 group-hover:w-16 ${
+                    index % 2 === 0
+                      ? "w-8 bg-[#1769d2]"
+                      : "w-8 bg-[#e11d48]"
+                  }`}
+                />
+              </div>
+            </article>
+          </Link>
+        </Reveal>
+      ))}
+    </div>
+
+    {/* =====================================================
+        MOBILE PRODUCT TILES
+        Horizontal, swipeable, original product order
+        ===================================================== */}
+    <div className="mt-7 sm:hidden">
+
+      {/* Mobile-only carousel controls */}
+      <div className="mb-4 flex items-center justify-between">
+        <p className="font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-slate-400">
+          EXPLORE OUR PRODUCTS
+        </p>
+
+        <div className="flex gap-2">
+          <button
+            type="button"
+            aria-label="Previous product"
+            onClick={() =>
+              document
+                .getElementById("products-labs-mobile-rail")
+                ?.scrollBy({ left: -310, behavior: "smooth" })
+            }
+            className="grid h-9 w-9 place-items-center rounded-full border border-slate-200 bg-white text-[#08284d] transition-colors duration-300 hover:border-blue-300 hover:bg-blue-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+          >
+            <ArrowLeft size={15} />
+          </button>
+
+          <button
+            type="button"
+            aria-label="Next product"
+            onClick={() =>
+              document
+                .getElementById("products-labs-mobile-rail")
+                ?.scrollBy({ left: 310, behavior: "smooth" })
+            }
+            className="grid h-9 w-9 place-items-center rounded-full border border-slate-200 bg-white text-[#08284d] transition-colors duration-300 hover:border-rose-300 hover:bg-rose-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
+          >
+            <ArrowRight size={15} />
+          </button>
+        </div>
+      </div>
+
+      {/* Horizontal row of compact tiles */}
+      <div
+        id="products-labs-mobile-rail"
+        className="flex snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
+        {products.slice(0, 5).map((product, index) => {
+          const icons = [
+            BookOpen,
+            Bot,
+            BarChart3,
+            FlaskConical,
+            LayoutDashboard,
+          ]
+
+          const Icon = icons[index]
+
+          const summaries = [
+            "Interactive learning with AI for future-ready skills.",
+            "Personalised AI tutoring for every learner.",
+            "Learning paths that adapt to individual needs.",
+            "Hands-on exploration through virtual experiments.",
+            "Intelligent tools for smarter operations.",
+          ]
+
+          return (
+            <Reveal
+              key={`mobile-product-${product.title}`}
+              delay={index * 0.045}
+              y={12}
+            >
               <Link
-                key={prod.title}
-                href={prod.href}
-className="product-card group relative flex flex-col justify-between overflow-visible rounded-2xl border border-slate-200/80 bg-white p-3 shadow-xs sm:p-4"              >
-                <div>
-                  <div className="relative aspect-[16/10] w-full overflow-hidden rounded-lg bg-slate-900">
+                href={product.href}
+                className="group block w-[86vw] max-w-[360px] shrink-0 snap-start"
+              >
+                <article className="relative flex min-h-[112px] items-center gap-3 overflow-hidden rounded-2xl border border-slate-200 bg-white p-3 shadow-[0_5px_18px_rgba(8,40,77,0.035)] transition-all duration-300 group-hover:border-blue-200 group-hover:shadow-[0_10px_24px_rgba(8,40,77,0.075)]">
+
+                  {/* Product thumbnail */}
+                  <div className="relative h-[84px] w-[88px] shrink-0 overflow-hidden rounded-xl bg-[#edf3fa]">
                     <Image
-                      src={prod.image}
-                      alt={prod.title}
+                      src={product.image}
+                      alt={product.title}
                       fill
-                      unoptimized
-                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 220px"
-                      className="product-card-image object-cover transition-[transform,filter] duration-700 ease-out group-hover:scale-110 group-hover:brightness-110"
+                      sizes="88px"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                   </div>
 
-                  <h3 className="mt-3 text-xs font-bold leading-snug tracking-tight text-[var(--navy)] transition-transform duration-500 ease-out group-hover:-translate-y-1 sm:text-sm">
-  {prod.title}
-</h3>
-                </div>
+                  {/* Text */}
+                  <div className="min-w-0 flex-1 py-1">
+                    <h3 className="line-clamp-2 text-xs font-bold leading-snug text-[#08284d] group-hover:text-[#1769d2]">
+                      {product.title}
+                    </h3>
 
-                <div className="mt-2.5 pt-2 border-t border-slate-100">
-                  <span className="inline-flex items-center gap-1 text-[11px] font-bold text-[var(--crimson)] transition-all duration-500 group-hover:gap-2">
-  Explore →
-</span>
-                </div>
+                    <p className="mt-1.5 line-clamp-2 text-[10px] leading-[1.5] text-slate-500">
+                      {summaries[index]}
+                    </p>
+
+                    <span className="mt-2 inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-[0.1em] text-[#1769d2]">
+                      Explore
+                      <ArrowRight size={11} />
+                    </span>
+                  </div>
+
+                  {/* Relevant product icon at the far edge */}
+                  <span
+                    className={`grid h-10 w-10 shrink-0 place-items-center self-center rounded-xl border transition-colors duration-300 ${
+                      index % 2 === 0
+                        ? "border-blue-100 bg-blue-50 text-[#1769d2] group-hover:border-blue-200 group-hover:bg-blue-100"
+                        : "border-rose-100 bg-rose-50 text-[#e11d48] group-hover:border-rose-200 group-hover:bg-rose-100"
+                    }`}
+                  >
+                    <Icon size={19} strokeWidth={1.8} />
+                  </span>
+
+                  {/* Fine bottom accent */}
+                  <span
+                    className={`absolute bottom-0 left-0 h-[2px] w-8 rounded-r-full transition-all duration-500 group-hover:w-14 ${
+                      index % 2 === 0
+                        ? "bg-[#1769d2]"
+                        : "bg-[#e11d48]"
+                    }`}
+                  />
+                </article>
               </Link>
-                        ))}
-          </div>
+            </Reveal>
+          )
+        })}
+      </div>
 
-          {/* Mobile product navigation */}
-          <div className="mt-5 flex justify-end gap-2 sm:hidden">
-            <button
-              type="button"
-              aria-label="Previous product"
-              onClick={() => {
-                document
-                  .getElementById("product-grid")
-                  ?.scrollBy({
-                    left: -180,
-                    behavior: "smooth",
-                  })
-              }}
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-[var(--navy)] shadow-sm"
-            >
-              <ArrowLeft size={16} />
-            </button>
-
-            <button
-              type="button"
-              aria-label="Next product"
-              onClick={() => {
-                document
-                  .getElementById("product-grid")
-                  ?.scrollBy({
-                    left: 180,
-                    behavior: "smooth",
-                  })
-              }}
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-[var(--navy)] shadow-sm"
-            >
-              <ArrowRight size={16} />
-            </button>
-          </div>
-
-        </div>
-      </section>
+      <Link
+        href="/solutions"
+        className="mt-4 inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.12em] text-[#08284d] transition-colors hover:text-[#1769d2]"
+      >
+        VIEW ALL PRODUCTS & LABS
+        <ArrowRight size={13} />
+      </Link>
+    </div>
+  </div>
+</section>
 
 
 {/* ========================================================
     6. HOW WE WORK — IMAGE-LED WORKFLOW
     ======================================================== */}
-<section className="execution-section border-b border-[var(--border)] bg-[#eef3f9] py-14 sm:py-20 lg:py-24">
-<div className="w-full max-w-none px-3 sm:px-5 lg:px-6 xl:px-8">
-    {/* Header */}
-    <div className="mb-9 max-w-2xl sm:mb-12">
-      <Reveal>
-        <p className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[var(--crimson)]">
-          HOW WE WORK
-        </p>
-      </Reveal>
-
-      <Reveal delay={0.08} y={35}>
-        <h2 className="mt-3 text-3xl font-black leading-[0.95] tracking-[-0.045em] text-[var(--navy)] sm:text-5xl lg:text-6xl">
-          FROM IDEA TO IMPACT.
-        </h2>
-      </Reveal>
-
-      <Reveal delay={0.16} y={20}>
-        <p className="mt-4 text-sm leading-6 text-slate-500 sm:text-base">
-          Structured execution, from discovery to scale.
-        </p>
-      </Reveal>
-    </div>
-
-    {/* Large photographic workflow cards */}
-    
-{/* Horizontal workflow carousel */}
-<div className="mt-8 sm:mt-10">
-
-
-  {/* Scrollable rail */}
-  <div
-    ref={executionRailRef}
-    className="execution-photo-rail-shell"
-  >
-    <div className="execution-photo-rail">
-
-      {executionSteps.map((step, index) => (
-        <Reveal
-          key={step.number}
-          delay={0.06 + (index % 3) * 0.08}
-          y={30}
-        >
-          <article className="execution-photo-card group">
-
-            <Image
-              src={step.image}
-              alt={`${step.title}: ${step.desc}`}
-              fill
-              sizes="(max-width: 640px) 82vw, 460px"
-              className="execution-photo-card-image object-cover"
-            />
-
-            <div
-              className="execution-photo-card-shade"
-              aria-hidden="true"
-            />
-
-            <div className="execution-photo-card-content">
-
-              <div className="flex items-center justify-between">
-                
-
-              </div>
-
-              <div className="execution-photo-copy">
-                <span className="execution-photo-accent" />
-
-                <h3>{step.title}</h3>
-
-                <p>{step.desc}</p>
-              </div>
-
-              
-
-            </div>
-          </article>
-        </Reveal>
-      ))}
-
-    </div>
+{/* HOW WE WORK — FROM IDEA TO IMPACT */}
+<section className="relative isolate overflow-hidden border-b border-slate-200 bg-[#f3f7fc] py-14 sm:py-20 lg:py-24">
+  {/* Subtle background atmosphere */}
+  <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+    <div className="absolute -left-32 top-0 h-72 w-72 rounded-full bg-blue-100/60 blur-[100px]" />
+    <div className="absolute -right-32 bottom-0 h-72 w-72 rounded-full bg-rose-100/50 blur-[100px]" />
+    <div className="absolute inset-0 opacity-30 [background-image:linear-gradient(rgba(8,40,77,.035)_1px,transparent_1px),linear-gradient(90deg,rgba(8,40,77,.035)_1px,transparent_1px)] [background-size:48px_48px]" />
   </div>
-</div>
 
+  <div className="mx-auto w-full max-w-[1700px] px-5 sm:px-8 lg:px-[4vw]">
+    {/* Section header */}
+    <div className="grid gap-5 lg:grid-cols-[1fr_auto] lg:items-end">
+      <div>
+        <Reveal>
+          <div className="flex items-center gap-3">
+            <span className="h-[3px] w-8 rounded-full bg-gradient-to-r from-[#1769d2] to-[#e11d48]" />
+            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#b5122b] sm:text-xs">
+              HOW WE WORK
+            </p>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.08} y={28}>
+          <h2 className="mt-4 text-4xl font-black leading-[0.94] tracking-[-0.06em] text-[#08284d] sm:text-5xl lg:text-6xl">
+            FROM IDEA TO{" "}
+            <span className="bg-gradient-to-r from-[#1769d2] to-[#e11d48] bg-clip-text text-transparent">
+              IMPACT.
+            </span>
+          </h2>
+        </Reveal>
+
+        <Reveal delay={0.15} y={16}>
+          <p className="mt-4 max-w-lg text-sm leading-6 text-slate-600 sm:text-base">
+            Structured execution, from discovery to scale.
+          </p>
+        </Reveal>
+      </div>
+
+      <Reveal delay={0.2} y={14}>
+        <div className="flex items-center justify-between gap-5 lg:justify-end">
+          
+        </div>
+      </Reveal>
+    </div>
+
+    {/* Connected timeline and photographic cards */}
+    <div className="relative mt-10 sm:mt-14">
+      <div
+        ref={executionRailRef}
+        className="relative overflow-x-auto overscroll-x-contain pb-5 pt-9 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
+<div className="relative flex w-max items-stretch gap-3 sm:gap-4 xl:grid xl:w-full xl:min-w-0 xl:grid-cols-6 xl:gap-4">
+  
+  
+            {/* Timeline connector */}
+          <div
+            aria-hidden="true"
+className="pointer-events-none absolute left-0 right-0 top-[-25px] h-px bg-gradient-to-r from-[#e11d48]/60 via-[#1769d2]/45 to-[#e11d48]/60"
+          />
+
+          {executionSteps.map((step, index) => (
+            <Reveal
+              key={step.number}
+              delay={index * 0.07}
+              y={22}
+            >
+<div className="relative w-[76vw] max-w-[290px] shrink-0 pt-0 sm:w-[260px] sm:max-w-none xl:w-full xl:min-w-0 xl:max-w-none">                {/* Timeline marker */}
+                <span
+                  aria-hidden="true"
+                  className={`absolute -top-[31px] left-1/2 z-10 h-[11px] w-[11px] -translate-x-1/2 rounded-full border-2 bg-white transition-all duration-300 ${
+                    index === 0 || index === 5
+                      ? "border-[#e11d48] group-hover:bg-rose-500"
+                      : "border-[#4387ed]"
+                  }`}
+                />
+
+                {/* Card */}
+                <article
+className={`group relative flex h-full flex-col overflow-hidden rounded-[18px] border bg-white shadow-[0_8px_24px_rgba(8,40,77,.045)] transition-[transform,box-shadow,border-color] duration-500 ease-out hover:-translate-y-1.5 hover:shadow-[0_18px_38px_rgba(8,40,77,.12)] xl:h-[276px] ${                    index === 0 || index === 5
+                      ? "border-rose-100 hover:border-rose-200"
+                      : "border-slate-200 hover:border-blue-200"
+                  }`}
+                >
+                  {/* Original image from executionSteps */}
+                  <div className="relative aspect-[16/10] overflow-hidden bg-[#e7eef7]">
+                    <Image
+                      src={step.image}
+                      alt={`${step.title}: ${step.desc}`}
+                      fill
+                      sizes="(max-width: 640px) 76vw, (max-width: 1024px) 260px, 225px"
+                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    />
+
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#08284d]/45 via-transparent to-transparent" />
+
+                    {/* Number badge */}
+                    <span
+                      className={`absolute left-3 top-3 grid h-8 min-w-8 place-items-center rounded-lg border px-1.5 text-[11px] font-black shadow-sm backdrop-blur-md transition-transform duration-300 group-hover:scale-105 ${
+                        index === 0 || index === 5
+                          ? "border-rose-200 bg-white/95 text-[#e11d48]"
+                          : "border-blue-200 bg-white/95 text-[#1769d2]"
+                      }`}
+                    >
+                      {step.number}
+                    </span>
+
+                    {/* Image hover tint */}
+                    <div
+                      className={`pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 ${
+                        index === 5
+                          ? "bg-rose-500/10"
+                          : "bg-blue-500/10"
+                      }`}
+                    />
+                  </div>
+
+                  {/* Card information */}
+                  <div className="flex flex-1 flex-col p-3.5 sm:p-4">
+                    <div className="flex items-center justify-between gap-2">
+                      <h3
+                        className={`text-xs font-black tracking-[0.035em] sm:text-sm ${
+                          index === 5
+                            ? "text-[#b5122b]"
+                            : "text-[#08284d]"
+                        }`}
+                      >
+                        {step.title}
+                      </h3>
+
+                      <span
+                        className={`grid h-7 w-7 shrink-0 place-items-center rounded-full transition-all duration-300 group-hover:translate-x-0.5 ${
+                          index === 0 || index === 5
+                            ? "bg-rose-50 text-[#e11d48] group-hover:bg-[#e11d48] group-hover:text-white"
+                            : "bg-blue-50 text-[#1769d2] group-hover:bg-[#1769d2] group-hover:text-white"
+                        }`}
+                      >
+                        <ArrowRight size={13} />
+                      </span>
+                    </div>
+
+                    <p className="mt-2 text-[11px] leading-[1.55] text-slate-500 sm:text-xs">
+                      {step.desc}
+                    </p>
+
+                    {/* Animated progress accent */}
+                    <div className="mt-auto flex gap-1 pt-4">
+                      <span
+                        className={`h-[3px] w-7 origin-left rounded-full transition-all duration-500 group-hover:w-12 ${
+                          index === 0 || index === 5
+                            ? "bg-[#e11d48]"
+                            : "bg-[#1769d2]"
+                        }`}
+                      />
+                      <span
+                        className={`h-[3px] w-2 rounded-full opacity-20 ${
+                          index === 0 || index === 5
+                            ? "bg-[#e11d48]"
+                            : "bg-[#1769d2]"
+                        }`}
+                      />
+                    </div>
+                  </div>
+                </article>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+
+      {/* Mobile scroll hint */}
+      <p className="mt-1 text-center font-mono text-[9px] font-semibold uppercase tracking-[0.14em] text-slate-400 sm:hidden">
+        Swipe to explore all six steps →
+      </p>
+    </div>
   </div>
 </section>
 
@@ -1184,144 +1602,150 @@ className="product-card group relative flex flex-col justify-between overflow-vi
 {/* ========================================================
     8. WHY CARAWIN?
     ======================================================== */}
-<section className="border-b border-slate-200 bg-white py-16 sm:py-20 lg:py-24">
-  <div className="container-x">
+<section
+  id="why-carawin"
+  className="relative isolate overflow-hidden border-y border-slate-200 bg-[#f8faff] py-16 sm:py-20 lg:py-24"
+>
+  {/* Subtle brand atmosphere */}
+  <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+    <div className="absolute -left-40 top-10 h-80 w-80 rounded-full bg-blue-100/70 blur-[100px]" />
+    <div className="absolute -right-32 bottom-0 h-80 w-80 rounded-full bg-rose-100/60 blur-[100px]" />
+  </div>
 
-    {/* Header */}
-    <div className="max-w-4xl">
-
+  {/* Header: wider layout */}
+  <div className="mx-auto grid w-full max-w-[1800px] gap-8 px-5 sm:px-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-end lg:px-12 xl:px-16">
+    <div>
       <Reveal>
-        <p className="kicker text-[var(--crimson)]">
-          WHY CARAWIN?
-        </p>
+        <div className="flex items-center gap-3">
+          <span className="h-[3px] w-8 rounded-full bg-gradient-to-r from-[#1769d2] to-[#e11d48]" />
+          <p className="kicker text-[var(--crimson)]">
+            WHY CARAWIN?
+          </p>
+        </div>
       </Reveal>
 
-      <Reveal delay={0.08} y={35}>
-        <h2 className="mt-4 max-w-4xl text-3xl font-black leading-[0.95] tracking-[-0.045em] text-[var(--navy)] sm:text-5xl lg:text-6xl">
-          {whyCarawinData.headline}
+      <Reveal delay={0.08} y={25}>
+        <h2 className="mt-5 max-w-4xl text-4xl font-black leading-[0.94] tracking-[-0.065em] text-[#08284d] sm:text-6xl lg:text-7xl">
+          ONE TECHNOLOGY
+          <br />
+          ECOSYSTEM.
+          <br />
+          <span className="bg-gradient-to-r from-[#1769d2] via-[#6260d2] to-[#e11d48] bg-clip-text text-transparent">
+            MULTIPLE POSSIBILITIES.
+          </span>
         </h2>
       </Reveal>
-
     </div>
 
-    {/* Image-led pillar rail */}
-    <div className="relative mt-10 sm:mt-14 lg:mt-16">
+    <Reveal delay={0.18} y={20}>
+      <div className="max-w-md pb-2 lg:justify-self-end">
+        <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#1769d2]">
+          ● BUILT TO WORK TOGETHER
+        </p>
 
-      {/* Navigation */}
-      <div className="mb-5 flex items-center justify-end gap-2 sm:mb-6">
-        <button
-          type="button"
-          aria-label="Previous pillar"
-          onClick={() => {
-            document
-              .getElementById("why-carawin-rail")
-              ?.scrollBy({ left: -460, behavior: "smooth" })
-          }}
-          className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-[var(--navy)] shadow-sm transition-all duration-300 hover:border-[var(--navy)] hover:bg-[var(--navy)] hover:text-white"
-        >
-          <ArrowLeft size={16} />
-        </button>
+        <p className="mt-4 text-sm leading-7 text-slate-600 sm:text-base">
+          We combine deep domain expertise with technology innovation to
+          deliver solutions that are integrated, experiential and scalable.
+        </p>
 
-        <button
-          type="button"
-          aria-label="Next pillar"
-          onClick={() => {
-            document
-              .getElementById("why-carawin-rail")
-              ?.scrollBy({ left: 460, behavior: "smooth" })
-          }}
-          className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-[var(--navy)] shadow-sm transition-all duration-300 hover:border-[var(--navy)] hover:bg-[var(--navy)] hover:text-white"
-        >
-          <ArrowRight size={16} />
-        </button>
-      </div>
-
-      <div
-        id="why-carawin-rail"
-        className="capability-marquee-shell"
-      >
-        <div className="capability-marquee">
-
-          {whyCarawinData.pillars.map((pillar, idx) => (
-            <Reveal
-              key={pillar.title}
-              delay={0.08 + idx * 0.06}
-              y={35}
-            >
-              <div className="capability-card group">
-
-                <div className="capability-card-media">
-
-                  {/* Background image */}
-                  <Image
-                    src={whyCarawinImages[idx]}
-                    alt={pillar.title}
-                    fill
-                    sizes="(max-width: 640px) 82vw, (max-width: 1024px) 48vw, 420px"
-                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                  />
-
-                  {/* Dark readability gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#061A35] via-[#061A35]/55 via-55% to-[#061A35]/5" />
-
-                  {/* Subtle hover glow */}
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(0,174,239,0.18),transparent_35%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-
-                  {/* Card content */}
-                  <div className="relative z-10 flex h-full flex-col justify-between p-6 text-white sm:p-8">
-
-                    {/* Number */}
-                    <div className="flex items-center justify-between">
-
-                      <span className="font-mono text-xs font-bold tracking-[0.2em] text-white/75">
-                        0{idx + 1}
-                      </span>
-
-                      <span className="h-2.5 w-2.5 rounded-full bg-[#E11D48]" />
-
-                    </div>
-
-                    {/* Bottom content */}
-                    <div>
-
-                     
-
-                      <h3 className="max-w-[360px] text-3xl font-black leading-[0.95] tracking-[-0.035em] text-white sm:text-4xl">
-                        {pillar.title}
-                      </h3>
-
-                      <p className="mt-4 max-w-[360px] text-sm leading-6 text-white/78 sm:text-[15px]">
-                        {pillar.desc}
-                      </p>
-
-                      <div className="mt-7 flex items-center justify-between border-t border-white/20 pt-4">
-
-                        <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-white/70 transition-colors duration-300 group-hover:text-white">
-                          EXPLORE PILLAR
-                        </span>
-
-                        <span className="flex h-10 w-10 items-center justify-center rounded-full border border-white/30 text-white transition-all duration-300 group-hover:border-white group-hover:bg-white group-hover:text-[#061A35]">
-                          <ArrowUpRight size={17} />
-                        </span>
-
-                      </div>
-
-                    </div>
-
-                  </div>
-
-                </div>
-
-              </div>
-            </Reveal>
-          ))}
-
+        <div className="mt-5 flex items-center gap-3">
+          <span className="h-[2px] w-10 bg-[#1769d2]" />
+          <span className="h-[2px] w-6 bg-[#e11d48]" />
+          <span className="font-mono text-[9px] font-bold uppercase tracking-[0.13em] text-slate-400">
+            From ideas to measurable impact
+          </span>
         </div>
       </div>
-
-    </div>
-
+    </Reveal>
   </div>
+
+  {/* FULL-WIDTH CARDS — no carousel, no images */}
+  <div className="mx-auto mt-10 grid w-full max-w-[1900px] grid-cols-2 gap-3 px-4 sm:mt-14 sm:grid-cols-3 sm:gap-4 sm:px-8 lg:px-10 xl:grid-cols-6 xl:gap-4 2xl:gap-5">
+    {whyCarawinData.pillars.map((pillar, idx) => {
+      const icons = [
+        Sparkles,
+        Lightbulb,
+        Layers,
+        Gauge,
+        Workflow,
+        Globe,
+      ]
+
+      const Icon = icons[idx % icons.length]
+      const accent = idx === 5
+
+      return (
+        <Reveal
+          key={pillar.title}
+          delay={idx * 0.07}
+          y={24}
+        >
+          <article
+            className={`group relative flex h-full min-h-[220px] flex-col overflow-hidden rounded-2xl border p-4 transition-[transform,box-shadow,border-color] duration-500 ease-out hover:-translate-y-1.5 hover:shadow-[0_18px_42px_rgba(8,40,77,0.10)] sm:min-h-[250px] sm:p-5 lg:min-h-[270px] lg:p-5 xl:min-h-[285px] ${
+              accent
+                ? "border-rose-200 bg-gradient-to-br from-white to-rose-50/90 hover:border-rose-300"
+                : "border-blue-100 bg-white/90 hover:border-blue-300"
+            }`}
+          >
+            {/* Animated top accent */}
+            <div
+              className={`absolute inset-x-0 top-0 h-[3px] origin-left scale-x-0 transition-transform duration-500 group-hover:scale-x-100 ${
+                accent
+                  ? "bg-gradient-to-r from-[#e11d48] to-[#fb7185]"
+                  : "bg-gradient-to-r from-[#1769d2] to-[#75bdff]"
+              }`}
+            />
+
+            <div className="flex items-center justify-between gap-2">
+              <span
+                className={`grid h-10 w-10 place-items-center rounded-xl border transition-all duration-300 group-hover:scale-110 sm:h-12 sm:w-12 ${
+                  accent
+                    ? "border-rose-200 bg-rose-50 text-[#e11d48] group-hover:bg-rose-100"
+                    : "border-blue-100 bg-blue-50 text-[#1769d2] group-hover:border-blue-200 group-hover:bg-blue-100"
+                }`}
+              >
+                <Icon size={21} strokeWidth={1.8} />
+              </span>
+
+              <span className="font-mono text-[10px] font-bold tracking-[0.15em] text-slate-300 transition-colors group-hover:text-slate-500">
+                0{idx + 1}
+              </span>
+            </div>
+
+            <h3 className="mt-5 text-sm font-extrabold leading-snug tracking-[-0.025em] text-[#102d50] transition-colors duration-300 group-hover:text-[#1769d2] sm:mt-7 sm:text-base">
+              {pillar.title}
+            </h3>
+
+            <p className="mt-2 text-xs leading-5 text-slate-500 sm:text-[13px] sm:leading-6">
+              {pillar.desc}
+            </p>
+
+            <div className="mt-auto flex items-center justify-between gap-3 pt-5">
+              <span
+                className={`h-1 w-8 rounded-full transition-all duration-500 group-hover:w-14 ${
+                  accent ? "bg-[#e11d48]" : "bg-[#1769d2]"
+                }`}
+              />
+            </div>
+          </article>
+        </Reveal>
+      )
+    })}
+  </div>
+
+  {/* Closing line */}
+  <Reveal delay={0.18} y={12}>
+    <div className="mx-auto mt-7 flex w-full max-w-[1900px] flex-col gap-3 border-t border-slate-200 px-5 pt-5 sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-10">
+      
+
+      <p className="font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-slate-400">
+        <span className="mr-2 text-[#1769d2]">●</span>
+        <span className="mr-2 text-violet-500">●</span>
+        <span className="mr-3 text-[#e11d48]">●</span>
+        ONE CONNECTED ECOSYSTEM
+      </p>
+    </div>
+  </Reveal>
 </section>
 
     </div>
