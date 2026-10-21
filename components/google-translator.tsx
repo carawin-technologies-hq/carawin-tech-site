@@ -90,6 +90,35 @@ export function GoogleTranslator() {
   if (code === "en") {
     document.cookie = "googtrans=; path=/; max-age=0"
     document.cookie = "googtrans=; path=/; domain=" + window.location.hostname + "; max-age=0"
+    // English means restore the original page.
+    if (code === "en") {
+      const hostname = window.location.hostname
+      const domains = new Set([
+        hostname,
+        `.${hostname}`,
+      ])
+
+      // Also clear the parent-domain cookie, if applicable.
+      const parts = hostname.split(".")
+      if (parts.length >= 2) {
+        domains.add(`.${parts.slice(-2).join(".")}`)
+      }
+
+      document.cookie =
+        "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/"
+
+      domains.forEach((domain) => {
+        document.cookie =
+          `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=${domain}`
+      })
+
+      window.location.reload()
+      return
+    }
+
+    const googleSelect = document.querySelector(
+      "#google_translate_hidden .goog-te-combo"
+    ) as HTMLSelectElement | null
 
     window.location.reload()
     return
@@ -102,6 +131,11 @@ export function GoogleTranslator() {
   if (!googleSelect) {
     console.warn("Google Translate selector not ready")
     return
+    googleSelect.value = code
+
+    googleSelect.dispatchEvent(
+      new Event("change", { bubbles: true })
+    )
   }
 
   googleSelect.value = code

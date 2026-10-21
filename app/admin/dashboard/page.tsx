@@ -67,6 +67,29 @@ export default function AdminDashboardPage() {
   const [jobLocation, setJobLocation] = useState("Remote")
   const [jobExpLevel, setJobExpLevel] = useState("Professional")
   const [jobType, setJobType] = useState("Full-Time")
+
+  // Step 2: New state variables for custom Experience Levels and Job Types
+  const [experienceOptions, setExperienceOptions] = useState<string[]>([
+    "Entry Level",
+    "Professional",
+    "Executive",
+  ])
+
+  const [jobTypeOptions, setJobTypeOptions] = useState<string[]>([
+    "Full-Time",
+    "Part-Time",
+    "Contract",
+    "Internship",
+  ])
+
+  const [isAddingExperience, setIsAddingExperience] = useState(false)
+  const [newExperience, setNewExperience] = useState("")
+  const [experienceError, setExperienceError] = useState("")
+
+  const [isAddingJobType, setIsAddingJobType] = useState(false)
+  const [newJobType, setNewJobType] = useState("")
+  const [jobTypeError, setJobTypeError] = useState("")
+
   const [jobDescription, setJobDescription] = useState("")
   const [jobRequirements, setJobRequirements] = useState("")
   const [jobSkills, setJobSkills] = useState("")
@@ -105,6 +128,18 @@ export default function AdminDashboardPage() {
         }
       } catch (deptErr) {
         console.warn("Failed to fetch departments:", deptErr)
+      }
+
+      // Fetch saved Experience Level and Job Type options
+      try {
+        const optionsRes = await fetch("/api/job-options")
+        if (optionsRes.ok) {
+          const optionsData = await optionsRes.json()
+          setExperienceOptions(optionsData.options.experience_level)
+          setJobTypeOptions(optionsData.options.job_type)
+        }
+      } catch (optionsErr) {
+        console.warn("Failed to fetch job options:", optionsErr)
       }
 
       // Fetch applications
@@ -156,6 +191,12 @@ export default function AdminDashboardPage() {
     setIsAddingDept(false)
     setNewDeptName("")
     setNewDeptError(null)
+    setIsAddingExperience(false)
+    setNewExperience("")
+    setExperienceError("")
+    setIsAddingJobType(false)
+    setNewJobType("")
+    setJobTypeError("")
     setIsJobModalOpen(true)
   }
 
@@ -177,6 +218,12 @@ export default function AdminDashboardPage() {
     setIsAddingDept(false)
     setNewDeptName("")
     setNewDeptError(null)
+    setIsAddingExperience(false)
+    setNewExperience("")
+    setExperienceError("")
+    setIsAddingJobType(false)
+    setNewJobType("")
+    setJobTypeError("")
     setIsJobModalOpen(true)
   }
 
@@ -237,6 +284,83 @@ export default function AdminDashboardPage() {
       setNewDeptError(err.message || "Failed to add department.")
     } finally {
       setNewDeptLoading(false)
+    }
+  }
+
+  // Save a custom Experience Level or Job Type
+  const handleCreateJobOption = async (
+    category: "experience_level" | "job_type"
+  ) => {
+    const isExperience = category === "experience_level"
+    const name = (isExperience ? newExperience : newJobType).trim()
+    const setError = isExperience ? setExperienceError : setJobTypeError
+    const currentOptions = isExperience ? experienceOptions : jobTypeOptions
+
+    if (name.length < 2 || name.length > 100) {
+      setError("Enter a name between 2 and 100 characters.")
+      return
+    }
+
+    const existing = currentOptions.find(
+      (option) => option.toLowerCase() === name.toLowerCase()
+    )
+
+    if (existing) {
+      if (isExperience) setJobExpLevel(existing)
+      else setJobType(existing)
+
+      if (isExperience) {
+        setIsAddingExperience(false)
+        setNewExperience("")
+      } else {
+        setIsAddingJobType(false)
+        setNewJobType("")
+      }
+
+      setError("")
+      return
+    }
+
+    setError("")
+
+    try {
+      const res = await fetch("/api/job-options", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ category, name }),
+      })
+
+      const data = await res.json()
+
+      if (!res.ok && res.status !== 409) {
+        throw new Error(data.error || "Failed to save option.")
+      }
+
+      const finalName = data.option || data.name || name
+
+      if (isExperience) {
+        setExperienceOptions((prev) =>
+          prev.some((option) => option.toLowerCase() === finalName.toLowerCase())
+            ? prev
+            : [...prev, finalName].sort((a, b) => a.localeCompare(b))
+        )
+        setJobExpLevel(finalName)
+        setIsAddingExperience(false)
+        setNewExperience("")
+        setExperienceError("")
+      } else {
+        setJobTypeOptions((prev) =>
+          prev.some((option) => option.toLowerCase() === finalName.toLowerCase())
+            ? prev
+            : [...prev, finalName].sort((a, b) => a.localeCompare(b))
+        )
+        setJobType(finalName)
+        setIsAddingJobType(false)
+        setNewJobType("")
+        setJobTypeError("")
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to save option.")
     }
   }
 
@@ -1110,35 +1234,179 @@ export default function AdminDashboardPage() {
               </div>
 
               <div className="grid grid-cols-2 gap-3">
+                {/* Experience Level */}
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
-                    Experience Level
-                  </label>
-                  <select
-                    value={jobExpLevel}
-                    onChange={(e) => setJobExpLevel(e.target.value)}
-                    className="w-full text-sm bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-slate-800 focus:outline-none focus:border-[#002147]"
-                  >
-                    <option value="Entry Level">Entry Level</option>
-                    <option value="Professional">Professional</option>
-                    <option value="Executive">Executive</option>
-                  </select>
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                      Experience Level
+                    </label>
+                    {!isAddingExperience && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIsAddingExperience(true)
+                          setNewExperience("")
+                          setExperienceError("")
+                        }}
+                        className="text-[11px] font-semibold text-[#002147] hover:text-[#B5122B] flex items-center gap-1"
+                      >
+                        <Plus className="w-3.5 h-3.5" />
+                        Add Custom
+                      </button>
+                    )}
+                  </div>
+
+                  {isAddingExperience ? (
+                    <div className="space-y-1.5">
+                      <div className="flex items-center gap-1.5">
+                        <input
+                          type="text"
+                          value={newExperience}
+                          onChange={(e) => {
+                            setNewExperience(e.target.value)
+                            setExperienceError("")
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                              e.preventDefault()
+                              handleCreateJobOption("experience_level")
+                            }
+                            if (e.key === "Escape") {
+                              setIsAddingExperience(false)
+                              setExperienceError("")
+                            }
+                          }}
+                          placeholder="e.g. Senior Level"
+                          className="w-full min-w-0 text-sm bg-slate-50 border border-slate-200 rounded-lg p-2 text-slate-800"
+                          autoFocus
+                        />
+                        <button
+                          type="button"
+                          onClick={() => handleCreateJobOption("experience_level")}
+                          className="bg-[#002147] text-white text-xs px-2.5 py-2 rounded-lg"
+                        >
+                          Add
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setIsAddingExperience(false)
+                            setNewExperience("")
+                            setExperienceError("")
+                          }}
+                          className="text-slate-500 p-1"
+                          title="Cancel"
+                        >
+                          <X className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                      {experienceError && (
+                        <p className="text-[11px] text-red-600">{experienceError}</p>
+                      )}
+                    </div>
+                  ) : (
+                    <select
+                      value={jobExpLevel}
+                      onChange={(e) => setJobExpLevel(e.target.value)}
+                      className="w-full text-sm bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-slate-800"
+                    >
+                      {!experienceOptions.includes(jobExpLevel) && (
+                        <option value={jobExpLevel}>{jobExpLevel}</option>
+                      )}
+                      {experienceOptions.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
+                  )}
                 </div>
 
+                {/* Job Type */}
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
-                    Job Type
-                  </label>
-                  <select
-                    value={jobType}
-                    onChange={(e) => setJobType(e.target.value)}
-                    className="w-full text-sm bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-slate-800 focus:outline-none focus:border-[#002147]"
-                  >
-                    <option value="Full-Time">Full-Time</option>
-                    <option value="Part-Time">Part-Time</option>
-                    <option value="Contract">Contract</option>
-                    <option value="Internship">Internship</option>
-                  </select>
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                      Job Type
+                    </label>
+                    {!isAddingJobType && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIsAddingJobType(true)
+                          setNewJobType("")
+                          setJobTypeError("")
+                        }}
+                        className="text-[11px] font-semibold text-[#002147] hover:text-[#B5122B] flex items-center gap-1"
+                      >
+                        <Plus className="w-3.5 h-3.5" />
+                        Add Custom
+                      </button>
+                    )}
+                  </div>
+
+                  {isAddingJobType ? (
+                    <div className="space-y-1.5">
+                      <div className="flex items-center gap-1.5">
+                        <input
+                          type="text"
+                          value={newJobType}
+                          onChange={(e) => {
+                            setNewJobType(e.target.value)
+                            setJobTypeError("")
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                              e.preventDefault()
+                              handleCreateJobOption("job_type")
+                            }
+                            if (e.key === "Escape") {
+                              setIsAddingJobType(false)
+                              setJobTypeError("")
+                            }
+                          }}
+                          placeholder="e.g. Hybrid"
+                          className="w-full min-w-0 text-sm bg-slate-50 border border-slate-200 rounded-lg p-2 text-slate-800"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => handleCreateJobOption("job_type")}
+                          className="bg-[#002147] text-white text-xs px-2.5 py-2 rounded-lg"
+                        >
+                          Add
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setIsAddingJobType(false)
+                            setNewJobType("")
+                            setJobTypeError("")
+                          }}
+                          className="text-slate-500 p-1"
+                          title="Cancel"
+                        >
+                          <X className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                      {jobTypeError && (
+                        <p className="text-[11px] text-red-600">{jobTypeError}</p>
+                      )}
+                    </div>
+                  ) : (
+                    <select
+                      value={jobType}
+                      onChange={(e) => setJobType(e.target.value)}
+                      className="w-full text-sm bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-slate-800"
+                    >
+                      {!jobTypeOptions.includes(jobType) && (
+                        <option value={jobType}>{jobType}</option>
+                      )}
+                      {jobTypeOptions.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
+                  )}
                 </div>
               </div>
 
