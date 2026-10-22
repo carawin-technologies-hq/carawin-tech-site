@@ -13,6 +13,7 @@ import {
   Building2,
   GraduationCap,
   Cpu,
+  Phone,
   Handshake,
   Lightbulb,
   BriefcaseBusiness,
@@ -280,6 +281,19 @@ export default function ContactPage() {
                     office@carawintech.com
                   </a>
                 </div>
+
+                <div className="mt-4 flex items-center gap-3 border-t border-slate-100 pt-4">
+  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#fcecf0] text-[#ed174c]">
+    <Phone size={18} />
+  </span>
+
+  <a
+    href="tel:+918924099910"
+    className="text-sm font-semibold text-[#071f40] transition-colors hover:text-[#ed174c]"
+  >
+    +91 89240 99910
+  </a>
+</div>
               </div>
             </aside>
 

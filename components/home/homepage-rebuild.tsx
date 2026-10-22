@@ -1,5 +1,4 @@
 "use client"
-import React, { useRef, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import {
@@ -22,7 +21,7 @@ import {
 } from "lucide-react"
 
 
-
+import { useEffect, useRef, useState } from "react"
 
 import {
   Cpu,
@@ -48,7 +47,6 @@ import {
   useTransform,
 } from "framer-motion"
 
-import { useEffect } from "react"
 
 
 
@@ -316,6 +314,26 @@ useEffect(() => {
   return () => observer.disconnect()
 }, [])
 
+const statsRef = useRef<HTMLDivElement>(null)
+const [statsVisible, setStatsVisible] = useState(false)
+
+useEffect(() => {
+  const element = statsRef.current
+  if (!element) return
+
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) {
+        setStatsVisible(true)
+        observer.disconnect()
+      }
+    },
+    { threshold: 0.2 }
+  )
+
+  observer.observe(element)
+  return () => observer.disconnect()
+}, [])
 
 
 const [activeHeroVideo, setActiveHeroVideo] = useState(0)
@@ -395,220 +413,184 @@ const handleHeroVideoTransitionEnd = (index: number) => {
 <div
   ref={homepageRef}
   className="homepage-scroll-root overflow-hidden bg-[var(--background)] text-[var(--foreground)]"
-><section className="relative overflow-hidden border-b border-white/10 bg-gradient-to-b from-[#011E42] via-[#011A3E] to-[#001739]">
-{/* ========================================================
-    HERO + INTEGRATED STATS
-    ======================================================== */}
-
-<div className="relative min-h-0 overflow-hidden lg:min-h-[100svh]">
-
-  {/* ONE SINGLE BACKGROUND FOR THE ENTIRE HERO */}
-  <div className="pointer-events-none absolute inset-0 z-0">
-
-{[0, 1].map((index) => (
-<video
-  key={index}
-  className="hero-bg-video"
-  autoPlay
-  muted
-  loop
-  playsInline
-  preload="none"
-  poster="/images/home/BG-IMG-2.webp"
-  aria-hidden="true"
 >
-  <source src="/videos/bg-video-new.mp4" type="video/mp4" />
-</video>
-))}
 
-    {/* Readability overlay */}
-    <div className="absolute inset-0 bg-gradient-to-r from-[#001739]/90 via-[#001739]/55 to-[#001739]/10" />
 
-    {/* Slight darkening toward the bottom so stats blend naturally */}
-    <div className="absolute inset-x-0 bottom-0 h-[32%] bg-gradient-to-t from-[#02142d]/80 to-transparent" />
+<section className="relative isolate flex min-h-[100svh] flex-col overflow-hidden border-b border-white/10 bg-[#001739]">
+  {/* BACKGROUND VIDEO */}
+  <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+    <video
+      className="absolute inset-0 h-full w-full object-cover object-center"
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="metadata"
+      poster="/images/home/BG-IMG-2.webp"
+      aria-hidden="true"
+    >
+      <source src="/videos/bg-video-new.mp4" type="video/mp4" />
+    </video>
 
+    {/* Keep text readable without hiding the globe */}
+    <div className="absolute inset-0 bg-gradient-to-r from-[#00132D]/95 via-[#001739]/75 to-[#001739]/25" />
+
+    <div className="absolute inset-0 bg-gradient-to-b from-[#00112A]/25 via-transparent to-[#00112A]/75" />
+
+    {/* Existing subtle background effects */}
     <div className="hero-light-sweep" />
     <div className="hero-scan-lines" />
-
   </div>
 
+  {/* HERO CONTENT — NORMAL FLOW, NEVER OVERLAPS STATS */}
+  <div className="relative z-10 w-full">
+<div className="mx-auto w-full max-w-[1600px] px-5 pb-4 pt-32 sm:px-8 sm:pb-5 sm:pt-36 lg:px-[4vw] lg:pb-0 lg:pt-28 xl:pt-32">      <div className="max-w-[700px] text-left">
 
-  {/* ======================================================
-      HERO CONTENT
-      ====================================================== */}
-
-  <div className="relative z-10 flex-1 w-full">
-<div className="w-full px-5 pb-10 pt-[120px] sm:px-8 sm:pb-12 sm:pt-[150px] lg:px-[4vw] lg:pb-28 lg:pt-[6.5rem]">
-      <div className="max-w-[620px] text-left">
-
-        {/* Kicker */}
-        <div className="inline-flex items-center gap-2.5 text-[10px] font-medium uppercase tracking-[0.22em] text-white sm:text-xs">
+        {/* Brand */}
+        <div className="inline-flex items-center gap-4 text-[10px] font-semibold uppercase tracking-[0.24em] text-white/85 sm:text-xs">
           <span>CARAWIN TECHNOLOGIES</span>
-          <span className="h-0.5 w-6 bg-[#E11D48]" />
+          <span className="h-[2px] w-8 bg-[#E11D48]" />
         </div>
 
+        {/* Headline */}
+       <h1 className="mt-5 font-black leading-[0.92] tracking-[-0.06em] sm:mt-6">
+  <span className="block whitespace-nowrap text-[clamp(2rem,4.2vw,4rem)] text-white">
+    EXPERIENCE
+  </span>
+  <span className="mt-1 block whitespace-nowrap text-[clamp(2rem,4.2vw,4rem)] text-[#F1264B]">
+    INNOVATION.
+  </span>
+</h1>
 
-        {/* Main headline */}
-        <h1 className="hero-headline mt-4 font-black leading-[0.9] tracking-[-0.055em]">
-
-          <span className="hero-word hero-word-1 hero-word-glow-blue block text-[clamp(2.8rem,4.6vw,4.8rem)] font-black text-white">
-            EXPERIENCE<span className="text-white"></span>
-          </span>
-
-          <span className="hero-word hero-word-2 hero-word-glow-red block text-[clamp(2.8rem,4.6vw,4.8rem)] font-black text-[#E11D48]">
-            INNOVATION<span className="hero-red-dot">.</span>
-          </span>
-
-        </h1>
-
-
-        {/* Hero statement */}
-        <div className="mt-4">
-          <p className="text-[clamp(1.15rem,1.7vw,1.8rem)] font-black leading-[1.05] tracking-[-0.02em] text-white">
-            BUILDING INTELLIGENCE
+        {/* Positioning */}
+        <div className="mt-6 border-l-2 border-[#E11D48] py-1 pl-4 sm:mt-7 sm:pl-5">
+          <p className="text-sm font-semibold uppercase leading-[1.7] tracking-[0.12em] text-white/90 sm:text-base lg:text-lg">
+            Building intelligence
             <br />
-            <span className="text-white/90">
-              FOR THE REAL WORLD.
-            </span>
+            for the real world.
           </p>
         </div>
 
-
-        {/* Subheadline */}
-        <p className="mt-3 max-w-xl text-sm font-bold leading-snug text-white/90 sm:text-base lg:text-[1.05rem]">
-          AI for Learning. Technology for Innovation.
-          <br className="hidden sm:block" />
+        {/* Supporting message */}
+        <p className="mt-5 max-w-[560px] text-sm leading-7 text-white/90 sm:text-base sm:leading-8">
+          <span className="font-semibold text-white">
+            AI for Learning. Technology for Innovation.
+          </span>
+          <br />
           Skills for the Future.
         </p>
 
-
         {/* Description */}
-        <p className="mt-3 max-w-xl text-xs leading-relaxed text-white/80 sm:text-sm lg:text-[0.95rem]">
+        <p className="mt-3 max-w-[600px] text-xs leading-6 text-white/70 sm:text-sm sm:leading-7">
           Carawin Technologies builds AI-powered, technology-enabled ecosystems
           for education, institutions, governments and industries.
         </p>
 
-
-        {/* Pillars */}
-        <div className="mt-4 flex flex-col gap-1.5">
-          {heroPillRows.map((row, rowIdx) => (
+        {/* Capabilities — all existing pillars retained */}
+        <div className="mt-6 grid max-w-[650px] grid-cols-2 gap-x-5 sm:mt-7 sm:grid-cols-3 sm:gap-x-6">
+          {heroPillRows
+  .flat()
+  .filter((item) => !["Digital Infrastructure", "Future Skills", "Innovation"].includes(item))
+  .map((item, index) => (
             <div
-              key={rowIdx}
-              className="flex flex-wrap items-center gap-1.5"
+              key={`${item}-${index}`}
+              className={`flex min-h-[46px] items-center gap-3 border-t border-white/20 py-3 ${
+                index === 0 ? "border-t-[#E11D48]" : ""
+              }`}
             >
-              {row.map((item) => (
-                <span
-                  key={item}
-                  className="inline-flex items-center rounded-lg border border-white/25 bg-[#00132e]/55 px-2.5 py-1 text-[9px] font-semibold text-white backdrop-blur-sm sm:px-3 sm:py-1.5 sm:text-[10px]"
-                >
-                  {item}
-                </span>
-              ))}
+              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#E11D48]" />
+              <span className="text-[10px] font-medium leading-5 text-white/90 sm:text-xs">
+                {item}
+              </span>
             </div>
           ))}
         </div>
 
-
-        {/* Ethos */}
-        <div className="mt-4 flex flex-wrap items-center gap-x-2.5 gap-y-1 font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-[#F43F5E] sm:text-[10px]">
+        {/* Brand philosophy */}
+        <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-2 text-[9px] font-semibold uppercase tracking-[0.16em] sm:mt-7 sm:gap-x-4 sm:text-[10px]">
           {["Learn", "Explore", "Experiment", "Build", "Innovate"].map(
-            (step, i) => (
-              <span
-                key={step}
-                className="inline-flex items-center gap-2.5"
-              >
-                {step}
-
-                {i < 4 && (
-                  <span className="text-white/80">·</span>
+            (step, index) => (
+              <span key={step} className="flex items-center gap-3 sm:gap-4">
+                <span
+                  className={
+                    index === 0
+                      ? "text-[#F43F5E]"
+                      : "text-white/65"
+                  }
+                >
+                  {step}
+                </span>
+                {index < 4 && (
+                  <span className="text-white/35">/</span>
                 )}
               </span>
             )
           )}
         </div>
 
+       {/* CTAs */}
+<div className="mt-7 flex flex-col items-stretch gap-3 sm:mt-8 sm:flex-row sm:items-center sm:gap-4">
+  <Link
+    href="/solutions"
+    className="group inline-flex min-h-[52px] items-center justify-center gap-4 rounded-md bg-[#E11D48] px-6 py-4 text-[11px] font-bold uppercase tracking-[0.1em] text-white transition-colors duration-300 hover:bg-[#C9153B] sm:px-7"
+  >
+    Explore Solutions
+    <ArrowUpRight
+      size={17}
+      className="shrink-0 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
+    />
+  </Link>
 
-        {/* CTAs */}
-        <div className="mt-5 flex flex-wrap items-center gap-2.5">
-
-          <Link
-            href="/solutions"
-className="hero-cta hero-cta-red inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#E11D48] px-5 py-2.5 text-[10px] font-black uppercase tracking-wider text-white shadow-[0_8px_30px_rgba(225,29,72,0.35)] transition-all duration-300 hover:bg-[#F02A52] sm:w-auto sm:px-6 sm:py-3 sm:text-xs"  >
-            Explore Solutions
-
-            <span className="hero-cta-arrow">
-              <ArrowUpRight size={15} />
-            </span>
-          </Link>
-
-
-          <Link
-            href="/demo"
-className="hero-cta hero-cta-blue inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/80 bg-[#0B2850]/90 px-5 py-2.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-[0_8px_30px_rgba(0,0,0,0.28)] transition-all duration-300 hover:bg-[#123A70] hover:border-white sm:w-auto sm:px-6 sm:py-3 sm:text-xs" 
-       >
-            <span className="!text-white font-bold">
-  Request a Demonstration
-</span>
-            <span className="hero-cta-arrow text-white">
-  <ArrowUpRight size={15} />
-</span>
-          </Link>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-
-  {/* ======================================================
-      INTEGRATED STATS
-      SAME BACKGROUND — NO SECOND IMAGE
-      ====================================================== */}
-
-<div className="relative z-20 mt-8 w-full lg:absolute lg:inset-x-0 lg:bottom-0 lg:mt-0 lg:h-[145px]">
-  <div className="h-full bg-[#02142d]/30">
-      <div className="w-full px-6 sm:px-10 lg:px-[4vw]">
-
-        <div className="mx-auto grid max-w-[1500px] grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
-
-          {stats.map((st, index) => (
-            <div
-              key={st.label}
-              className={`
-                min-w-0 py-4 sm:py-5 lg:py-6
-              `}
-            >
-
-              <span
-                className={`block text-2xl font-black tracking-[-0.04em] sm:text-3xl lg:text-4xl xl:text-[2.7rem] ${
-                  st.highlight
-                    ? "text-[#E11D48]"
-                    : "text-white"
-                }`}
-              >
-                {st.value}
-              </span>
-
-              <span className="mt-1 block max-w-[150px] font-mono text-[8px] font-bold uppercase leading-[1.3] tracking-[0.15em] text-white/65 sm:text-[9px] lg:text-[10px]">
-                {st.label}
-              </span>
-
-            </div>
-          ))}
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
+  <Link
+    href="/demo"
+    className="group inline-flex min-h-[52px] items-center justify-center gap-4 rounded-md border border-white/60 bg-[#001739]/45 px-6 py-4 text-[11px] font-bold uppercase tracking-[0.06em] !text-white transition-colors duration-300 hover:border-white hover:bg-white/10 sm:px-7"
+  >
+    <span className="!text-white">Request a Demonstration</span>
+    <ArrowUpRight
+      size={17}
+      className="shrink-0 !text-white transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"
+    />
+  </Link>
 </div>
+
+      </div>
+    </div>
+  </div>
+
+{/* SMOOTH REVEAL STATS */}
+<div
+  ref={statsRef}
+  className={`relative z-20 overflow-hidden bg-[#00142D]/45 backdrop-blur-[2px] ${
+    statsVisible ? "stats-reveal-visible" : ""
+  }`}
+>
+  <div className="mx-auto w-full max-w-[1600px] px-5 sm:px-8 lg:px-[4vw]">
+    <div className="grid grid-cols-2 gap-x-5 sm:grid-cols-3 sm:gap-x-8 lg:grid-cols-5 lg:gap-x-10">
+      {stats.map((st, index) => (
+        <div
+          key={st.label}
+className="stat-reveal-item min-w-0 py-5 sm:py-6 lg:py-7"
+          style={{ transitionDelay: `${index * 110}ms` }}
+        >
+          <span
+            className={`block text-3xl font-black tracking-[-0.05em] sm:text-4xl lg:text-5xl xl:text-[3.2rem] ${
+              st.highlight ? "text-[#F1264B]" : "text-white"
+            }`}
+          >
+            {st.value}
+          </span>
+
+          <span className="mt-2 block max-w-[180px] font-mono text-[9px] font-semibold uppercase leading-[1.7] tracking-[0.15em] text-white/65 sm:text-[10px]">
+            {st.label}
+          </span>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
 </section>
+
 
 {/* ========================================================
     2. HOME — INTRODUCTION / ABOUT CARAWIN
