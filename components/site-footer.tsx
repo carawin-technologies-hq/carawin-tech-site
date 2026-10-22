@@ -1,5 +1,6 @@
 "use client"
 
+import { Reveal } from "@/components/motion-primitives"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -9,7 +10,13 @@ import {
   Mail,
   MapPin,
   Globe,
+  Lightbulb,
+  Cpu,
+  Layers,
+  TrendingUp,
 } from "lucide-react"
+
+import { Phone } from "lucide-react"
 
 const companyLinks = [
   { label: "About Us", href: "/about" },
@@ -34,68 +41,116 @@ export function SiteFooter() {
 
   return (
     <footer className="relative z-10 bg-[#030d1d] text-white">
-      {/* ========================================================
-          TOP CTA SECTION (Matching User's Reference Screenshot)
-          ======================================================== */}
-      <div
-  className="relative overflow-hidden border-t border-b border-white/10 bg-[#020b18] py-16 sm:py-20 lg:py-24"
-  style={{
-    backgroundImage: "url('/images/home/cta_landscape.png')",
-    backgroundSize: "cover",
-    backgroundPosition: "center 45%",
-    backgroundRepeat: "no-repeat",
-  }}
->
-  {/* Single seamless fade: dark on left, image visible on right */}
+{/* ========================================================
+    FOOTER CTA — IDEAS TO REAL-WORLD IMPACT
+    ======================================================== */}
+<section className="footer-journey relative isolate overflow-hidden border-y border-white/10 bg-[#020b18] text-white">
+
+  {/* Full-bleed mountain image */}
+  <div className="absolute inset-0 -z-10 overflow-hidden">
+    <Image
+      src="/images/home/cta_landscape.png"
+      alt=""
+      fill
+      sizes="100vw"
+      quality={80}
+      className="footer-journey__image object-cover object-[66%_center]"
+    />
+
+    {/* Deep navy copy area, fading naturally into the landscape */}
+    <div className="footer-journey__scrim absolute inset-0" />
+
+    {/* Subtle atmospheric brand lighting */}
+    <div className="footer-journey__atmosphere absolute inset-0" />
+
+    <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#020b18]/65 to-transparent sm:h-32" />
+  </div>
+
+  <div className="container-x relative z-10">
+    <div className="relative flex min-h-[440px] items-center py-12 sm:min-h-[470px] sm:py-16 lg:min-h-[510px] lg:py-20">
+
+      {/* LEFT — Main CTA */}
+      <div className="relative z-20 max-w-[690px] lg:w-[58%]">
+
+        <Reveal>
+          <div className="flex items-center gap-3">
+            <span className="h-[3px] w-8 rounded-full bg-gradient-to-r from-[#1769d2] to-[#e11d48]" />
+
+            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-[#ff5578] sm:text-xs">
+              HAVE AN IDEA?
+            </p>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.08} y={25}>
+          <h2 className="mt-5 text-[clamp(2.6rem,5.1vw,5rem)] font-black leading-[0.94] tracking-[-0.06em] text-white">
+            LET&apos;S BUILD
+            <br />
+            <span className="bg-gradient-to-r from-[#71bdff] via-[#c3d9ff] to-white bg-clip-text text-transparent">
+              WHAT&apos;S NEXT
+            </span>
+            <span className="text-[#ed174c]">.</span>
+          </h2>
+        </Reveal>
+
+        <Reveal delay={0.16} y={16}>
+          <p className="mt-5 max-w-[620px] text-sm leading-6 text-slate-300 sm:mt-6 sm:text-base sm:leading-7">
+            Build a product <span className="text-[#ed174c]">•</span>{" "}
+            Deploy AI <span className="text-[#ed174c]">•</span>{" "}
+            Transform an organization <span className="text-[#ed174c]">•</span>{" "}
+            Establish a technology lab <span className="text-[#ed174c]">•</span>{" "}
+            Implement a large-scale programme
+          </p>
+        </Reveal>
+
+        {/* Process indicator */}
+        <Reveal delay={0.22} y={12}>
+          <div className="mt-7 inline-flex flex-wrap items-center gap-x-3 gap-y-2 rounded-full border border-white/10 bg-[#071832]/65 px-4 py-3 backdrop-blur-md sm:mt-8 sm:gap-x-4 sm:px-5">
+            <span className="font-mono text-[9px] font-bold uppercase tracking-[0.15em] text-slate-200 sm:text-[10px]">
+              IDEA
+            </span>
+
+            <ArrowRight size={13} className="text-[#438cff]" />
+
+            <span className="font-mono text-[9px] font-bold uppercase tracking-[0.15em] text-slate-200 sm:text-[10px]">
+              INNOVATION
+            </span>
+
+            <ArrowRight size={13} className="text-[#e11d48]" />
+
+            <span className="font-mono text-[9px] font-bold uppercase tracking-[0.15em] text-white sm:text-[10px]">
+              IMPACT
+            </span>
+          </div>
+        </Reveal>
+
+        {/* Primary action */}
+        <Reveal delay={0.28} y={12}>
+          <div className="mt-7 sm:mt-8">
+            <Link
+              href="/contact"
+              className="group inline-flex min-h-[52px] items-center gap-4 rounded-full bg-gradient-to-r from-[#1769d2] via-[#405de6] to-[#e11d48] px-6 py-3 text-xs font-black uppercase tracking-[0.08em] text-white shadow-[0_12px_34px_rgba(23,105,210,0.22)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(225,29,72,0.25)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#71bdff] focus-visible:ring-offset-2 focus-visible:ring-offset-[#020b18] sm:min-h-[58px] sm:px-8 sm:text-sm"
+            >
+              START A CONVERSATION
+
+              <ArrowRight
+                size={18}
+                className="transition-transform duration-300 group-hover:translate-x-1"
+              />
+            </Link>
+          </div>
+        </Reveal>
+      </div>
+
+    </div>
+  </div>
+
+  {/* Brand signature line */}
   <div
     aria-hidden="true"
-    className="pointer-events-none absolute inset-0"
-    style={{
-      background:
-        "linear-gradient(90deg, #020b18 0%, rgba(2,11,24,0.98) 25%, rgba(2,11,24,0.88) 42%, rgba(2,11,24,0.58) 58%, rgba(2,11,24,0.20) 78%, rgba(2,11,24,0.08) 100%)",
-    }}
+    className="absolute inset-x-0 bottom-0 z-20 h-[2px] bg-gradient-to-r from-[#1769d2] via-[#8273dc] to-[#e11d48]"
   />
-        {/* Subtle glow overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#020b18]/90 via-[#020b18]/60 to-transparent pointer-events-none" />
-
-        <div className="container-x relative z-10">
-          <div className="flex flex-col justify-between gap-8 lg:flex-row lg:items-center">
-            {/* Left Content */}
-            <div className="max-w-2xl">
-              <span className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[#e11d48]">
-                HAVE AN IDEA?
-              </span>
-
-              <h2 className="mt-3 text-3xl font-black tracking-tight text-white sm:text-4xl lg:text-5xl">
-                LET&apos;S BUILD WHAT&apos;S NEXT.
-              </h2>
-
-              <p className="mt-4 text-xs sm:text-sm font-medium leading-relaxed text-slate-200">
-                Build a product • Deploy AI • Transform an organization • Establish a technology lab • Implement a large-scale programme
-              </p>
-            </div>
-
-            {/* Right Action Button & Ethos */}
-            <div className="flex flex-col items-start gap-4 lg:items-end">
-              <div className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-slate-200">
-                <span>IDEA</span>
-                <span className="mx-2 text-[#e11d48]">→</span>
-                <span>INNOVATION</span>
-                <span className="mx-2 text-[#e11d48]">→</span>
-                <span>IMPACT</span>
-              </div>
-
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-2 rounded-full bg-[#0070f3] px-8 py-4 text-xs font-black uppercase tracking-wider text-white shadow-[0_0_30px_rgba(0,112,243,0.5)] transition-all duration-300 hover:bg-[#0060df] hover:shadow-[0_0_40px_rgba(0,112,243,0.8)] sm:text-sm whitespace-nowrap"
-              >
-                START A CONVERSATION
-                <ArrowRight size={16} />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
+</section>
 
       {/* ========================================================
           MAIN FOOTER COLUMNS (Matching User's Screenshot)
@@ -215,6 +270,20 @@ export function SiteFooter() {
                 </a>
               </div>
 
+<div className="mt-4 flex items-center gap-3 border-t border-white/10 pt-4">
+  <Phone
+    size={16}
+    className="shrink-0 text-[#ed174c]"
+  />
+  <a
+    href="tel:+918924099910"
+    className="text-sm text-white transition-colors hover:text-[#ed174c]"
+  >
+    +91 89240 99910
+  </a>
+</div>
+
+
               <div className="flex items-center gap-2.5">
                 <Mail size={16} className="shrink-0 text-[#e11d48]" />
                 <a
@@ -255,9 +324,6 @@ export function SiteFooter() {
             </Link>
           </div>
 
-          <div className="font-mono text-[11px] font-bold uppercase tracking-wider text-slate-400">
-            IDEA • INNOVATION • IMPACT
-          </div>
         </div>
       </div>
     </footer>
